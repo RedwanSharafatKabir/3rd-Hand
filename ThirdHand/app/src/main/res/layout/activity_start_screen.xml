@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartScreen"
+    android:background="@drawable/help_home"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:src="@drawable/third_hand_image"
+        android:layout_gravity="top"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="120dp"
+        android:gravity="center"
+        android:layout_gravity="bottom">
+        <Button
+            android:id="@+id/signinPageID"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_homescreen_signin"
+            android:text="Sign in"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textAllCaps="true"
+            android:layout_marginRight="5dp"
+            android:fontFamily="@font/sfc_artoonist_hand"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/signupPageID"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_homescreen_register"
+            android:text="Register"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textAllCaps="true"
+            android:fontFamily="@font/sfc_artoonist_hand"
+            android:layout_marginRight="10dp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+</LinearLayout>
