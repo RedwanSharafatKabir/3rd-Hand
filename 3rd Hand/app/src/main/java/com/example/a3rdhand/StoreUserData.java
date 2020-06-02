@@ -1,17 +1,18 @@
 package com.example.a3rdhand;
 
 public class StoreUserData {
-    String email, username, phone, password;
+    String email, username, phone, country, password;
 
     public StoreUserData() {
 
     }
 
-    public StoreUserData(String email, String username, String phone, String password) {
+    public StoreUserData(String email, String username, String phone, String country, String password) {
         this.email = email;
         this.username = username;
         this.phone = phone;
         this.password = password;
+        this.country = country;
     }
 
     public String getEmail() {
@@ -36,6 +37,14 @@ public class StoreUserData {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getPassword() {

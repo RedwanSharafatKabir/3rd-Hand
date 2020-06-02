@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:paddingLeft="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:gravity="left"
+    android:background="#302F2F"
+    android:id="@+id/HeaderLayourID">
+
+    <ImageView
+        android:id="@+id/profileImageID"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_camera_alt_black_24dp"
+        android:clickable="true"
+        android:background="@drawable/white_rectangle_shape"
+        android:layout_gravity="center|left"
+        android:padding="20dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center|left">
+        <TextView
+            android:id="@+id/profileNameID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="30dp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/android_insomnia_regular"
+            android:layout_gravity="center|left" />
+
+        <TextView
+            android:id="@+id/profileEmailID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textSize="25dp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/android_insomnia_regular"
+            android:layout_gravity="center|left"/>
+    </LinearLayout>
+
+</LinearLayout>

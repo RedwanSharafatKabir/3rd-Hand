@@ -3,14 +3,27 @@ package com.example.a3rdhand;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class StartScreen extends AppCompatActivity implements View.OnClickListener{
 
+    TextView textView;
     Button signin, register;
+    FirebaseAuth mAuth;
+    FirebaseUser firebaseUser = null;
+    String passedString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,18 +35,52 @@ public class StartScreen extends AppCompatActivity implements View.OnClickListen
         register = findViewById(R.id.signupPageID);
         signin.setOnClickListener(this);
         register.setOnClickListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        textView = findViewById(R.id.textViewID);
     }
 
     @Override
     public void onClick(View v) {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(v.getId()==R.id.signinPageID){
-            SigninActivity signinActivity = new SigninActivity();
-            signinActivity.show(getSupportFragmentManager(), "Sample dialog");
+            rememberMeMethod();
+            if (firebaseUser != null && !passedString.isEmpty()) {
+                finish();
+                Intent it = new Intent(StartScreen.this, MainActivity.class);
+                startActivity(it);
+            }
+            else if(firebaseUser == null || passedString.isEmpty()){
+                SigninActivity signinActivity = new SigninActivity();
+                signinActivity.show(getSupportFragmentManager(), "Sample dialog");
+            }
         }
 
         if(v.getId()==R.id.signupPageID){
             SignupActivity signupActivity = new SignupActivity();
             signupActivity.show(getSupportFragmentManager(), "Sample dialog");
+        }
+    }
+
+    public void rememberMeMethod(){
+        try {
+            FileInputStream fileInputStream = openFileInput("Personal_Info.txt");
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String recievedMessage;
+            StringBuffer stringBuffer = new StringBuffer();
+
+            while((recievedMessage=bufferedReader.readLine())!=null){
+                stringBuffer.append(recievedMessage);
+            }
+
+            passedString = stringBuffer.toString();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

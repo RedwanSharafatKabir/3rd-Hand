@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">3rd Hand</string>
-
+    <string name="drawerOpen">drawerOpen</string>
+    <string name="drawerClose">drawerClose</string>
     <string name="emailheader">Email</string>
     <string name="email">Email</string>
     <string name="login">LOGIN</string>
@@ -16,5 +17,10 @@
     <string name="alert_message">Are you sure you want to turn off the application ?</string>
 
     <string name="title_activity_maps">Your Map</string>
+
+    <string name="remember_me_text">Click the checkbox to make your device remember you for further login</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

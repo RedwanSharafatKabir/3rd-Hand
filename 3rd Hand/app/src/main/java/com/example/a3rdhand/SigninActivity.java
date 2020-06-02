@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -21,19 +23,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import dmax.dialog.SpotsDialog;
 
 public class SigninActivity extends AppCompatDialogFragment implements View.OnClickListener {
 
-    //    AllianceLoader allianceLoader;
+    AlertDialog waitingDialog;
+    CheckBox checkBox;
     Animation fromTop, fromBottom;
     EditText signinEmailText, signinpasswordText;
     ImageButton signinButton;
     private FirebaseAuth mAuth;
-    DatabaseReference databaseReference;
     LinearLayout linearLayoutID;
+    String emailObj, passObj, passedString = "Remember me";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -53,7 +57,6 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         });
 
         linearLayoutID = view.findViewById(R.id.second);
-//        allianceLoader = view.findViewById(R.id.AllianceLoaderID);
         signinEmailText = view.findViewById(R.id.loginEmailID);
         signinpasswordText = view.findViewById(R.id.loginpassID);
 
@@ -62,33 +65,29 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
 
         linearLayoutID.setAnimation(fromTop);
         signinButton.setAnimation(fromBottom);
+        checkBox = view.findViewById(R.id.rememberCheckBoxID);
 
         mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("User Information");
 
         return builder.create();
     }
 
     @Override
     public void onClick(View v) {
-        String emailObj = signinEmailText.getText().toString();
-        String passObj = signinpasswordText.getText().toString();
+        emailObj = signinEmailText.getText().toString();
+        passObj = signinpasswordText.getText().toString();
+        waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
+        waitingDialog.show();
 
         if(v.getId()==R.id.SigninID){
-//            allianceLoader.setVisibility(VISIBLE);
-            final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
-            waitingDialog.show();
-
             if (emailObj.isEmpty()) {
                 signinEmailText.setError("Please enter email address");
-//                allianceLoader.setVisibility(INVISIBLE);
                 waitingDialog.dismiss();
                 return;
             }
 
             if (passObj.isEmpty()) {
                 signinpasswordText.setError("Please enter username");
-//                allianceLoader.setVisibility(INVISIBLE);
                 waitingDialog.dismiss();
                 return;
             }
@@ -98,40 +97,105 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                 t.setGravity(Gravity.CENTER, 0, 0);
                 t.show();
                 signinEmailText.requestFocus();
-//                allianceLoader.setVisibility(INVISIBLE);
                 waitingDialog.dismiss();
                 return;
             }
 
-            mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-//                        allianceLoader.setVisibility(INVISIBLE);
-                        waitingDialog.dismiss();
-                        Toast toast = Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+            if(checkBox.isChecked()){
+                rememberMethod(passedString);
+                mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            waitingDialog.dismiss();
+                            Toast toast = Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
 
-                        getActivity().finish();
+                            getActivity().finish();
 
-                        Intent it = new Intent(getActivity(), MainActivity.class);
-                        startActivity(it);
-                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            Intent it = new Intent(getActivity(), MainActivity.class);
+                            startActivity(it);
+                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-                        signinEmailText.setText("");
-                        signinpasswordText.setText("");
+                            signinEmailText.setText("");
+                            signinpasswordText.setText("");
+                        }
+                        else {
+                            waitingDialog.dismiss();
+                            Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : " +
+                                    task.getException().getMessage(), Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER, 0, 0);
+                            t.show();
+                        }
                     }
-                    else {
-//                        allianceLoader.setVisibility(INVISIBLE);
-                        waitingDialog.dismiss();
-                        Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : " +
-                                task.getException().getMessage(), Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER, 0, 0);
-                        t.show();
+                });
+            }
+
+            if(!checkBox.isChecked()) {
+                passedString = "";
+                setNullDataMethod(passedString);
+                mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            waitingDialog.dismiss();
+                            Toast toast = Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+
+                            getActivity().finish();
+
+                            Intent it = new Intent(getActivity(), MainActivity.class);
+                            startActivity(it);
+                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                            signinEmailText.setText("");
+                            signinpasswordText.setText("");
+                        } else {
+                            waitingDialog.dismiss();
+                            Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : " +
+                                    task.getException().getMessage(), Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER, 0, 0);
+                            t.show();
+                        }
                     }
-                }
-            });
+                });
+            }
+        }
+    }
+
+    public void rememberMethod(String passedString){
+        try {
+            FileOutputStream fileOutputStream = getContext().openFileOutput("Personal_Info.txt", Context.MODE_PRIVATE);
+            fileOutputStream.write(passedString.getBytes());
+            fileOutputStream.close();
+            Toast.makeText(getActivity(), "Data saved successfully", Toast.LENGTH_LONG).show();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setNullDataMethod(String passedString){
+        try {
+            FileOutputStream fileOutputStream = getContext().openFileOutput("Personal_Info.txt", Context.MODE_PRIVATE);
+            fileOutputStream.write(passedString.getBytes());
+            fileOutputStream.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
+
+//    AllianceLoader allianceLoader;
+//    allianceLoader = view.findViewById(R.id.AllianceLoaderID);
+//    allianceLoader.setVisibility(VISIBLE);
+//    allianceLoader.setVisibility(INVISIBLE);
