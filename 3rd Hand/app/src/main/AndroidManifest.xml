@@ -16,32 +16,47 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <activity android:name=".LeftEquipmentActivity"
+            android:screenOrientation="fullSensor"/>
+
+        <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".FeedbackActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".HelpActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".PaymentMethodActivity"
+            android:screenOrientation="fullSensor" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_API_key" />
 
-        <activity android:name=".PhoneVerificationActivity"
+        <activity
+            android:name=".PhoneVerificationActivity"
             android:screenOrientation="fullSensor" />
-
-        <activity android:name=".SignupActivity"
+        <activity
+            android:name=".SignupActivity"
             android:screenOrientation="fullSensor" />
-
-        <activity android:name=".SigninActivity"
+        <activity
+            android:name=".SigninActivity"
             android:screenOrientation="fullSensor" />
-
-        <activity android:name=".StartScreen" >
+        <activity android:name=".StartScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="com.example.a3rdhand.MainActivity" />
@@ -49,7 +64,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

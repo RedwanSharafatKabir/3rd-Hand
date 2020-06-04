@@ -9,101 +9,111 @@
     tools:context=".SigninActivity"
     android:background="#ffffff">
 
-    <androidx.cardview.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardElevation="10dp">
-
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="20dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingTop="30dp"
-            android:paddingBottom="30dp">
+            android:gravity="center">
 
-            <LinearLayout
-                android:id="@+id/second"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                app:cardElevation="10dp">
 
-                <EditText
-                    android:id="@+id/loginEmailID"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="  Email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_email_black_24dp"
-                    android:layout_marginBottom="5dp"/>
-
-                <EditText
-                    android:id="@+id/loginpassID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint=" Password"
-                    android:inputType="textPassword"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_lock_black_24dp"/>
-
-                <Button
-                    android:id="@+id/forgetPassID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:orientation="vertical"
+                    android:layout_margin="20dp"
                     android:layout_gravity="center"
-                    android:text="Forgot password ?"
-                    android:textAlignment="textEnd"
-                    tools:ignore="RtlCompat"
-                    android:textAllCaps="false"
-                    android:textSize="17dp"
-                    android:paddingRight="10dp"/>
+                    android:gravity="center"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="30dp">
 
-                <CheckBox
-                    android:id="@+id/rememberCheckBoxID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text=" Remember me as logged in"
-                    android:textColor="#000000"
-                    android:textSize="17dp" />
+                    <LinearLayout
+                        android:id="@+id/second"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-            </LinearLayout>
+                        <EditText
+                            android:id="@+id/loginEmailID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="  Email"
+                            android:inputType="textEmailAddress"
+                            android:textColor="#000000"
+                            android:textColorHint="#333333"
+                            android:drawableLeft="@drawable/ic_email_black_24dp"
+                            android:layout_marginBottom="5dp"/>
 
-            <!--            <com.agrawalsuneet.dotsloader.loaders.AllianceLoader-->
-            <!--                android:id="@+id/AllianceLoaderID"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:alliance_animDuration="500"-->
-            <!--                app:alliance_distanceMultiplier="3"-->
-            <!--                app:alliance_dotsRadius="8dp"-->
-            <!--                app:alliance_drawOnlyStroke="false"-->
-            <!--                app:alliance_firstDotsColor="#14DCCB"-->
-            <!--                app:alliance_secondDotsColor="#14DCCB"-->
-            <!--                app:alliance_strokeWidth="8dp"-->
-            <!--                app:alliance_thirdDotsColor="#14DCCB"-->
-            <!--                android:visibility="gone"-->
-            <!--                android:layout_marginTop="10dp"/>-->
+                        <EditText
+                            android:id="@+id/loginpassID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint=" Password"
+                            android:inputType="textPassword"
+                            android:textColor="#000000"
+                            android:textColorHint="#333333"
+                            android:drawableLeft="@drawable/ic_lock_black_24dp"/>
 
-            <ImageButton
-                android:id="@+id/SigninID"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_gravity="end"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="35dp"
-                android:clickable="true"
-                android:src="@drawable/ic_arrow_forward_black_24dp"
-                android:background="@drawable/button_background"
-                android:layout_marginRight="35dp" />
+                        <Button
+                            android:id="@+id/forgetPassID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:layout_gravity="center"
+                            android:text="Forgot password ?"
+                            android:textAlignment="textEnd"
+                            tools:ignore="RtlCompat"
+                            android:textAllCaps="false"
+                            android:textSize="17dp"
+                            android:paddingRight="10dp"/>
 
+                        <CheckBox
+                            android:id="@+id/rememberCheckBoxID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:text=" Remember me as logged in"
+                            android:textColor="#000000"
+                            android:textSize="17dp" />
+
+                    </LinearLayout>
+
+                    <!--            <com.agrawalsuneet.dotsloader.loaders.AllianceLoader-->
+                    <!--                android:id="@+id/AllianceLoaderID"-->
+                    <!--                android:layout_width="wrap_content"-->
+                    <!--                android:layout_height="wrap_content"-->
+                    <!--                app:alliance_animDuration="500"-->
+                    <!--                app:alliance_distanceMultiplier="3"-->
+                    <!--                app:alliance_dotsRadius="8dp"-->
+                    <!--                app:alliance_drawOnlyStroke="false"-->
+                    <!--                app:alliance_firstDotsColor="#14DCCB"-->
+                    <!--                app:alliance_secondDotsColor="#14DCCB"-->
+                    <!--                app:alliance_strokeWidth="8dp"-->
+                    <!--                app:alliance_thirdDotsColor="#14DCCB"-->
+                    <!--                android:visibility="gone"-->
+                    <!--                android:layout_marginTop="10dp"/>-->
+
+                    <ImageButton
+                        android:id="@+id/SigninID"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="35dp"
+                        android:clickable="true"
+                        android:src="@drawable/ic_arrow_forward_black_24dp"
+                        android:background="@drawable/button_background"
+                        android:layout_marginRight="35dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
+    </ScrollView>
 </LinearLayout>

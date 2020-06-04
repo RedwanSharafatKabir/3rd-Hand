@@ -43,9 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:textAllCaps="false"
-            android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:fontFamily="@font/android_insomnia_regular"
             android:layout_gravity="center|left"/>

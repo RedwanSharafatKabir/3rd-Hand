@@ -99,13 +99,59 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         if(menuItem.getItemId()==R.id.paymentMethodID){
-
+            PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
+            paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
         }
+
         if(menuItem.getItemId()==R.id.helpID){
-
+            HelpActivity helpActivity = new HelpActivity();
+            helpActivity.show(getSupportFragmentManager(), "Sample dialog");
         }
-        if(menuItem.getItemId()==R.id.feedbackID){
 
+        if(menuItem.getItemId()==R.id.feedbackID){
+            FeedbackActivity feedbackActivity = new FeedbackActivity();
+            feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
+        }
+
+        if(menuItem.getItemId()==R.id.aboutID){
+            AboutActivity aboutActivity = new AboutActivity();
+            aboutActivity.show(getSupportFragmentManager(), "Sample dialog");
+        }
+
+        if(menuItem.getItemId()==R.id.logoutID){
+            AlertDialog.Builder alertDialogBuilder;
+
+            alertDialogBuilder = new AlertDialog.Builder(this);
+
+            alertDialogBuilder.setTitle("LOGOUT ?");
+            alertDialogBuilder.setMessage("Your positive decision will make you logged out.");
+            alertDialogBuilder.setIcon(R.drawable.exit);
+            alertDialogBuilder.setCancelable(false);
+
+            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mAuth.getInstance().signOut();
+                    finish();
+                    Intent it = new Intent(MainActivity.this, StartScreen.class);
+                    startActivity(it);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }
+            });
+            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            alertDialogBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
         return false;
     }

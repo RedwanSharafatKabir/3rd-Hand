@@ -23,4 +23,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="paymentMethod">Cash</string>
+    <string name="helpString">Help</string>
+    <string name="feedback">Feedback</string>
+    <string name="about">About</string>
+
+    <string name="allow_location">Go to settings > location >
+        location permission > Give location permission for this app.</string>
+
 </resources>

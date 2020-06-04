@@ -47,7 +47,8 @@
         android:fitsSystemWindows="true">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <fragment
                 android:id="@+id/fragmentID"
                 android:name="com.example.a3rdhand.MapFragmentClass"
@@ -64,7 +65,8 @@
             app:itemBackground="@color/c4"
             android:layout_gravity="start"
             app:itemTextColor="#000000"
-            app:itemTextAppearance="@style/menu_text_style" />
+            app:itemTextAppearance="@style/menu_text_style"
+            android:theme="@style/NavigationTheme"/>
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

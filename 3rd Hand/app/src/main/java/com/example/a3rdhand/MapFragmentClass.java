@@ -1,6 +1,9 @@
 package com.example.a3rdhand;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -82,6 +85,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         mapFragment.getMapAsync(MapFragmentClass.this);
 
         enterLeftEquipmentButton = v.findViewById(R.id.leftEquipmentSearchID);
+        enterLeftEquipmentButton.setOnClickListener(this);
         imageView = v.findViewById(R.id.getDeviceID);
         imageView.setOnClickListener(this);
         inputSearch = v.findViewById(R.id.searchMapID);
@@ -141,12 +145,14 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
             });
         }
 
-        if (locationPermissionGranted) {
-            getDeviceLocation();
+        try {
+            if (locationPermissionGranted) {
+                getDeviceLocation();
+                mGoogleMap.setMyLocationEnabled(true);
+                init();
+            }
             mGoogleMap.setMyLocationEnabled(true);
-            init();
-        }
-        mGoogleMap.setMyLocationEnabled(true);
+        }catch(Exception e){alertDialogMethod();}
     }
 
     private void init() {
@@ -231,5 +237,31 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         if (v.getId() == R.id.getDeviceID) {
             getDeviceLocation();
         }
+
+        if(v.getId()==R.id.leftEquipmentSearchID){
+            LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
+            leftEquipmentActivity.show(getFragmentManager(), "Sample dialog");
+        }
+    }
+
+    public void alertDialogMethod(){
+        AlertDialog.Builder alertDialogBuilder;
+
+        alertDialogBuilder = new AlertDialog.Builder(getActivity());
+
+        alertDialogBuilder.setTitle("Allow GPS !");
+        alertDialogBuilder.setMessage(R.string.allow_location);
+        alertDialogBuilder.setIcon(R.drawable.allow_gps);
+        alertDialogBuilder.setCancelable(false);
+
+        alertDialogBuilder.setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
