@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LeftEquipmentActivity"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,112 +16,118 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_margin="20dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="15dp"
-            android:paddingLeft="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Enter detail of your left equipment -"
-                android:textSize="17dp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:fontFamily="serif"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="5dp"/>
-
-            <EditText
-                android:id="@+id/equipmentNameID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="  Enter equipement name"
-                android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#333333"
-                android:drawableLeft="@drawable/ic_equipmentname_black_24dp"
-                android:layout_marginBottom="5dp"/>
+            android:paddingBottom="30dp">
 
             <LinearLayout
+                android:id="@+id/second"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_equipment_type_black_24dp"/>
-
-                <Spinner
-                    android:id="@+id/equipmentTypeID"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Enter detail of your left equipment -"
+                    android:textSize="17dp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
                     android:layout_gravity="center"
+                    android:fontFamily="serif"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="5dp"
                     android:gravity="center"/>
+
+                <EditText
+                    android:id="@+id/equipmentNameID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="  Enter equipement name"
+                    android:inputType="text"
+                    android:textColor="#000000"
+                    android:textColorHint="#333333"
+                    android:drawableLeft="@drawable/ic_equipmentname_black_24dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_equipment_type_black_24dp"/>
+
+                    <Spinner
+                        android:id="@+id/equipmentTypeID"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/customerAddressID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="  Location of your left thing"
+                    android:inputType="text"
+                    android:textColor="#000000"
+                    android:textColorHint="#333333"
+                    android:drawableLeft="@drawable/ic_add_location_black_24dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <EditText
+                    android:id="@+id/laneNumberID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="  Road and Lane name / no."
+                    android:inputType="text"
+                    android:textColor="#000000"
+                    android:textColorHint="#333333"
+                    android:drawableLeft="@drawable/ic_lane_black_24dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <EditText
+                    android:id="@+id/buildingNumberID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="  Apartment / Building no."
+                    android:inputType="text"
+                    android:textColor="#000000"
+                    android:textColorHint="#333333"
+                    android:drawableLeft="@drawable/ic_building_black_24dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <EditText
+                    android:id="@+id/floorID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="  Enter floor no."
+                    android:inputType="text"
+                    android:textColor="#000000"
+                    android:textColorHint="#333333"
+                    android:drawableLeft="@drawable/ic_floor_1_black_24dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <EditText
+                    android:id="@+id/flatID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="  Enter flat number"
+                    android:inputType="text"
+                    android:textColor="#000000"
+                    android:textColorHint="#333333"
+                    android:drawableLeft="@drawable/ic_flat_black_24dp"
+                    android:layout_marginBottom="5dp"/>
+
             </LinearLayout>
-
-            <AutoCompleteTextView
-                android:id="@+id/customerAddressID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="  Location of your left thing"
-                android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#333333"
-                android:drawableLeft="@drawable/ic_add_location_black_24dp"
-                android:layout_marginBottom="5dp"/>
-
-            <EditText
-                android:id="@+id/laneNumberID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="  Lane name / no."
-                android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#333333"
-                android:drawableLeft="@drawable/ic_lane_black_24dp"
-                android:layout_marginBottom="5dp"/>
-
-            <EditText
-                android:id="@+id/buildingNumberID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="  Apartment / Building no."
-                android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#333333"
-                android:drawableLeft="@drawable/ic_building_black_24dp"
-                android:layout_marginBottom="5dp"/>
-
-            <EditText
-                android:id="@+id/floorID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="  Enter your floor"
-                android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#333333"
-                android:drawableLeft="@drawable/ic_floor_1_black_24dp"
-                android:layout_marginBottom="5dp"/>
-
-            <EditText
-                android:id="@+id/flatID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="  Enter flat number"
-                android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#333333"
-                android:drawableLeft="@drawable/ic_flat_black_24dp"
-                android:layout_marginBottom="5dp"/>
 
             <Button
                 android:id="@+id/leftEquipmentSaveButtonID"
@@ -139,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel"
-                android:textSize="20dp"
+                android:textSize="17dp"
                 android:textColor="#12D86B"
                 android:textStyle="bold"
                 android:layout_gravity="end|center|bottom"

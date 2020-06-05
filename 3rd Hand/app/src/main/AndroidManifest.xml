@@ -48,7 +48,9 @@
         <activity
             android:name=".SigninActivity"
             android:screenOrientation="fullSensor" />
-        <activity android:name=".StartScreen">
+        <activity android:name=".StartScreen"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,7 +59,9 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_maps">
+            android:label="@string/title_activity_maps"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="com.example.a3rdhand.MainActivity" />
 

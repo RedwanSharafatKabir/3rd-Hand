@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -38,6 +39,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
     private FirebaseAuth mAuth;
     LinearLayout linearLayoutID;
     String emailObj, passObj, passedString = "Remember me";
+    Button close;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -51,15 +53,12 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         builder.setView(view).setTitle("LOGIN");
         setCancelable(false);
 
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {}
-        });
-
         linearLayoutID = view.findViewById(R.id.second);
         signinEmailText = view.findViewById(R.id.loginEmailID);
         signinpasswordText = view.findViewById(R.id.loginpassID);
 
+        close = view.findViewById(R.id.closeDialogID1);
+        close.setOnClickListener(this);
         signinButton = view.findViewById(R.id.SigninID);
         signinButton.setOnClickListener(this);
 
@@ -77,9 +76,10 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         emailObj = signinEmailText.getText().toString();
         passObj = signinpasswordText.getText().toString();
         waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
-        waitingDialog.show();
 
         if(v.getId()==R.id.SigninID){
+            waitingDialog.show();
+
             if (emailObj.isEmpty()) {
                 signinEmailText.setError("Please enter email address");
                 waitingDialog.dismiss();
@@ -162,6 +162,11 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                     }
                 });
             }
+        }
+
+        if(v.getId()==R.id.closeDialogID1){
+            getDialog().dismiss();
+            waitingDialog.dismiss();
         }
     }
 

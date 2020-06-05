@@ -29,6 +29,6 @@
     <string name="about">About</string>
 
     <string name="allow_location">Go to settings > location >
-        location permission > Give location permission for this app.</string>
+        App permission > Enable location permission for this app.</string>
 
 </resources>

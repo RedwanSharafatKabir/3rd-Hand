@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -46,6 +47,7 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
     DatabaseReference databaseReference;
     LinearLayout linearLayout;
     String phonenumber;
+    Button close;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -62,12 +64,9 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
                 "your previous data (email, username and password) will be lost.");
         setCancelable(false);
 
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {}
-        });
-
         linearLayout = view.findViewById(R.id.first);
+        close = view.findViewById(R.id.closeDialogID);
+        close.setOnClickListener(this);
 
         signupEmailText = view.findViewById(R.id.signupEmailID);
         signupUsernameText = view.findViewById(R.id.signupUsernameID);
@@ -175,6 +174,10 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
                     }
                 }
             });
+        }
+
+        if(v.getId()==R.id.closeDialogID){
+            getDialog().dismiss();
         }
     }
 
