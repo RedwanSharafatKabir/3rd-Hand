@@ -1,6 +1,7 @@
 package com.example.a3rdhand;
 
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import android.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +61,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
     ImageView imageView;
     EditText inputSearch;
     float zoomLevel;
-    String username;
+    String username, location_Thing, userPhoneNumber;
     int j = 0, i = 0;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
@@ -94,17 +96,28 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         if (user != null) {
             if(user.getEmail()!=null){}
             if (user.getDisplayName() != null) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User Information")
+                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
+                        .child(user.getDisplayName()).child("phone");
+                ref1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        userPhoneNumber = dataSnapshot.getValue(String.class);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+
+                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("User Information")
                         .child(user.getDisplayName()).child("username");
-                ref.addValueEventListener(new ValueEventListener() {
+                ref2.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         username = dataSnapshot.getValue(String.class);
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
             }
         }
@@ -128,27 +141,12 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
             j++;
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(placelist.get(i)));
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(placelist.get(i), zoomLevel));
-            mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker) {
-                    String markertitle = marker.getTitle();
-                    try {
-                        if (markertitle.equals(username)) {
-                            Toast.makeText(getActivity(), username, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), markertitle, Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                    }
-                    return false;
-                }
-            });
         }
 
         try {
             if (locationPermissionGranted) {
-                getDeviceLocation();
                 mGoogleMap.setMyLocationEnabled(true);
+                getDeviceLocation();
                 init();
             }
             mGoogleMap.setMyLocationEnabled(true);
@@ -208,6 +206,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
                                     .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.my_location)));
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(DevicelatLng));
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
+                            getCustomerPackageLocation();
                         } else {
                             Log.d(TAG, "onComplete: current location null!");
                             Toast.makeText(getActivity(), "Cannot get device location", Toast.LENGTH_LONG).show();
@@ -241,6 +240,93 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         if(v.getId()==R.id.leftEquipmentSearchID){
             LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
             leftEquipmentActivity.show(getFragmentManager(), "Sample dialog");
+        }
+    }
+
+    public void getCustomerPackageLocation(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            if (user.getDisplayName() != null) {
+                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
+                        .child(user.getDisplayName()).child("phone");
+                ref1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        userPhoneNumber = dataSnapshot.getValue(String.class);
+                        DatabaseReference ref3 = FirebaseDatabase.getInstance()
+                                .getReference("Left Equipment List Record of All Users")
+                                .child(userPhoneNumber).child("locationThing");
+                        ref3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                location_Thing = dataSnapshot.getValue(String.class);
+                                try {
+                                    if (!location_Thing.isEmpty()) {
+                                        Geocoder geocoder = new Geocoder(getActivity());
+                                        List<Address> list = new ArrayList<>();
+                                        try {
+                                            list = geocoder.getFromLocationName(location_Thing, 1);
+                                        } catch (IOException e) {
+                                            Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
+                                            Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT).show();
+                                        }
+                                        if (list.size() > 0) {
+                                            Address address = list.get(0);
+                                            Log.d(TAG, "geoLocate: found a location" + address.toString());
+
+                                            LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                                            mGoogleMap.addMarker(new MarkerOptions().position(SearchlatLng)
+                                                    .title(username + "'s package is somewhere in this area. " +
+                                                            "Please find out customer's specified address around here.")
+                                                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.customer_package_final)));
+                                        }
+
+                                        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                            @Override
+                                            public boolean onMarkerClick(Marker marker) {
+                                                String markertitle = marker.getTitle();
+                                                try {
+                                                    if (markertitle.equals(location_Thing)) {
+                                                        Toast toast = Toast.makeText(getActivity(), markertitle, Toast.LENGTH_LONG);
+                                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast.show();
+                                                    } else {
+                                                        Toast toast = Toast.makeText(getActivity(), markertitle, Toast.LENGTH_LONG);
+                                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast.show();
+                                                    }
+                                                } catch (Exception e) {}
+                                                return false;
+                                            }
+                                        });
+                                    }
+                                }catch(Exception e){
+                                    mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                        @Override
+                                        public boolean onMarkerClick(Marker marker) {
+                                            String markertitle = marker.getTitle();
+                                            try {
+                                                if (markertitle.equals(username)) {
+                                                    Toast.makeText(getActivity(), "Not available", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(getActivity(), "Not available", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (Exception e) {}
+                                            return false;
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+            }
         }
     }
 

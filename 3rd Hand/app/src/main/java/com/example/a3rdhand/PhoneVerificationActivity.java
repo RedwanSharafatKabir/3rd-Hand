@@ -88,7 +88,7 @@ public class PhoneVerificationActivity extends AppCompatDialogFragment {
         signinWithCredential(credential);
     }
 
-    public void signinWithCredential(PhoneAuthCredential credential){
+    public void signinWithCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
