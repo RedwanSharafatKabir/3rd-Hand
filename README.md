@@ -1,5 +1,5 @@
 # 3rd-Hand
-### To get important files or personal and official equipment instant. When anyone forgets about his/her important equipment at their home or anywhere we shall let them have their packages instant from their product place. This will reduce the time of the customer and they will have faithful agents.<br><br>
+### This is an android application for any people who are in trouble like accidently left their important files at home or anywhere and forget to bring those to their workplace or another destination and they are immediately in need of that package, immediate shopping or medical service. To get any of these instant services this software will help to reduce the customer's waste of time and they will have faithful agents.<br><br>
 
 #### App Functionalities -
 
