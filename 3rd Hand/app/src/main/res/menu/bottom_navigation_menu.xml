@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/profileID"
+        android:title="Profile"
+        android:icon="@drawable/one_person_username"/>
+    <item
+        android:id="@+id/mapDirectionID"
+        android:title="Direction"
+        android:icon="@drawable/ic_directions_black_24dp"/>
+    <item
+        android:id="@+id/logoutID"
+        android:title="Logout"
+        android:icon="@drawable/ic_call_logout_black_24dp"/>
+
+</menu>

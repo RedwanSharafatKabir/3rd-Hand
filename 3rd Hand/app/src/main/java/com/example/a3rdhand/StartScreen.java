@@ -19,7 +19,6 @@ import java.io.InputStreamReader;
 
 public class StartScreen extends AppCompatActivity implements View.OnClickListener{
 
-    TextView textView;
     Button signin, register;
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser = null;
@@ -37,7 +36,6 @@ public class StartScreen extends AppCompatActivity implements View.OnClickListen
         register.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-        textView = findViewById(R.id.textViewID);
     }
 
     @Override

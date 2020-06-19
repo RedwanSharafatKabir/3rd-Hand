@@ -41,7 +41,7 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
 
     Spinner spinner;
     Animation fromTop, fromBottom;
-    EditText signupEmailText, signupUsernameText, signupPhoneText, signupPasswordText;
+    EditText signupEmailText, signupUsernameText, signupPhoneText, signupPasswordText, signupNIDnumberText;
     ImageButton signupButton;
     private FirebaseAuth mAuth;
     DatabaseReference databaseReference;
@@ -72,7 +72,7 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
         signupUsernameText = view.findViewById(R.id.signupUsernameID);
         signupPhoneText = view.findViewById(R.id.signupPhoneID);
         signupPasswordText = view.findViewById(R.id.signupPasswordID);
-
+        signupNIDnumberText = view.findViewById(R.id.signupNIDnumberID);
         spinner = view.findViewById(R.id.spinnerCountriesID);
         spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, CountryData.countryNames));
 
@@ -96,6 +96,7 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
         final String username = signupUsernameText.getText().toString();
         final String phone = signupPhoneText.getText().toString();
         final String password = signupPasswordText.getText().toString();
+        final String NID = signupNIDnumberText.getText().toString();
 
         if(v.getId()==R.id.SignupID){
             final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
@@ -110,6 +111,12 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
             if (username.isEmpty()) {
                 waitingDialog.dismiss();
                 signupUsernameText.setError("Please enter username");
+                return;
+            }
+
+            if (NID.isEmpty()) {
+                waitingDialog.dismiss();
+                signupNIDnumberText.setError("Please enter your NID / Birth certificate number");
                 return;
             }
 
@@ -149,7 +156,7 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
                         phoneVerificationActivity.setArguments(args);
                         phoneVerificationActivity.show(getActivity().getSupportFragmentManager(), "Sample dialog");
 
-                        storeUserDataMethod(email, username, phonenumber, country, password);
+                        storeUserDataMethod(email, username, phonenumber, country, NID, password);
                         Toast.makeText(getActivity(), "Successfully registered", Toast.LENGTH_LONG).show();
 
                         signupEmailText.setText("");
@@ -181,7 +188,9 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
         }
     }
 
-    public void storeUserDataMethod(String email, String username, String phone, String country, String password){
+    public void storeUserDataMethod(String email, String username, String phone,
+                                    String country, String NID, String password){
+
         String displayname = phone;
         FirebaseUser user = mAuth.getCurrentUser();
         if(user!=null){
@@ -195,7 +204,7 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
         }
 
         String Key_User_Info = phone;
-        StoreUserData storeUserData = new StoreUserData(email, username, phone, country, password);
+        StoreUserData storeUserData = new StoreUserData(email, username, phone, country, NID, password);
         databaseReference.child(Key_User_Info).setValue(storeUserData);
     }
 }

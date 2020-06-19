@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            android:paddingTop="50dp"
+            android:paddingBottom="30dp">
+
+            <ImageView
+                android:id="@+id/profileActivityPicID"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:src="@drawable/ic_face_black_24dp"
+                android:background="@drawable/white_rectangle_shape"
+                android:clickable="true"/>
+
+            <LinearLayout
+                android:id="@+id/second"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingLeft="50dp">
+
+                <TextView
+                    android:id="@+id/profileActivityNameID"
+                    android:layout_width="match_parent"
+                    android:textSize="25sp"
+                    android:fontFamily="serif"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:drawableLeft="@drawable/one_person_username"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/profileActivityEmailID"
+                    android:layout_width="match_parent"
+                    android:textSize="25sp"
+                    android:fontFamily="serif"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
+                    android:drawableLeft="@drawable/ic_email_black_24dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/profileActivityPhoneID"
+                    android:layout_width="match_parent"
+                    android:textSize="25sp"
+                    android:fontFamily="serif"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:drawableLeft="@drawable/ic_phone_black_24dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/profileActivityNIDnumberID"
+                    android:layout_width="match_parent"
+                    android:textSize="25sp"
+                    android:fontFamily="serif"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:drawableLeft="@drawable/ic_security_black_24dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/profileActivityRegionID"
+                    android:layout_width="match_parent"
+                    android:textSize="25sp"
+                    android:fontFamily="serif"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:drawableLeft="@drawable/ic_region_black_24dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/closeProfileID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Okay"
+                android:textSize="18sp"
+                android:textColor="#12D86B"
+                android:textStyle="bold"
+                android:layout_gravity="center|bottom"
+                android:layout_marginTop="50dp"
+                android:clickable="true"
+                android:background="@android:color/transparent"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

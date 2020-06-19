@@ -1,7 +1,6 @@
 package com.example.a3rdhand;
 
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,21 +20,23 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.a3rdhand.EquipmentOrderAndReceive.Equipment_Agent_Longitude_Latitude_List;
+import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,6 +45,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -55,9 +57,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapFragmentClass extends Fragment implements OnMapReadyCallback, View.OnClickListener{
+public class MapFragmentClass extends Fragment implements
+        OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener{
 
-    Button enterLeftEquipmentButton;
     ImageView imageView;
     EditText inputSearch;
     float zoomLevel;
@@ -68,14 +70,16 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
     private boolean locationPermissionGranted = true;
     FusedLocationProviderClient mfusedLocationProviderClient;
     LatLng DevicelatLng;
-    private Longitude_Latitude_List longitude_latitude_list;
+    private Equipment_Agent_Longitude_Latitude_List equipmentAgentLongitude_latitude_list;
     ArrayList<LatLng> placelist;
     ArrayList<String> title;
+    FirebaseAuth mAuth;
+    BottomNavigationView bottomNavigation;
 
     public MapFragmentClass() {
-        longitude_latitude_list = new Longitude_Latitude_List();
-        placelist = longitude_latitude_list.getPlacelist();
-        title = longitude_latitude_list.getTitle();
+        equipmentAgentLongitude_latitude_list = new Equipment_Agent_Longitude_Latitude_List();
+        placelist = equipmentAgentLongitude_latitude_list.getPlacelist();
+        title = equipmentAgentLongitude_latitude_list.getTitle();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -86,8 +90,6 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.mapID);
         mapFragment.getMapAsync(MapFragmentClass.this);
 
-        enterLeftEquipmentButton = v.findViewById(R.id.leftEquipmentSearchID);
-        enterLeftEquipmentButton.setOnClickListener(this);
         imageView = v.findViewById(R.id.getDeviceID);
         imageView.setOnClickListener(this);
         inputSearch = v.findViewById(R.id.searchMapID);
@@ -121,6 +123,10 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
                 });
             }
         }
+
+        bottomNavigation = v.findViewById(R.id.bottomNavigationID);
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
+        bottomNavigation.getMenu().setGroupCheckable(0, false, true);
 
         return v;
     }
@@ -236,11 +242,6 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         if (v.getId() == R.id.getDeviceID) {
             getDeviceLocation();
         }
-
-        if(v.getId()==R.id.leftEquipmentSearchID){
-            LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
-            leftEquipmentActivity.show(getFragmentManager(), "Sample dialog");
-        }
     }
 
     public void getCustomerPackageLocation(){
@@ -307,7 +308,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
                                             String markertitle = marker.getTitle();
                                             try {
                                                 if (markertitle.equals(username)) {
-                                                    Toast.makeText(getActivity(), "Not available", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), markertitle, Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     Toast.makeText(getActivity(), "Not available", Toast.LENGTH_SHORT).show();
                                                 }
@@ -349,5 +350,56 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        switch(id){
+            case R.id.profileID:
+                bottomNavigation.getMenu().setGroupCheckable(0, true, true);
+                ProfileActivity profileActivity = new ProfileActivity();
+                profileActivity.show(getFragmentManager(), "Sample dialog");
+                return true;
+
+            case R.id.mapDirectionID:
+                bottomNavigation.getMenu().setGroupCheckable(0, true, true);
+                return true;
+
+            case R.id.logoutID:
+                bottomNavigation.getMenu().setGroupCheckable(0, true, true);
+                AlertDialog.Builder alertDialogBuilder;
+
+                alertDialogBuilder = new AlertDialog.Builder(getActivity());
+
+                alertDialogBuilder.setTitle("LOGOUT ?");
+                alertDialogBuilder.setMessage("Your positive decision will make you logged out.");
+                alertDialogBuilder.setIcon(R.drawable.exit);
+                alertDialogBuilder.setCancelable(false);
+
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth.getInstance().signOut();
+                        getActivity().finish();
+                        Intent it = new Intent(getActivity(), StartScreen.class);
+                        startActivity(it);
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    }
+                });
+
+                alertDialogBuilder.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        bottomNavigation.getMenu().setGroupCheckable(0, false, true);
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                return true;
+        }
+
+        return false;
     }
 }

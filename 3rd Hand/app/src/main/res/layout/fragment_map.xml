@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MapFragmentClass">
 
     <RelativeLayout
@@ -65,19 +65,12 @@
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/leftEquipmentSearchID"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationID"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:layout_marginBottom="50dp"
-        android:background="#ffffff"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Enter where did you left your equipment"
-        android:textColor="#000000"
-        android:textAllCaps="false"
-        android:textSize="18dp"/>
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_navigation_menu"
+        android:layout_gravity="bottom|center"
+        android:background="#FFFFFF"/>
 
 </FrameLayout>

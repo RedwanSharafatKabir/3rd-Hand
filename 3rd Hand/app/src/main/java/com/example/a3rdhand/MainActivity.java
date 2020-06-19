@@ -12,10 +12,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentActivity;
+import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,16 +29,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity
+        implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
 
-    FirebaseAuth mAuth;
+    ImageView imageView;
+    TextView name, email, phone;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Fragment fragment;
-    String username, email;
-    TextView textView1, textView2;
+    String userPhoneNumber, location_Thing;
+    View hView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        textView1 = findViewById(R.id.profileNameID);
-        textView2 = findViewById(R.id.profileEmailID);
         drawerLayout = findViewById(R.id.drawerID);
-        navigationView = findViewById(R.id.navigationViewID);
         toolbar = findViewById(R.id.toolBarID);
         setSupportActionBar(toolbar);
 
@@ -55,6 +58,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        navigationView = findViewById(R.id.navigationViewID);
+        hView = navigationView.getHeaderView(0);
+
+        name = hView.findViewById(R.id.profileNameID);
+        email = hView.findViewById(R.id.profileEmailID);
+        phone = hView.findViewById(R.id.profilePhoneID);
+        imageView = hView.findViewById(R.id.profileImageID);
+        imageView.setOnClickListener(this);
+
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -62,16 +74,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentID, fragment).commit();
 
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        navigationDrawerOpen();
+    }
+
+    @Override
+    public void onClick(View v) {
+    }
+
+    public void navigationDrawerOpen(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            if(user.getEmail()!=null){
+            if(user.getEmail() != null){
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User Information")
                         .child(user.getDisplayName()).child("email");
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        email = dataSnapshot.getValue(String.class);
-//                        textView2.setText(email);
+                        email.setText(dataSnapshot.getValue(String.class));
                     }
 
                     @Override
@@ -80,13 +99,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             if (user.getDisplayName() != null) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User Information")
+                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
                         .child(user.getDisplayName()).child("username");
-                ref.addValueEventListener(new ValueEventListener() {
+                ref1.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        username = dataSnapshot.getValue(String.class);
-//                        textView1.setText(username);
+                        name.setText(dataSnapshot.getValue(String.class));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+
+                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("User Information")
+                        .child(user.getDisplayName()).child("phone");
+                ref2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        phone.setText(dataSnapshot.getValue(String.class));
                     }
 
                     @Override
@@ -98,6 +128,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        if(menuItem.getItemId()==R.id.leftEquipmentSearchID){
+            checkEuipmentRequest();
+        }
+
         if(menuItem.getItemId()==R.id.paymentMethodID){
             PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
             paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
@@ -118,42 +153,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             aboutActivity.show(getSupportFragmentManager(), "Sample dialog");
         }
 
-        if(menuItem.getItemId()==R.id.logoutID){
-            AlertDialog.Builder alertDialogBuilder;
-
-            alertDialogBuilder = new AlertDialog.Builder(this);
-
-            alertDialogBuilder.setTitle("LOGOUT ?");
-            alertDialogBuilder.setMessage("Your positive decision will make you logged out.");
-            alertDialogBuilder.setIcon(R.drawable.exit);
-            alertDialogBuilder.setCancelable(false);
-
-            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mAuth.getInstance().signOut();
-                    finish();
-                    Intent it = new Intent(MainActivity.this, StartScreen.class);
-                    startActivity(it);
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }
-            });
-            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            alertDialogBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-        }
         return false;
+    }
+
+    public void checkEuipmentRequest(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            if (user.getDisplayName() != null) {
+                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
+                        .child(user.getDisplayName()).child("phone");
+                ref1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        userPhoneNumber = dataSnapshot.getValue(String.class);
+                        DatabaseReference ref3 = FirebaseDatabase.getInstance()
+                                .getReference("Left Equipment List Record of All Users")
+                                .child(userPhoneNumber).child("locationThing");
+                        ref3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                location_Thing = dataSnapshot.getValue(String.class);
+                                try {
+                                    if (!location_Thing.isEmpty()) {
+                                        LeftEquipmentSavedRecord leftEquipmentSavedRecord = new LeftEquipmentSavedRecord();
+                                        leftEquipmentSavedRecord.show(getFragmentManager(), "Sample dialog");
+                                    }
+                                }catch(Exception e){
+                                    LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
+                                    leftEquipmentActivity.show(getFragmentManager(), "Sample dialog");
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+            }
+        }
     }
 
     @Override
@@ -162,28 +202,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         alertDialogBuilder = new AlertDialog.Builder(this);
 
-        alertDialogBuilder.setTitle("LOGOUT ?");
-        alertDialogBuilder.setMessage("Your positive decision will make you logged out.");
+        alertDialogBuilder.setTitle("EXIT !");
+        alertDialogBuilder.setMessage("Are you sure you want to close this app ?");
         alertDialogBuilder.setIcon(R.drawable.exit);
         alertDialogBuilder.setCancelable(false);
 
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mAuth.getInstance().signOut();
                 finish();
-                Intent it = new Intent(MainActivity.this, StartScreen.class);
-                startActivity(it);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                System.exit(0);
             }
         });
-        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        alertDialogBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNeutralButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

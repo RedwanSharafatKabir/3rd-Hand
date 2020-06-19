@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LeftEquipmentActivity"
+    tools:context=".EquipmentOrderAndReceive.LeftEquipmentActivity"
     android:background="#ffffff"
     android:orientation="vertical">
 
@@ -133,8 +133,8 @@
                 android:id="@+id/leftEquipmentSaveButtonID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/button_background"
                 android:text="Save"
                 android:textColor="#ffffff"

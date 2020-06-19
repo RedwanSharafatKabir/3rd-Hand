@@ -15,10 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".LeftEquipmentActivity"
-            android:screenOrientation="fullSensor"/>
-
+        <activity android:name=".ProfileActivity"
+            android:screenOrientation="fullSensor"></activity>
+        <activity
+            android:name=".EquipmentOrderAndReceive.LeftEquipmentSavedRecord"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".EquipmentOrderAndReceive.LeftEquipmentActivity"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".AboutActivity"
             android:screenOrientation="fullSensor" />
@@ -48,7 +52,8 @@
         <activity
             android:name=".SigninActivity"
             android:screenOrientation="fullSensor" />
-        <activity android:name=".StartScreen"
+        <activity
+            android:name=".StartScreen"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="fullSensor">
             <intent-filter>
@@ -59,8 +64,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_maps"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_maps"
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="com.example.a3rdhand.MainActivity" />
