@@ -16,7 +16,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_XL_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_XL_API_26" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -66,9 +66,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="resourceFile" />
         <option value="layoutResourceFile" />
         <option value="Class" />
-        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -81,15 +81,15 @@
   <component name="ProjectId" id="1bNzYWx39gLFVcCgmK3084o9ble" />
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="app" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-06-05T07:07:20.903Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_26" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-06-20T17:52:25.137Z" />
     <property name="ExportApk.ApkPath" value="D:\Android Projects\3rd Hand\app" />
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="ExportApk.SignV1" value="true" />
     <property name="ExportApk.SignV2" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/font" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/font" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Android_All Design MaterialX/codecanyon-20482674-materialx-android-material-design-ui-components-10/materialx_mainfile_2.1/MaterialX" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -111,12 +111,15 @@
       <recent name="com.example.a3rdhand" />
       <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
     </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-xxhdpi" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\font" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\layout" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\menu" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\mipmap-xxhdpi" />
     </key>
   </component>
   <component name="RunDashboard">

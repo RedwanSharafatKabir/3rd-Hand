@@ -17,7 +17,6 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import android.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,11 +25,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.a3rdhand.EquipmentOrderAndReceive.Equipment_Agent_Longitude_Latitude_List;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
+import com.example.a3rdhand.EquipmentOrderAndReceive.Call_Package_Agent_Dialog;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,6 +45,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -63,7 +63,7 @@ public class MapFragmentClass extends Fragment implements
     ImageView imageView;
     EditText inputSearch;
     float zoomLevel;
-    String username, location_Thing, userPhoneNumber;
+    String username, location_Thing, userPhoneNumber,temp;
     int j = 0, i = 0;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
@@ -75,6 +75,7 @@ public class MapFragmentClass extends Fragment implements
     ArrayList<String> title;
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigation;
+    View v;
 
     public MapFragmentClass() {
         equipmentAgentLongitude_latitude_list = new Equipment_Agent_Longitude_Latitude_List();
@@ -85,7 +86,7 @@ public class MapFragmentClass extends Fragment implements
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_map, container, false);
+        v = inflater.inflate(R.layout.fragment_map, container, false);
 
         MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.mapID);
         mapFragment.getMapAsync(MapFragmentClass.this);
@@ -215,7 +216,7 @@ public class MapFragmentClass extends Fragment implements
                             getCustomerPackageLocation();
                         } else {
                             Log.d(TAG, "onComplete: current location null!");
-                            Toast.makeText(getActivity(), "Cannot get device location", Toast.LENGTH_LONG).show();
+                            Snackbar.make(v, "Cannot load map", Snackbar.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -274,12 +275,12 @@ public class MapFragmentClass extends Fragment implements
                                         if (list.size() > 0) {
                                             Address address = list.get(0);
                                             Log.d(TAG, "geoLocate: found a location" + address.toString());
-
                                             LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                                            temp = username + "'s package is somewhere in this area. " +
+                                                    "Please find out customer's specified address around here.";
                                             mGoogleMap.addMarker(new MarkerOptions().position(SearchlatLng)
-                                                    .title(username + "'s package is somewhere in this area. " +
-                                                            "Please find out customer's specified address around here.")
-                                                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.customer_package_final)));
+                                                    .title(temp).icon(bitmapDescriptorFromVector(getActivity(),
+                                                            R.drawable.customer_package_final)));
                                         }
 
                                         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -287,14 +288,13 @@ public class MapFragmentClass extends Fragment implements
                                             public boolean onMarkerClick(Marker marker) {
                                                 String markertitle = marker.getTitle();
                                                 try {
-                                                    if (markertitle.equals(location_Thing)) {
-                                                        Toast toast = Toast.makeText(getActivity(), markertitle, Toast.LENGTH_LONG);
-                                                        toast.setGravity(Gravity.CENTER, 0, 0);
-                                                        toast.show();
-                                                    } else {
-                                                        Toast toast = Toast.makeText(getActivity(), markertitle, Toast.LENGTH_LONG);
-                                                        toast.setGravity(Gravity.CENTER, 0, 0);
-                                                        toast.show();
+                                                    if (markertitle.equals(temp)) {
+                                                        LeftEquipmentSavedRecord leftEquipmentSavedRecord = new LeftEquipmentSavedRecord();
+                                                        leftEquipmentSavedRecord.show(getFragmentManager(), "Sample dialog");
+                                                    }
+                                                    else if(!markertitle.equals(temp) && !markertitle.equals(username)){
+                                                        Call_Package_Agent_Dialog bottomSheetDialog = Call_Package_Agent_Dialog.getInstance();
+                                                        bottomSheetDialog.show(getFragmentManager(), "Custom Bottom Sheet");
                                                     }
                                                 } catch (Exception e) {}
                                                 return false;
@@ -362,8 +362,10 @@ public class MapFragmentClass extends Fragment implements
                 profileActivity.show(getFragmentManager(), "Sample dialog");
                 return true;
 
-            case R.id.mapDirectionID:
+            case R.id.helpID:
                 bottomNavigation.getMenu().setGroupCheckable(0, true, true);
+                HelpActivity helpActivity = new HelpActivity();
+                helpActivity.show(getFragmentManager(), "Sample dialog");
                 return true;
 
             case R.id.logoutID:
@@ -403,3 +405,19 @@ public class MapFragmentClass extends Fragment implements
         return false;
     }
 }
+
+//final Snackbar snackbar = Snackbar.make(v, markertitle, Snackbar.LENGTH_INDEFINITE);
+//snackbar.setAction("Call Now", new View.OnClickListener() {
+//@Override
+//public void onClick(View view) {
+//        Toast.makeText(getActivity(), "Hello", Toast.LENGTH_SHORT).show();
+//        }
+//        })
+//        .setActionTextColor(getResources().getColor(android.R.color.holo_green_dark)).show();
+//        snackbar.setAction("Reject", new View.OnClickListener(){
+//@Override
+//public void onClick(View view) {
+//        snackbar.dismiss();
+//        }
+//        })
+//        .setActionTextColor(getResources().getColor(android.R.color.holo_red_dark)).show();

@@ -3,41 +3,42 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".EquipmentOrderAndReceive.LeftEquipmentActivity"
     android:background="#ffffff"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_margin="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="30dp">
+            android:padding="20dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter detail of your left equipment -"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:layout_marginBottom="35dp"/>
 
             <LinearLayout
-                android:id="@+id/second"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Enter detail of your left equipment -"
-                    android:textSize="17dp"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:fontFamily="serif"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center"/>
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center">
 
                 <EditText
                     android:id="@+id/equipmentNameID"

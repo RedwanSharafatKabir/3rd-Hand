@@ -26,38 +26,50 @@
                 android:orientation="vertical"
                 android:id="@+id/first">
 
-                <EditText
-                    android:id="@+id/signupEmailID"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="  email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_email_black_24dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/signupEmailID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="  email"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#000000"
+                        android:textColorHint="#000000"
+                        android:drawableLeft="@drawable/ic_email_black_24dp"
+                        android:layout_marginBottom="5dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/signupUsernameID"
-                    android:hint=" username"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/one_person_username"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/signupUsernameID"
+                        android:hint=" username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textColor="#000000"
+                        android:textColorHint="#000000"
+                        android:drawableLeft="@drawable/one_person_username"
+                        android:layout_marginBottom="5dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/signupNIDnumberID"
-                    android:hint=" Govt. issued ID: NID / Birth certificate"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_security_black_24dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/signupNIDnumberID"
+                        android:hint=" Govt. issued ID: NID / Birth certificate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textColor="#000000"
+                        android:textColorHint="#000000"
+                        android:drawableLeft="@drawable/ic_security_black_24dp"
+                        android:layout_marginBottom="5dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,26 +83,34 @@
                         android:gravity="center"
                         android:layout_marginBottom="5dp"/>
 
-                    <EditText
-                        android:id="@+id/signupPhoneID"
-                        android:hint=" phone number"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:textColor="#000000"
-                        android:textColorHint="#333333"
-                        android:layout_marginBottom="5dp" />
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/signupPhoneID"
+                            android:hint=" phone number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textColor="#000000"
+                            android:textColorHint="#000000"
+                            android:layout_marginBottom="5dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
-                <EditText
-                    android:id="@+id/signupPasswordID"
-                    android:hint=" password"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_lock_outline_black_24dp" />
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/signupPasswordID"
+                        android:hint=" password: 7+ characters"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+                        android:inputType="textPassword"
+                        android:textColor="#000000"
+                        android:textColorHint="#000000"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 

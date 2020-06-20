@@ -96,9 +96,6 @@ public class PhoneVerificationActivity extends AppCompatDialogFragment {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     waitingDialog.dismiss();
-                    Toast toast = Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
 
                     getActivity().finish();
 

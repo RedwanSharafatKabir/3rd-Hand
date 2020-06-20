@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutActivity">
+    tools:context=".AboutActivity"
+    android:background="#FFFFFF">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,17 +13,84 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center">
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="100dp"
+            android:paddingBottom="100dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rectangle_shape_border"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp">
+                <TextView
+                    android:id="@+id/aboutFragmentTextID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3rd hand"
+                    android:textSize="40sp"
+                    android:padding="7dp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:fontFamily="@font/hanged_letters"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Version: 1.1"
+                    android:textSize="20dp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="7dp"
+                    android:fontFamily="@font/idroid"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/developTextID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Developers:"
+                android:padding="5dp"
+                android:textSize="30dp"
+                android:textColor="#000000"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/sfc_artoonist_hand"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/about"
+                android:text="Redwan Sharafat Kabir"
                 android:textSize="30dp"
                 android:textColor="#000000"
-                android:textAllCaps="false"
-                android:fontFamily="@font/idroid" />
+                android:padding="5dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:fontFamily="@font/sfc_artoonist_hand"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Last updated: JUNE-2020"
+                android:textSize="25sp"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/rectangle_shape_border"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/sfc_artoonist_hand"
+                android:padding="10dp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
     </ScrollView>

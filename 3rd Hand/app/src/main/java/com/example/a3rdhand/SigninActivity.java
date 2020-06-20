@@ -41,6 +41,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
     LinearLayout linearLayoutID;
     String emailObj, passObj, passedString = "Remember me";
     Button close;
+    View view;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.activity_signin, null);
+        view = inflater.inflate(R.layout.activity_signin, null);
 
         builder.setView(view).setTitle("LOGIN");
         setCancelable(false);
@@ -109,9 +110,6 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             waitingDialog.dismiss();
-                            Toast toast = Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
 
                             getActivity().finish();
 
@@ -141,9 +139,6 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             waitingDialog.dismiss();
-                            Toast toast = Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
 
                             getActivity().finish();
 
@@ -176,7 +171,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
             FileOutputStream fileOutputStream = getContext().openFileOutput("Personal_Info.txt", Context.MODE_PRIVATE);
             fileOutputStream.write(passedString.getBytes());
             fileOutputStream.close();
-            Toast.makeText(getActivity(), "Data saved successfully", Toast.LENGTH_LONG).show();
+            Snackbar.make(view, "Data saved successfully", Snackbar.LENGTH_SHORT).show();
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();

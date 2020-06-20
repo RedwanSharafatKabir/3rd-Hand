@@ -9,18 +9,17 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentActivity;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,8 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static com.google.android.material.snackbar.Snackbar.make;
+
 public class MainActivity extends AppCompatActivity
-        implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     ImageView imageView;
     TextView name, email, phone;
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity
         email = hView.findViewById(R.id.profileEmailID);
         phone = hView.findViewById(R.id.profilePhoneID);
         imageView = hView.findViewById(R.id.profileImageID);
-        imageView.setOnClickListener(this);
 
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
@@ -74,11 +74,10 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentID, fragment).commit();
 
-        navigationDrawerOpen();
-    }
+        View parentLayout = findViewById(android.R.id.content);
+        Snackbar.make(parentLayout, " Login successful", Snackbar.LENGTH_LONG).show();
 
-    @Override
-    public void onClick(View v) {
+        navigationDrawerOpen();
     }
 
     public void navigationDrawerOpen(){
@@ -136,11 +135,6 @@ public class MainActivity extends AppCompatActivity
         if(menuItem.getItemId()==R.id.paymentMethodID){
             PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
             paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
-        }
-
-        if(menuItem.getItemId()==R.id.helpID){
-            HelpActivity helpActivity = new HelpActivity();
-            helpActivity.show(getSupportFragmentManager(), "Sample dialog");
         }
 
         if(menuItem.getItemId()==R.id.feedbackID){

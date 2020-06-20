@@ -27,10 +27,6 @@
                 android:title="Payment method"
                 android:icon="@drawable/ic_payment_black_24dp" />
             <item
-                android:id="@+id/helpID"
-                android:title="Help"
-                android:icon="@drawable/ic_live_help_black_24dp"/>
-            <item
                 android:id="@+id/aboutID"
                 android:title="About"
                 android:icon="@drawable/ic_about_black_24dp"/>
