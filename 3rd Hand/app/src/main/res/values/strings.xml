@@ -31,4 +31,6 @@
     <string name="allow_location">Go to settings > location >
         App permission > Enable location permission for this app.</string>
 
+    <string name="rem">Enter phone number from first 3 digits country code past.\nFormat: +880 1234567890</string>
+
 </resources>

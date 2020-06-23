@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -20,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.example.a3rdhand.ForgotPasswordPackage.Forgot_Password;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -40,7 +41,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
     private FirebaseAuth mAuth;
     LinearLayout linearLayoutID;
     String emailObj, passObj, passedString = "Remember me";
-    Button close;
+    Button close, forgetPass;
     View view;
 
     @Override
@@ -59,6 +60,8 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         signinEmailText = view.findViewById(R.id.loginEmailID);
         signinpasswordText = view.findViewById(R.id.loginpassID);
 
+        forgetPass = view.findViewById(R.id.forgetPassID);
+        forgetPass.setOnClickListener(this);
         close = view.findViewById(R.id.closeDialogID1);
         close.setOnClickListener(this);
         signinButton = view.findViewById(R.id.SigninID);
@@ -163,6 +166,11 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         if(v.getId()==R.id.closeDialogID1){
             getDialog().dismiss();
             waitingDialog.dismiss();
+        }
+
+        if(v.getId()==R.id.forgetPassID){
+            Forgot_Password forgot_password = new Forgot_Password();
+            forgot_password.show(getFragmentManager(), "Sample dialog");
         }
     }
 

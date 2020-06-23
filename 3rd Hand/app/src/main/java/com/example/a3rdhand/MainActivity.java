@@ -5,9 +5,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentActivity;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.google.android.material.navigation.NavigationView;
@@ -27,8 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import static com.google.android.material.snackbar.Snackbar.make;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragment = new Fragment();
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentID, fragment).commit();
 
         View parentLayout = findViewById(android.R.id.content);
@@ -170,11 +167,11 @@ public class MainActivity extends AppCompatActivity
                                 try {
                                     if (!location_Thing.isEmpty()) {
                                         LeftEquipmentSavedRecord leftEquipmentSavedRecord = new LeftEquipmentSavedRecord();
-                                        leftEquipmentSavedRecord.show(getFragmentManager(), "Sample dialog");
+                                        leftEquipmentSavedRecord.show(getSupportFragmentManager(), "Sample dialog");
                                     }
                                 }catch(Exception e){
                                     LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
-                                    leftEquipmentActivity.show(getFragmentManager(), "Sample dialog");
+                                    leftEquipmentActivity.show(getSupportFragmentManager(), "Sample dialog");
                                 }
                             }
 

@@ -15,8 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProfileActivity"
+        <activity android:name=".EquipmentOrderAndReceive.Requesting_agent_loading_tab"
             android:screenOrientation="fullSensor"></activity>
+        <activity
+            android:name=".ForgotPasswordPackage.VerifyEmail_OTP_Code"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".ForgotPasswordPackage.Forgot_Password"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".EquipmentOrderAndReceive.LeftEquipmentSavedRecord"
             android:screenOrientation="fullSensor" />
@@ -43,9 +52,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_API_key" />
 
-        <activity
-            android:name=".PhoneVerificationActivity"
-            android:screenOrientation="fullSensor" />
         <activity
             android:name=".SignupActivity"
             android:screenOrientation="fullSensor" />

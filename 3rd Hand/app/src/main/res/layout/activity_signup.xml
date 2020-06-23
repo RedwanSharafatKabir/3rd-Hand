@@ -75,18 +75,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <Spinner
-                        android:id="@+id/spinnerCountriesID"
+<!--                    <Spinner-->
+<!--                        android:id="@+id/spinnerCountriesID"-->
+<!--                        android:layout_width="200dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_marginBottom="5dp"/>-->
+                    <TextView
+                        android:id="@+id/bdCountryCodeID"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginBottom="5dp"/>
+                        android:text="Bangladesh  +88"
+                        android:textSize="25sp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/sfc_artoonist_hand"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <EditText
+                        <com.santalu.maskedittext.MaskEditText
                             android:id="@+id/signupPhoneID"
                             android:hint=" phone number"
                             android:layout_width="match_parent"
@@ -94,7 +106,8 @@
                             android:inputType="number"
                             android:textColor="#000000"
                             android:textColorHint="#000000"
-                            android:layout_marginBottom="5dp" />
+                            android:layout_marginBottom="5dp"
+                            app:met_mask="###########"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 

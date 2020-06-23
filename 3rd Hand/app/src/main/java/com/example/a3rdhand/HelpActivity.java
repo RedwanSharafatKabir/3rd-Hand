@@ -2,11 +2,12 @@ package com.example.a3rdhand;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.fragment.app.DialogFragment;
 
 public class HelpActivity extends DialogFragment implements View.OnClickListener {
 

@@ -2,13 +2,15 @@ package com.example.a3rdhand;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,13 +20,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.santalu.maskedittext.MaskEditText;
 
 public class ProfileActivity extends DialogFragment implements View.OnClickListener{
 
+    MaskEditText NIDnumberText;
     DatabaseReference databaseReference;
-    TextView userPhoneNumberText, usernameText, regionText, NIDnumberText, emailText;
+    EditText usernameText;
+    TextView userPhoneNumberText, regionText, emailText;
     Button close;
     ImageView profilePic;
+    String username, userphone, usercountry, useremail, usernid;
 
     @Nullable
     @Override
@@ -71,6 +77,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         userPhoneNumberText.setText(" " + dataSnapshot.getValue(String.class));
+                        userphone = dataSnapshot.getValue(String.class);
                     }
 
                     @Override
@@ -81,7 +88,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                 ref2.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        usernameText.setText(" " + dataSnapshot.getValue(String.class));
+                        usernameText.setText(dataSnapshot.getValue(String.class));
                     }
 
                     @Override
@@ -93,18 +100,19 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         regionText.setText(" " + dataSnapshot.getValue(String.class));
+                        usercountry = dataSnapshot.getValue(String.class);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
 
-                DatabaseReference ref4 = databaseReference.child(user.getDisplayName()).child("NID");
+                DatabaseReference ref4 = databaseReference.child(user.getDisplayName()).child("nid");
                 ref4.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String str = Long.toString(dataSnapshot.getValue(Long.class));
-                        NIDnumberText.setText(" NID: " + str);
+//                        String str = Long.toString(dataSnapshot.getValue(Long.class));
+                        NIDnumberText.setText(dataSnapshot.getValue(String.class));
                     }
 
                     @Override
@@ -116,6 +124,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         emailText.setText(" " + dataSnapshot.getValue(String.class));
+                        useremail = dataSnapshot.getValue(String.class);
                     }
 
                     @Override
@@ -128,7 +137,18 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.closeProfileID){
+            username = usernameText.getText().toString();
+            usernid = NIDnumberText.getRawText();
+            storeMethod(useremail, username, userphone, usercountry, usernid);
             getDialog().dismiss();
         }
+    }
+
+    public void storeMethod(String email, String username, String phone,
+                            String country, String nid){
+
+        String Key_User_Info = phone;
+        StoreUserData storeUserData = new StoreUserData(email, username, phone, country, nid);
+        databaseReference.child(Key_User_Info).setValue(storeUserData);
     }
 }

@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.firebase:geofire-android:3.0.0'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.github.glomadrian:MaterialAnimatedSwitch:1.1@aar'
+    implementation 'com.github.santalu:mask-edittext:1.0.2'
 //    implementation 'com.github.kmenager:material-animated-switch:1.2.2'
 //    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 //    implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
