@@ -16,15 +16,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="20dp"
-            android:paddingTop="50dp"
-            android:paddingBottom="30dp">
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
 
             <ImageView
                 android:id="@+id/profileActivityPicID"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:src="@drawable/ic_face_black_24dp"
                 android:background="@drawable/white_rectangle_shape"
@@ -42,20 +41,20 @@
                 <EditText
                     android:id="@+id/profileActivityNameID"
                     android:layout_width="match_parent"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     android:fontFamily="serif"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
                     android:drawableLeft="@drawable/one_person_username"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="center"
                     android:inputType="text"/>
 
                 <TextView
                     android:id="@+id/profileActivityEmailID"
                     android:layout_width="match_parent"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     android:fontFamily="serif"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
@@ -67,7 +66,7 @@
                 <TextView
                     android:id="@+id/profileActivityPhoneID"
                     android:layout_width="match_parent"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     android:fontFamily="serif"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
@@ -87,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:text=" NID: "
                         android:textColor="#000000"
-                        android:textSize="25sp"
+                        android:textSize="22sp"
                         android:fontFamily="serif"
                         android:textStyle="bold"
                         android:drawableLeft="@drawable/ic_security_black_24dp"
@@ -97,7 +96,7 @@
                     <com.santalu.maskedittext.MaskEditText
                         android:id="@+id/profileActivityNIDnumberID"
                         android:layout_width="match_parent"
-                        android:textSize="25sp"
+                        android:textSize="22sp"
                         android:fontFamily="serif"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
@@ -109,7 +108,7 @@
                 <TextView
                     android:id="@+id/profileActivityRegionID"
                     android:layout_width="match_parent"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     android:fontFamily="serif"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
@@ -129,7 +128,7 @@
                 android:textColor="#12D86B"
                 android:textStyle="bold"
                 android:layout_gravity="center|bottom"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:background="@android:color/transparent"/>
 

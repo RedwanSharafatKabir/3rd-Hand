@@ -126,7 +126,7 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
                         ref8.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                lane.setText(" Road / Lane: " + dataSnapshot.getValue(String.class));}
+                                lane.setText(" Block & Road: " + dataSnapshot.getValue(String.class));}
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });

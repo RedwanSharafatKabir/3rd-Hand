@@ -88,7 +88,7 @@
                     android:id="@+id/laneNumberID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="  Road and Lane name / no."
+                    android:hint="  Block and Road name / no."
                     android:inputType="text"
                     android:textColor="#000000"
                     android:textColorHint="#333333"
@@ -130,31 +130,41 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/leftEquipmentSaveButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/button_background"
-                android:text="Save"
-                android:textColor="#ffffff"
-                android:textAlignment="center"
-                android:textSize="20dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center|bottom"
+                android:paddingTop="30dp"
+                android:paddingBottom="20dp"
+                android:layout_gravity="bottom">
 
-            <Button
-                android:id="@+id/cancelID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cancel"
-                android:textSize="17dp"
-                android:textColor="#12D86B"
-                android:textStyle="bold"
-                android:layout_gravity="end|center|bottom"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:clickable="true"
-                android:background="@android:color/transparent"/>
+                <Button
+                    android:id="@+id/cancelID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:textSize="17dp"
+                    android:textColor="#12D86B"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:clickable="true"
+                    android:background="@android:color/transparent"/>
+
+                <Button
+                    android:id="@+id/leftEquipmentSaveButtonID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_background"
+                    android:text="Save"
+                    android:textColor="#ffffff"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

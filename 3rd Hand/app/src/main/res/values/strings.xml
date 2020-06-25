@@ -28,9 +28,8 @@
     <string name="feedback">Feedback</string>
     <string name="about">About</string>
 
-    <string name="allow_location">Go to settings > location >
-        App permission > Enable location permission for this app.</string>
-
     <string name="rem">Enter phone number from first 3 digits country code past.\nFormat: +880 1234567890</string>
+
+    <string name="not_available">Must apply for at least one service, Go to > menuBar > Actions > choose any one action from 3</string>
 
 </resources>

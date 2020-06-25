@@ -1,9 +1,11 @@
 package com.example.a3rdhand;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -14,9 +16,11 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -44,6 +48,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -77,6 +82,8 @@ public class MapFragmentClass extends Fragment implements
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigation;
     View v;
+    Location currentLocation;
+    private static final int REQUEST_CODE = 101;
 
     public MapFragmentClass() {
         equipmentAgentLongitude_latitude_list = new Equipment_Agent_Longitude_Latitude_List();
@@ -158,7 +165,7 @@ public class MapFragmentClass extends Fragment implements
                 init();
             }
             mGoogleMap.setMyLocationEnabled(true);
-        }catch(Exception e){alertDialogMethod();}
+        }catch(Exception e){getDeviceLocation();}
     }
 
     private void init() {
@@ -198,32 +205,49 @@ public class MapFragmentClass extends Fragment implements
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: get current device location");
         mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        try {
-            if (locationPermissionGranted) {
-                Task location = mfusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            Log.d(TAG, "onComplete: location found");
-                            Location currentLocation = (Location) task.getResult();
 
-                            DevicelatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                            Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude + ", lng: " + DevicelatLng.longitude);
-                            mGoogleMap.addMarker(new MarkerOptions().position(DevicelatLng).title(username)
-                                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.my_location)));
-                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(DevicelatLng));
-                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
-                            getCustomerPackageLocation();
-                        } else {
-                            Log.d(TAG, "onComplete: current location null!");
-                            Snackbar.make(v, "Cannot load map", Snackbar.LENGTH_LONG).show();
-                        }
+        if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+            return;
+        }
+
+        try {
+            Task task = mfusedLocationProviderClient.getLastLocation();
+            task.addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(@NonNull Location location) {
+                    if (location != null) {
+                        Log.d(TAG, "onComplete: location found");
+                        currentLocation = location;
+
+                        DevicelatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude + ", lng: " + DevicelatLng.longitude);
+                        mGoogleMap.addMarker(new MarkerOptions().position(DevicelatLng).title(username)
+                                .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.my_location)));
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(DevicelatLng));
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
+                        getCustomerPackageLocation();
+                    } else {
+                        Log.d(TAG, "onComplete: current location null!");
+                        Snackbar.make(v, "Cannot load map", Snackbar.LENGTH_LONG).show();
                     }
-                });
-            }
+                }
+            });
+
         } catch (SecurityException e) {
             Log.d(TAG, "getDeviceLocation: SecurityException" + e.getMessage());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch(requestCode){
+            case REQUEST_CODE:
+                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    getDeviceLocation();
+                }
+                break;
         }
     }
 
@@ -314,7 +338,9 @@ public class MapFragmentClass extends Fragment implements
                                                 if (markertitle.equals(username)) {
                                                     Toast.makeText(getActivity(), markertitle, Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Toast.makeText(getActivity(), "Not available", Toast.LENGTH_SHORT).show();
+                                                    Toast t = Toast.makeText(getActivity(), R.string.not_available, Toast.LENGTH_SHORT);
+                                                    t.setGravity(Gravity.CENTER, 0,0);
+                                                    t.show();
                                                 }
                                             } catch (Exception e) {}
                                             return false;
@@ -333,27 +359,6 @@ public class MapFragmentClass extends Fragment implements
                 });
             }
         }
-    }
-
-    public void alertDialogMethod(){
-        AlertDialog.Builder alertDialogBuilder;
-
-        alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
-        alertDialogBuilder.setTitle("Allow GPS !");
-        alertDialogBuilder.setMessage(R.string.allow_location);
-        alertDialogBuilder.setIcon(R.drawable.allow_gps);
-        alertDialogBuilder.setCancelable(false);
-
-        alertDialogBuilder.setNegativeButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 
     @Override

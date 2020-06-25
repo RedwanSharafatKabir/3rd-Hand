@@ -39,19 +39,23 @@ public class StartScreen extends AppCompatActivity implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View v) {
+    protected void onStart() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        rememberMeMethod();
+
+        if (firebaseUser != null && !passedString.isEmpty()) {
+            finish();
+            Intent it = new Intent(StartScreen.this, MainActivity.class);
+            startActivity(it);
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onClick(View v) {
         if(v.getId()==R.id.signinPageID){
-            rememberMeMethod();
-            if (firebaseUser != null && !passedString.isEmpty()) {
-                finish();
-                Intent it = new Intent(StartScreen.this, MainActivity.class);
-                startActivity(it);
-            }
-            else if(firebaseUser == null || passedString.isEmpty()){
                 SigninActivity signinActivity = new SigninActivity();
                 signinActivity.show(getSupportFragmentManager(), "Sample dialog");
-            }
         }
 
         if(v.getId()==R.id.signupPageID){
