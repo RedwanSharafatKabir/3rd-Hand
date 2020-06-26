@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialogBuilder;
-
         alertDialogBuilder = new AlertDialog.Builder(this);
 
         alertDialogBuilder.setTitle("EXIT !");

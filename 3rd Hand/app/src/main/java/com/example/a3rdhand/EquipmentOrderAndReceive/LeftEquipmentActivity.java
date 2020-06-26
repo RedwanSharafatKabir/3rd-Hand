@@ -30,7 +30,7 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
     Button save, cancelButton;
     Spinner eqpType;
     DatabaseReference databaseReference;
-    String userPhoneNumber, username;
+    String userPhoneNumber, username, location_Thing;
 
     @Nullable
     @Override
@@ -105,11 +105,87 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        if (dialog != null)
-        {
+        if (dialog != null){
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
+        }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            if (user.getDisplayName() != null) {
+                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
+                        .child(user.getDisplayName()).child("phone");
+                ref1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        userPhoneNumber = dataSnapshot.getValue(String.class);
+                        DatabaseReference ref2 = databaseReference.child(userPhoneNumber).child("locationThing");
+                        ref2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                location_Thing = dataSnapshot.getValue(String.class);
+                                try {
+                                    if (!location_Thing.isEmpty()) {
+                                        autoCompleteTextView.setText(location_Thing);
+                                        DatabaseReference ref3 = databaseReference.child(userPhoneNumber).child("building_string");
+                                        ref3.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                building.setText(dataSnapshot.getValue(String.class));}
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                                        });
+                                        DatabaseReference ref4 = databaseReference.child(userPhoneNumber).child("equipment_name_string");
+                                        ref4.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                eqpName.setText(dataSnapshot.getValue(String.class));}
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                                        });
+                                        DatabaseReference ref6 = databaseReference.child(userPhoneNumber).child("flat_string");
+                                        ref6.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                flat.setText(dataSnapshot.getValue(String.class));}
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                                        });
+                                        DatabaseReference ref7 = databaseReference.child(userPhoneNumber).child("floor_string");
+                                        ref7.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                floor.setText(dataSnapshot.getValue(String.class));}
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                                        });
+                                        DatabaseReference ref8 = databaseReference.child(userPhoneNumber).child("lane_string");
+                                        ref8.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                lane.setText(dataSnapshot.getValue(String.class));}
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                                        });
+                                    }
+                                } catch(Exception e){
+                                    Toast t = Toast.makeText(getActivity(),
+                                            "Create record for instant package courier service.", Toast.LENGTH_LONG);
+                                    t.setGravity(Gravity.CENTER, 0, 0);
+                                    t.show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+            }
         }
     }
 

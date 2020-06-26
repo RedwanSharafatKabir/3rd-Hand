@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnClickListener {
 
-    TextView eqpName, lane, building, floor, flat, locationName, eqpType;
-    Button closeButton;
-    String userPhoneNumber;
+    TextView eqpName, building, locationName;
+    Button closeButton, findAgent, editRecord;
+    String userPhone_Number, eqpNameStr, laneStr, buildingStr, floorStr, flatStr, locationNameStr, eqpTypeStr;
     DatabaseReference databaseReference;
 
     @Nullable
@@ -34,16 +36,16 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
 
         getDialog().setCanceledOnTouchOutside(false);
 
-        eqpName = v.findViewById(R.id.equipmentNameTextID);
-        lane = v.findViewById(R.id.laneNumberTextID);
+        eqpName = v.findViewById(R.id.equipmentNameAndTypeTextID);
         building = v.findViewById(R.id.buildingNumberTextID);
-        floor = v.findViewById(R.id.floorTextID);
-        flat = v.findViewById(R.id.flatTextID);
         locationName = v.findViewById(R.id.customerAddressTextID);
-        eqpType = v.findViewById(R.id.equipmentTypeTextID);
 
         closeButton = v.findViewById(R.id.closeID);
         closeButton.setOnClickListener(this);
+        findAgent = v.findViewById(R.id.findPackageServiceAgentID);
+        findAgent.setOnClickListener(this);
+        editRecord = v.findViewById(R.id.editRecordID);
+        editRecord.setOnClickListener(this);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Left Equipment List Record of All Users");
         checkMethod();
@@ -73,60 +75,64 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
                 ref1.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        userPhoneNumber = dataSnapshot.getValue(String.class);
-                        DatabaseReference ref2 = databaseReference.child(userPhoneNumber).child("locationThing");
+                        userPhone_Number = dataSnapshot.getValue(String.class);
+                        DatabaseReference ref2 = databaseReference.child(userPhone_Number).child("locationThing");
                         ref2.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                locationName.setText(" Location: " + dataSnapshot.getValue(String.class));}
+                                locationNameStr = dataSnapshot.getValue(String.class);}
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
-                        DatabaseReference ref3 = databaseReference.child(userPhoneNumber).child("building_string");
+                        DatabaseReference ref3 = databaseReference.child(userPhone_Number).child("building_string");
                         ref3.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                building.setText(" Apartment: " + dataSnapshot.getValue(String.class));}
+                                buildingStr = dataSnapshot.getValue(String.class);}
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
-                        DatabaseReference ref4 = databaseReference.child(userPhoneNumber).child("equipment_name_string");
+                        DatabaseReference ref4 = databaseReference.child(userPhone_Number).child("equipment_name_string");
                         ref4.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                eqpName.setText(" Name: " + dataSnapshot.getValue(String.class));}
+                                eqpNameStr = dataSnapshot.getValue(String.class);}
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
-                        DatabaseReference ref5 = databaseReference.child(userPhoneNumber).child("equipment_type_string");
+                        DatabaseReference ref5 = databaseReference.child(userPhone_Number).child("equipment_type_string");
                         ref5.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                eqpType.setText(" Type: " + dataSnapshot.getValue(String.class));}
+                                eqpTypeStr = dataSnapshot.getValue(String.class);
+                                eqpName.setText(eqpNameStr + " is a " + eqpTypeStr + " type equipment.");}
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
-                        DatabaseReference ref6 = databaseReference.child(userPhoneNumber).child("flat_string");
+                        DatabaseReference ref6 = databaseReference.child(userPhone_Number).child("flat_string");
                         ref6.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                flat.setText(" Flat: " + dataSnapshot.getValue(String.class));}
+                                flatStr = dataSnapshot.getValue(String.class);}
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
-                        DatabaseReference ref7 = databaseReference.child(userPhoneNumber).child("floor_string");
+                        DatabaseReference ref7 = databaseReference.child(userPhone_Number).child("floor_string");
                         ref7.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                floor.setText(" Floor: " + dataSnapshot.getValue(String.class));}
+                                floorStr = dataSnapshot.getValue(String.class);
+                                building.setText("Apartment: " + buildingStr
+                                        + ", Floor: " + floorStr  + ", Flat: " + flatStr);}
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
-                        DatabaseReference ref8 = databaseReference.child(userPhoneNumber).child("lane_string");
+                        DatabaseReference ref8 = databaseReference.child(userPhone_Number).child("lane_string");
                         ref8.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                lane.setText(" Block & Road: " + dataSnapshot.getValue(String.class));}
+                                laneStr = dataSnapshot.getValue(String.class);
+                                locationName.setText("Located in " + locationNameStr + ", Block / Road: " + laneStr);}
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
@@ -143,6 +149,61 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
     public void onClick(View v) {
         if(v.getId()==R.id.closeID){
             getDialog().dismiss();
+        }
+
+        if(v.getId()==R.id.editRecordID){
+            LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
+            leftEquipmentActivity.show(getFragmentManager(), "Sample Dialog");
+
+            getDialog().dismiss();
+        }
+
+//        if(v.getId()==R.id.deleteRecordID){
+//            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+//            alertDialog.setMessage("Are you sure you want to delete your package curier delivery record ?");
+//            alertDialog.setIcon(R.drawable.exit);
+//            alertDialog.setCancelable(false);
+//            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                    if (user != null) {
+//                        if(user.getEmail()!=null){}
+//                        if (user.getDisplayName() != null) {
+//                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
+//                                    .child(user.getDisplayName()).child("phone");
+//                            ref1.addValueEventListener(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(DataSnapshot dataSnapshot) {
+//                                    userPhone_Number = dataSnapshot.getValue(String.class);
+//                                    try {
+//                                        databaseReference.child(userPhone_Number).removeValue();
+//
+//                                        getDialog().dismiss();
+//                                    } catch(Exception e){
+//                                        getDialog().dismiss();
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {}
+//                            });
+//                        }
+//                    }
+//                }
+//            });
+//
+//            alertDialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.cancel();
+//                }
+//            });
+//            AlertDialog alertDialogBuilder = alertDialog.create();
+//            alertDialogBuilder.show();
+//        }
+
+        if(v.getId()==R.id.findPackageServiceAgentID){
         }
     }
 }
