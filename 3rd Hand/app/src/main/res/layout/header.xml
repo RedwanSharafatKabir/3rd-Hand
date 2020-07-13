@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:paddingLeft="30dp"
+    android:paddingLeft="15dp"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:gravity="left"
@@ -24,39 +24,39 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginLeft="10dp"
-        android:layout_gravity="center|left">
+        android:layout_gravity="center|left"
+        android:layout_marginRight="10dp">
         <TextView
             android:id="@+id/profileNameID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:textSize="30dp"
+            android:textSize="25sp"
             android:textAllCaps="false"
-            android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/android_insomnia_regular"
+            android:fontFamily="@font/sfc_artoonist_hand"
             android:layout_gravity="center|left" />
 
         <TextView
             android:id="@+id/profileEmailID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
-            android:textSize="20dp"
+            android:text="emailXXX@example.com"
+            android:textSize="14sp"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/android_insomnia_regular"
+            android:fontFamily="serif"
             android:layout_gravity="center|left"/>
 
         <TextView
             android:id="@+id/profilePhoneID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone"
-            android:textSize="20dp"
+            android:text="phone number"
+            android:textSize="14sp"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/android_insomnia_regular"
+            android:fontFamily="serif"
             android:layout_gravity="center|left"/>
     </LinearLayout>
 

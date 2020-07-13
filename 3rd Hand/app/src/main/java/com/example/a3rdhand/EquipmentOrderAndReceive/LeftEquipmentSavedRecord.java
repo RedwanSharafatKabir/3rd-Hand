@@ -6,14 +6,20 @@ import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.a3rdhand.MainActivity;
 import com.example.a3rdhand.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,11 +28,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnClickListener {
 
     TextView eqpName, building, locationName;
-    Button closeButton, findAgent, editRecord;
+    Button closeButton, findAgent, editRecord, deleteRecord;
     String userPhone_Number, eqpNameStr, laneStr, buildingStr, floorStr, flatStr, locationNameStr, eqpTypeStr;
+    String passed_String = "2580";
     DatabaseReference databaseReference;
 
     @Nullable
@@ -46,6 +57,8 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
         findAgent.setOnClickListener(this);
         editRecord = v.findViewById(R.id.editRecordID);
         editRecord.setOnClickListener(this);
+        deleteRecord =v.findViewById(R.id.deleteRecordID);
+        deleteRecord.setOnClickListener(this);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Left Equipment List Record of All Users");
         checkMethod();
@@ -152,56 +165,73 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
         }
 
         if(v.getId()==R.id.editRecordID){
+            try {
+                FileOutputStream fileOutputStream = getContext()
+                        .openFileOutput("random_Info.txt", Context.MODE_PRIVATE);
+                fileOutputStream.write(passed_String.getBytes());
+                fileOutputStream.close();
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
             LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
             leftEquipmentActivity.show(getFragmentManager(), "Sample Dialog");
 
             getDialog().dismiss();
         }
 
-//        if(v.getId()==R.id.deleteRecordID){
-//            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-//            alertDialog.setMessage("Are you sure you want to delete your package curier delivery record ?");
-//            alertDialog.setIcon(R.drawable.exit);
-//            alertDialog.setCancelable(false);
-//            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                    if (user != null) {
-//                        if(user.getEmail()!=null){}
-//                        if (user.getDisplayName() != null) {
-//                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
-//                                    .child(user.getDisplayName()).child("phone");
-//                            ref1.addValueEventListener(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(DataSnapshot dataSnapshot) {
-//                                    userPhone_Number = dataSnapshot.getValue(String.class);
-//                                    try {
-//                                        databaseReference.child(userPhone_Number).removeValue();
-//
-//                                        getDialog().dismiss();
-//                                    } catch(Exception e){
-//                                        getDialog().dismiss();
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError databaseError) {}
-//                            });
-//                        }
-//                    }
-//                }
-//            });
-//
-//            alertDialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.cancel();
-//                }
-//            });
-//            AlertDialog alertDialogBuilder = alertDialog.create();
-//            alertDialogBuilder.show();
-//        }
+        if(v.getId()==R.id.deleteRecordID){
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+            alertDialog.setMessage("Are you sure you want to delete your package curier delivery record ?");
+            alertDialog.setIcon(R.drawable.exit);
+            alertDialog.setCancelable(false);
+            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        if(user.getEmail()!=null){}
+                        if (user.getDisplayName() != null) {
+                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
+                                    .child(user.getDisplayName()).child("phone");
+                            ref1.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    userPhone_Number = dataSnapshot.getValue(String.class);
+                                    try {
+                                        databaseReference.child(userPhone_Number).removeValue();
+
+                                        Toast t = Toast.makeText(getActivity(), "Record deleted", Toast.LENGTH_LONG);
+                                        t.setGravity(Gravity.CENTER, 0, 0);
+                                        t.show();
+
+                                        getDialog().dismiss();
+                                    } catch(Exception e){
+                                        getDialog().dismiss();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {}
+                            });
+                        }
+                    }
+                }
+            });
+
+            alertDialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog alertDialogBuilder = alertDialog.create();
+            alertDialogBuilder.show();
+        }
 
         if(v.getId()==R.id.findPackageServiceAgentID){
         }

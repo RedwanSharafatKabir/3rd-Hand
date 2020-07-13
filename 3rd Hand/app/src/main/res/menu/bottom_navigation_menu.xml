@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_live_help_black_24dp"/>
     <item
         android:id="@+id/logoutID"
-        android:title="Logout"
+        android:title="Log Out"
         android:icon="@drawable/ic_call_logout_black_24dp"/>
 
 </menu>

@@ -11,9 +11,9 @@ public class Equipment_Agent_Longitude_Latitude_List {
     LatLng mugdaBTCL = new LatLng(23.730633, 90.428779);
 
     ArrayList<String> title = new ArrayList<String>();
-    String dhanmondi_shukrabaad = "Abdullah Al Mamun";
-    String mugdaparaHospital = "Abdul Kayeum";
-    String mugdaparaBTCLoffice = "Sajedul Islam Fahim";
+    String dhanmondi_shukrabaad = "Abdul Kayeum";
+    String mugdaparaHospital = "Himel Junaed";
+    String mugdaparaBTCLoffice = "Redowan Islam Palash";
 
     public Equipment_Agent_Longitude_Latitude_List() {
         placelist.add(dhanmondi);

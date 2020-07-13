@@ -8,47 +8,49 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/menuID"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:orientation="horizontal"
-        android:background="#ffffff">
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolBarID"
-            android:outlineAmbientShadowColor="#000000"
-            android:outlineSpotShadowColor="#000000"
-            android:theme="@style/Animation.Design.BottomSheetDialog">
-            <TextView
-                android:id="@+id/MenuLayoutID"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:background="#ffffff"
-                android:text="3rd Hand"
-                android:textAllCaps="true"
-                android:gravity="center"
-                android:fontFamily="@font/android101"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:textSize="20dp"
-                android:layout_toRightOf="@+id/toolBarID"
-                android:layout_alignBaseline="@id/toolBarID"
-                android:layout_gravity="center"/>
-        </androidx.appcompat.widget.Toolbar>
-    </LinearLayout>
-
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:openDrawer="start"
         android:id="@+id/drawerID"
         android:fitsSystemWindows="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/menuID"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/toolBarID"
+                    android:outlineAmbientShadowColor="#000000"
+                    android:outlineSpotShadowColor="#000000"
+                    android:theme="@style/Animation.Design.BottomSheetDialog">
+                    <TextView
+                        android:id="@+id/MenuLayoutID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="55dp"
+                        android:background="#ffffff"
+                        android:text="3rd Hand"
+                        android:textAllCaps="true"
+                        android:gravity="center"
+                        android:fontFamily="@font/android101"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        android:textSize="20dp"
+                        android:layout_toRightOf="@+id/toolBarID"
+                        android:layout_alignBaseline="@id/toolBarID"
+                        android:layout_gravity="center"/>
+                </androidx.appcompat.widget.Toolbar>
+            </LinearLayout>
+
             <fragment
                 android:id="@+id/fragmentID"
                 android:name="com.example.a3rdhand.MapFragmentClass"
@@ -57,16 +59,14 @@
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
-            android:layout_width="320dp"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:id="@+id/navigationViewID"
             app:menu="@menu/menu_item"
             app:headerLayout="@layout/header"
-            app:itemBackground="@color/c4"
             android:layout_gravity="start"
-            app:itemTextColor="#000000"
             app:itemTextAppearance="@style/menu_text_style"
-            android:theme="@style/NavigationTheme"/>
+            android:theme="@style/navigation_theme"/>
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

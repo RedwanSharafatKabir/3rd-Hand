@@ -34,7 +34,7 @@ public class Requesting_agent_loading_tab extends AppCompatDialogFragment implem
 
         Bundle mArgs = getArguments();
         markertitle = mArgs.getString("markertitlePass_key");
-        requestingAgentNameText.setText("Requesting agent: " + markertitle + " .........");
+        requestingAgentNameText.setText("Requesting agent: " + markertitle);
 
         return view;
     }

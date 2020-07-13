@@ -27,6 +27,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,9 +70,10 @@ public class MapFragmentClass extends Fragment implements
         OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener{
 
     ImageView imageView;
-    EditText inputSearch;
+    AutoCompleteTextView inputSearch;
     float zoomLevel;
-    String username, location_Thing, userPhoneNumber,tempPackage;
+    String username, location_Thing, userPhoneNumber, tempPackage, searchString;
+    String locationArrayString[];
     int j = 0, i = 0;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
@@ -101,7 +105,13 @@ public class MapFragmentClass extends Fragment implements
 
         imageView = v.findViewById(R.id.getDeviceID);
         imageView.setOnClickListener(this);
+
         inputSearch = v.findViewById(R.id.searchMapID);
+        locationArrayString = getResources().getStringArray(R.array.location_array);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, locationArrayString);
+        inputSearch.setThreshold(1);
+        inputSearch.setAdapter(adapter);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -184,22 +194,27 @@ public class MapFragmentClass extends Fragment implements
 
     private void geoLocate() {
         Log.d(TAG, "geoLocate: geoLocating");
-        String searchString = inputSearch.getText().toString();
-        Geocoder geocoder = new Geocoder(getActivity());
-        List<Address> list = new ArrayList<>();
-        try {
-            list = geocoder.getFromLocationName(searchString, 1);
-        } catch (IOException e) {
-            Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
-        }
-        if (list.size() > 0) {
-            Address address = list.get(0);
-            Log.d(TAG, "geoLocate: found a location" + address.toString());
+        inputSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                searchString = inputSearch.getText().toString();
+                Geocoder geocoder = new Geocoder(getActivity());
+                List<Address> list = new ArrayList<>();
+                try {
+                    list = geocoder.getFromLocationName(searchString, 1);
+                } catch (IOException e) {
+                    Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
+                }
+                if (list.size() > 0) {
+                    Address address = list.get(0);
+                    Log.d(TAG, "geoLocate: found a location" + address.toString());
 
-            LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng));
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
-        }
+                    LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng));
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
+                }
+            }
+        });
     }
 
     private void getDeviceLocation() {
@@ -223,8 +238,8 @@ public class MapFragmentClass extends Fragment implements
 
                         DevicelatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                         Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude + ", lng: " + DevicelatLng.longitude);
-                        mGoogleMap.addMarker(new MarkerOptions().position(DevicelatLng).title(username)
-                                .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.my_location)));
+//                        mGoogleMap.addMarker(new MarkerOptions().position(DevicelatLng).title(username)
+//                                .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.my_location)));
                         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(DevicelatLng));
                         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
                         getCustomerPackageLocation();

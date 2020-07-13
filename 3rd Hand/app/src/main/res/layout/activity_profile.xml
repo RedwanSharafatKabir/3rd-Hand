@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     tools:context=".ProfileActivity"
     android:layout_gravity="center"
-    android:gravity="center">
+    android:gravity="center"
+    android:paddingRight="50dp"
+    android:paddingLeft="50dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,7 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
 
             <ImageView
                 android:id="@+id/profileActivityPicID"
@@ -32,44 +37,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
 
-                <EditText
+                <TextView
                     android:id="@+id/profileActivityNameID"
                     android:layout_width="match_parent"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     android:fontFamily="serif"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
                     android:drawableLeft="@drawable/one_person_username"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="center"
                     android:inputType="text"/>
 
                 <TextView
                     android:id="@+id/profileActivityEmailID"
                     android:layout_width="match_parent"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     android:fontFamily="serif"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
                     android:layout_marginTop="5dp"
-                    android:drawableLeft="@drawable/ic_email_black_24dp"
-                    android:layout_gravity="center"/>
+                    android:drawableLeft="@drawable/ic_email_black_24dp"/>
 
                 <TextView
                     android:id="@+id/profileActivityPhoneID"
                     android:layout_width="match_parent"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     android:fontFamily="serif"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
                     android:drawableLeft="@drawable/ic_phone_black_24dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center" />
+                    android:layout_marginTop="5dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -81,17 +85,16 @@
                         android:layout_height="wrap_content"
                         android:text=" NID: "
                         android:textColor="#000000"
-                        android:textSize="22sp"
+                        android:textSize="18sp"
                         android:fontFamily="serif"
                         android:textStyle="bold"
                         android:drawableLeft="@drawable/ic_security_black_24dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"/>
+                        android:layout_gravity="center"/>
 
                     <com.santalu.maskedittext.MaskEditText
                         android:id="@+id/profileActivityNIDnumberID"
-                        android:layout_width="match_parent"
-                        android:textSize="22sp"
+                        android:layout_width="wrap_content"
+                        android:textSize="18sp"
                         android:fontFamily="serif"
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
@@ -103,13 +106,12 @@
                 <TextView
                     android:id="@+id/profileActivityRegionID"
                     android:layout_width="match_parent"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     android:fontFamily="serif"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
                     android:drawableLeft="@drawable/ic_region_black_24dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center"/>
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
 
@@ -124,7 +126,9 @@
                 android:layout_gravity="center|bottom"
                 android:layout_marginTop="10dp"
                 android:clickable="true"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                android:fontFamily="serif"
+                android:textAllCaps="false"/>
 
         </LinearLayout>
 

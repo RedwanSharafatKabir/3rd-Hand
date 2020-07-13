@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:title="Actions">
+    <item android:title="Actions">
         <menu>
-            <item
-                android:id="@+id/requestShopID"
-                android:title="Request for shopping"
-                android:icon="@drawable/ic_add_shopping_cart_black_24dp" />
-            <item
-                android:id="@+id/requestMedicalID"
-                android:title="Instant medic"
-                android:icon="@drawable/ic_local_hospital_black_24dp" />
-            <item
-                android:id="@+id/leftEquipmentSearchID"
-                android:title="Package delivery"
-                android:icon="@drawable/ic_widgets_black_24dp" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/requestShopID"
+                    android:title="Request for shopping"
+                    android:icon="@drawable/ic_add_shopping_cart_black_24dp" />
+                <item
+                    android:id="@+id/requestMedicalID"
+                    android:title="Instant medic"
+                    android:icon="@drawable/ic_local_hospital_black_24dp" />
+                <item
+                    android:id="@+id/leftEquipmentSearchID"
+                    android:title="Package delivery"
+                    android:icon="@drawable/ic_widgets_black_24dp" />
+            </group>
         </menu>
     </item>
 
-    <item
-        android:title="App">
+    <item android:title="App">
         <menu>
-            <item
-                android:id="@+id/paymentMethodID"
-                android:title="Payment method"
-                android:icon="@drawable/ic_payment_black_24dp" />
-            <item
-                android:id="@+id/aboutID"
-                android:title="About"
-                android:icon="@drawable/ic_about_black_24dp"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/paymentMethodID"
+                    android:title="Payment method"
+                    android:icon="@drawable/ic_payment_black_24dp" />
+                <item
+                    android:id="@+id/aboutID"
+                    android:title="About"
+                    android:icon="@drawable/ic_about_black_24dp"/>
+            </group>
         </menu>
     </item>
 
     <item
         android:title="Contact Us">
         <menu>
-            <item
-                android:id="@+id/contactID"
-                android:title="Contact with authority"
-                android:icon="@drawable/ic_contact_phone_black_24dp"/>
-            <item
-                android:id="@+id/feedbackID"
-                android:title="Feedback"
-                android:icon="@drawable/ic_feedback_black_24dp"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/contactID"
+                    android:title="Contact with authority"
+                    android:icon="@drawable/ic_contact_phone_black_24dp"/>
+                <item
+                    android:id="@+id/feedbackID"
+                    android:title="Feedback"
+                    android:icon="@drawable/ic_feedback_black_24dp"/>
+            </group>
         </menu>
     </item>
 

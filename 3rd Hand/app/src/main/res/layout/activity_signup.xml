@@ -137,18 +137,19 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="Close"
-                android:textSize="17dp"
+                android:textSize="16dp"
                 android:textColor="#12D86B"
                 android:textStyle="bold"
                 android:layout_gravity="center"
                 android:clickable="true"
                 android:background="@android:color/transparent"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp"
+                android:fontFamily="serif"/>
 
             <ImageButton
                 android:id="@+id/SignupID"
                 android:layout_width="80dp"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:clickable="true"
                 android:src="@drawable/ic_arrow_forward_black_24dp"

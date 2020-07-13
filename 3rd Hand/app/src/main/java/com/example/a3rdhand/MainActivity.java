@@ -8,13 +8,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import android.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
+
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentActivity;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.google.android.material.navigation.NavigationView;
@@ -36,9 +43,9 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    Fragment fragment;
     String userPhoneNumber, location_Thing;
     View hView;
+    boolean connected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +64,16 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         navigationView = findViewById(R.id.navigationViewID);
+        navigationView.setItemIconTintList(null);
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.requestShopID);
         hView = navigationView.getHeaderView(0);
 
         name = hView.findViewById(R.id.profileNameID);
         email = hView.findViewById(R.id.profileEmailID);
         phone = hView.findViewById(R.id.profilePhoneID);
         imageView = hView.findViewById(R.id.profileImageID);
-
-        navigationView.setItemIconTintList(null);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        fragment = new Fragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragmentID, fragment).commit();
 
         View parentLayout = findViewById(android.R.id.content);
         Snackbar.make(parentLayout, " Login successful", Snackbar.LENGTH_LONG).show();
@@ -78,73 +82,87 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void navigationDrawerOpen(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            if(user.getEmail() != null){
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User Information")
-                        .child(user.getDisplayName()).child("email");
-                ref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        email.setText(dataSnapshot.getValue(String.class));
-                    }
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            connected = true;
+        } else { connected = false; }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
-            }
+        if(connected == true) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                if (user.getEmail() != null) {
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User Information")
+                            .child(user.getDisplayName()).child("email");
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            email.setText(dataSnapshot.getValue(String.class));
+                        }
 
-            if (user.getDisplayName() != null) {
-                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
-                        .child(user.getDisplayName()).child("username");
-                ref1.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        name.setText(dataSnapshot.getValue(String.class));
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                if (user.getDisplayName() != null) {
+                    DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
+                            .child(user.getDisplayName()).child("username");
+                    ref1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            name.setText(dataSnapshot.getValue(String.class));
+                        }
 
-                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("User Information")
-                        .child(user.getDisplayName()).child("phone");
-                ref2.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        phone.setText(dataSnapshot.getValue(String.class));
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                    DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("User Information")
+                            .child(user.getDisplayName()).child("phone");
+                    ref2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            phone.setText(dataSnapshot.getValue(String.class));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
             }
         }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
 
-        if(menuItem.getItemId()==R.id.leftEquipmentSearchID){
-            checkEuipmentRequest();
+        switch (id){
+            case R.id.leftEquipmentSearchID:
+                checkEuipmentRequest();
+                return true;
+
+            case R.id.paymentMethodID:
+                PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
+                paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
+                return true;
+
+            case R.id.feedbackID:
+                FeedbackActivity feedbackActivity = new FeedbackActivity();
+                feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
+                return true;
+
+            case R.id.aboutID:
+                AboutActivity aboutActivity = new AboutActivity();
+                aboutActivity.show(getSupportFragmentManager(), "Sample dialog");
+                return true;
         }
 
-        if(menuItem.getItemId()==R.id.paymentMethodID){
-            PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
-            paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
-        }
-
-        if(menuItem.getItemId()==R.id.feedbackID){
-            FeedbackActivity feedbackActivity = new FeedbackActivity();
-            feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
-        }
-
-        if(menuItem.getItemId()==R.id.aboutID){
-            AboutActivity aboutActivity = new AboutActivity();
-            aboutActivity.show(getSupportFragmentManager(), "Sample dialog");
-        }
-
-        return false;
+        return true;
     }
 
     public void checkEuipmentRequest(){
@@ -157,27 +175,33 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         userPhoneNumber = dataSnapshot.getValue(String.class);
-                        DatabaseReference ref3 = FirebaseDatabase.getInstance()
-                                .getReference("Left Equipment List Record of All Users")
-                                .child(userPhoneNumber).child("locationThing");
-                        ref3.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                location_Thing = dataSnapshot.getValue(String.class);
-                                try {
-                                    if (!location_Thing.isEmpty()) {
-                                        LeftEquipmentSavedRecord leftEquipmentSavedRecord = new LeftEquipmentSavedRecord();
-                                        leftEquipmentSavedRecord.show(getSupportFragmentManager(), "Sample dialog");
+                        try {
+                            DatabaseReference ref3 = FirebaseDatabase.getInstance()
+                                    .getReference("Left Equipment List Record of All Users")
+                                    .child(userPhoneNumber).child("locationThing");
+                            ref3.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    location_Thing = dataSnapshot.getValue(String.class);
+                                    try {
+                                        if (!location_Thing.isEmpty()) {
+                                            LeftEquipmentSavedRecord leftEquipmentSavedRecord = new LeftEquipmentSavedRecord();
+                                            leftEquipmentSavedRecord.show(getSupportFragmentManager(), "Sample dialog");
+                                        }
+                                    } catch (Exception e) {
+                                        LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
+                                        leftEquipmentActivity.show(getSupportFragmentManager(), "Sample dialog");
                                     }
-                                }catch(Exception e){
-                                    LeftEquipmentActivity leftEquipmentActivity = new LeftEquipmentActivity();
-                                    leftEquipmentActivity.show(getSupportFragmentManager(), "Sample dialog");
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {}
-                        });
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {}
+                            });
+                        } catch (Exception e){
+                            Toast t = Toast.makeText(MainActivity.this, "Record deleted", Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER, 0, 0);
+                            t.show();
+                        }
                     }
 
                     @Override

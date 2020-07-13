@@ -3,14 +3,15 @@ package com.example.a3rdhand;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
 import android.app.Dialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,10 +25,10 @@ import com.santalu.maskedittext.MaskEditText;
 
 public class ProfileActivity extends DialogFragment implements View.OnClickListener{
 
+    boolean connected = false;
     MaskEditText NIDnumberText;
     DatabaseReference databaseReference;
-    EditText usernameText;
-    TextView userPhoneNumberText, regionText, emailText;
+    TextView userPhoneNumberText, regionText, emailText, usernameText;
     Button close;
     ImageView profilePic;
     String username, userphone, usercountry, useremail, usernid;
@@ -69,67 +70,81 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
     }
 
     public void findInfoMethod(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            if (user.getDisplayName() != null) {
-                DatabaseReference ref1 = databaseReference.child(user.getDisplayName()).child("phone");
-                ref1.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        userPhoneNumberText.setText(" " + dataSnapshot.getValue(String.class));
-                        userphone = dataSnapshot.getValue(String.class);
-                    }
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            connected = true;
+        } else { connected = false; }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+        if(connected == true) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                if (user.getDisplayName() != null) {
+                    DatabaseReference ref1 = databaseReference.child(user.getDisplayName()).child("phone");
+                    ref1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            userPhoneNumberText.setText(" " + dataSnapshot.getValue(String.class));
+                            userphone = dataSnapshot.getValue(String.class);
+                        }
 
-                DatabaseReference ref2 = databaseReference.child(user.getDisplayName()).child("username");
-                ref2.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        usernameText.setText(dataSnapshot.getValue(String.class));
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                    DatabaseReference ref2 = databaseReference.child(user.getDisplayName()).child("username");
+                    ref2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            usernameText.setText(" " + dataSnapshot.getValue(String.class));
+                            username = dataSnapshot.getValue(String.class);
+                        }
 
-                DatabaseReference ref3 = databaseReference.child(user.getDisplayName()).child("country");
-                ref3.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        regionText.setText(" " + dataSnapshot.getValue(String.class));
-                        usercountry = dataSnapshot.getValue(String.class);
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                    DatabaseReference ref3 = databaseReference.child(user.getDisplayName()).child("country");
+                    ref3.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            regionText.setText(" " + dataSnapshot.getValue(String.class));
+                            usercountry = dataSnapshot.getValue(String.class);
+                        }
 
-                DatabaseReference ref4 = databaseReference.child(user.getDisplayName()).child("nid");
-                ref4.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        String str = Long.toString(dataSnapshot.getValue(Long.class));
-                        NIDnumberText.setText(dataSnapshot.getValue(String.class));
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                    DatabaseReference ref4 = databaseReference.child(user.getDisplayName()).child("nid");
+                    ref4.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //                        String str = Long.toString(dataSnapshot.getValue(Long.class));
+                            NIDnumberText.setText(dataSnapshot.getValue(String.class));
+                        }
 
-                DatabaseReference ref5 = databaseReference.child(user.getDisplayName()).child("email");
-                ref5.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        emailText.setText(" " + dataSnapshot.getValue(String.class));
-                        useremail = dataSnapshot.getValue(String.class);
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                    DatabaseReference ref5 = databaseReference.child(user.getDisplayName()).child("email");
+                    ref5.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            emailText.setText(" " + dataSnapshot.getValue(String.class));
+                            useremail = dataSnapshot.getValue(String.class);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
             }
         }
     }
@@ -137,10 +152,20 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.closeProfileID){
-            username = usernameText.getText().toString();
-            usernid = NIDnumberText.getRawText();
-            storeMethod(useremail, username, userphone, usercountry, usernid);
-            getDialog().dismiss();
+            ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                connected = true;
+            } else {
+                connected = false;
+                getDialog().dismiss();
+            }
+
+            if(connected == true) {
+                usernid = NIDnumberText.getRawText();
+                storeMethod(useremail, username, userphone, usercountry, usernid);
+                getDialog().dismiss();
+            }
         }
     }
 
