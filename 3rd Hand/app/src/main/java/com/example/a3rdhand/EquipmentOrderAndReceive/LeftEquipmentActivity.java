@@ -41,7 +41,7 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
     EditText eqpName, lane, building, floor, flat;
     AutoCompleteTextView autoCompleteTextView;
     String locationArrayString[];
-    String locationThing, locationThingString;
+    String locationThing = "";
     Button save, cancelButton;
     Spinner eqpType;
     DatabaseReference databaseReference;
@@ -69,6 +69,14 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
                 android.R.layout.simple_list_item_1, locationArrayString);
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(adapter);
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                locationThing = autoCompleteTextView.getText().toString();
+                Toast.makeText(getActivity(), locationThing, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         save = v.findViewById(R.id.leftEquipmentSaveButtonID);
         save.setOnClickListener(this);
@@ -167,8 +175,8 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 location_Thing = dataSnapshot.getValue(String.class);
-
                                 autoCompleteTextView.setText(dataSnapshot.getValue(String.class));
+
                                 DatabaseReference ref3 = databaseReference.child(userPhoneNumber).child("building_string");
                                 ref3.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -231,90 +239,59 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
         final String building_string = building.getText().toString();
         final String floor_string = floor.getText().toString();
         final String flat_string = flat.getText().toString();
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                locationThingString = autoCompleteTextView.getText().toString();
-                Toast.makeText(getActivity(), locationThingString, Toast.LENGTH_SHORT).show();
-
-                try {
-                    FileOutputStream fileOutputStream = getContext()
-                            .openFileOutput("pass_location_Name_Info.txt", Context.MODE_PRIVATE);
-                    fileOutputStream.write(locationThingString.getBytes());
-                    fileOutputStream.close();
-                } catch (FileNotFoundException e) {e.printStackTrace();
-                } catch (IOException e) {e.printStackTrace();}
-            }
-        });
 
         if(v.getId()==R.id.cancelID){
             getDialog().dismiss();
         }
 
         if(v.getId()==R.id.leftEquipmentSaveButtonID) {
-            try {
-                FileInputStream fileInputStream = getActivity().openFileInput("pass_location_Name_Info.txt");
-                InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String recievedMessage;
-                StringBuffer stringBuffer = new StringBuffer();
 
-                while((recievedMessage=bufferedReader.readLine())!=null){
-                    stringBuffer.append(recievedMessage);
-                }
+            if(locationThing.isEmpty()){
+                autoCompleteTextView.setError("Set your left equipment's location");
+                return;
+            }
 
-                locationThing = stringBuffer.toString();
-                if(!locationThing.isEmpty()){
-                    if (equipment_name_string.isEmpty()) {
-                        eqpName.setError("enter equipment name");
-                        return;
-                    }
+            if (equipment_name_string.isEmpty()) {
+                eqpName.setError("enter equipment name");
+                return;
+            }
 
-                    if (lane_string.isEmpty()) {
-                        lane.setError("enter lane no.");
-                        return;
-                    }
+            if (lane_string.isEmpty()) {
+                lane.setError("enter lane no.");
+                return;
+            }
 
-                    if (building_string.isEmpty()) {
-                        building.setError("enter apartment no.");
-                        return;
-                    }
+            if (building_string.isEmpty()) {
+                building.setError("enter apartment no.");
+                return;
+            }
 
-                    if (floor_string.isEmpty()) {
-                        floor.setError("enter floor no.");
-                        return;
-                    }
+            if (floor_string.isEmpty()) {
+                floor.setError("enter floor no.");
+                return;
+            }
 
-                    if (flat_string.isEmpty()) {
-                        flat.setError("enter flat no.");
-                        return;
-                    }
+            if (flat_string.isEmpty()) {
+                flat.setError("enter flat no.");
+                return;
+            }
 
-                    if (equipment_type_string.equals("Equipment type")) {
-                        Toast t = Toast.makeText(getActivity(), "What type of equipment did you lose ?",
-                                Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER, 0, 0);
-                        t.show();
-                    }
+            if (equipment_type_string.equals("Equipment type")) {
+                Toast t = Toast.makeText(getActivity(), "What type of equipment did you lose ?",
+                        Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+            }
 
-                    else {
-                        storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
-                                lane_string, building_string, floor_string, flat_string, locationThing);
+            else {
+                storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
+                        lane_string, building_string, floor_string, flat_string, locationThing);
 
-                        Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER, 0, 0);
-                        t.show();
-                        getDialog().dismiss();
-                    }
-                }
-
-                if(locationThing.isEmpty()){
-                    autoCompleteTextView.setError("Set your left equipment's location");
-                    return;
-                }
-
-            } catch (FileNotFoundException e) {e.printStackTrace();
-            } catch (IOException e) {e.printStackTrace();}
+                Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+                getDialog().dismiss();
+            }
         }
     }
 

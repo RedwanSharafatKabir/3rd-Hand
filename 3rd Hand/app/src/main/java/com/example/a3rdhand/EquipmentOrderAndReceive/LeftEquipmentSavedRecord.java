@@ -8,17 +8,25 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a3rdhand.MainActivity;
+import com.example.a3rdhand.MapFragmentClass;
 import com.example.a3rdhand.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,11 +39,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnClickListener {
 
     TextView eqpName, building, locationName;
-    Button closeButton, findAgent, editRecord, deleteRecord;
+    Button closeButton, editRecord, deleteRecord;
     String userPhone_Number, eqpNameStr, laneStr, buildingStr, floorStr, flatStr, locationNameStr, eqpTypeStr;
     String passed_String = "2580";
     DatabaseReference databaseReference;
@@ -53,8 +63,6 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
 
         closeButton = v.findViewById(R.id.closeID);
         closeButton.setOnClickListener(this);
-        findAgent = v.findViewById(R.id.findPackageServiceAgentID);
-        findAgent.setOnClickListener(this);
         editRecord = v.findViewById(R.id.editRecordID);
         editRecord.setOnClickListener(this);
         deleteRecord =v.findViewById(R.id.deleteRecordID);
@@ -231,9 +239,6 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
             });
             AlertDialog alertDialogBuilder = alertDialog.create();
             alertDialogBuilder.show();
-        }
-
-        if(v.getId()==R.id.findPackageServiceAgentID){
         }
     }
 }

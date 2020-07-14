@@ -47,7 +47,6 @@
                 <TextView
                     android:id="@+id/equipmentNameAndTypeTextID"
                     android:layout_width="wrap_content"
-                    android:text="ITEE book is "
                     android:textSize="25sp"
                     android:fontFamily="@font/sfc_artoonist_hand"
                     android:textStyle="bold"
@@ -60,7 +59,6 @@
                 <TextView
                     android:id="@+id/customerAddressTextID"
                     android:layout_width="wrap_content"
-                    android:text="Flat"
                     android:textSize="25sp"
                     android:fontFamily="@font/sfc_artoonist_hand"
                     android:textStyle="bold"
@@ -73,7 +71,6 @@
                 <TextView
                     android:id="@+id/buildingNumberTextID"
                     android:layout_width="wrap_content"
-                    android:text="Flat"
                     android:textSize="25sp"
                     android:fontFamily="@font/sfc_artoonist_hand"
                     android:textStyle="bold"
@@ -90,49 +87,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="60dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp">
-
-                <Button
-                    android:id="@+id/findPackageServiceAgentID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Find service agents"
-                    android:textSize="18sp"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:background="@drawable/button_background"
-                    android:textAllCaps="false"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:fontFamily="serif"/>
-
-                <Button
-                    android:id="@+id/closeID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Not now"
-                    android:textSize="18sp"
-                    android:textColor="#12D86B"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:background="@android:color/transparent"
-                    android:textAllCaps="false"
-                    android:fontFamily="serif"
-                    android:layout_marginLeft="15dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp">
 
@@ -140,15 +95,17 @@
                     android:id="@+id/editRecordID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit"
+                    android:text=" Edit"
                     android:textSize="18sp"
-                    android:textColor="#12D86B"
+                    android:textColor="#ffffff"
                     android:textStyle="bold"
                     android:layout_gravity="center"
-                    android:clickable="true"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/edit_button_design"
                     android:textAllCaps="false"
-                    android:fontFamily="serif"/>
+                    android:fontFamily="serif"
+                    android:drawableLeft="@drawable/ic_edit_black_24dp"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -158,9 +115,10 @@
                     android:textColor="#000000"
                     android:textStyle="bold"
                     android:layout_gravity="center"
-                    android:clickable="true"
                     android:background="@android:color/transparent"
-                    android:fontFamily="serif"/>
+                    android:fontFamily="serif"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"/>
 
                 <Button
                     android:id="@+id/deleteRecordID"
@@ -171,11 +129,37 @@
                     android:textColor="#FF0E0E"
                     android:textStyle="bold"
                     android:layout_gravity="center"
-                    android:clickable="true"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/delete_button_design"
                     android:textAllCaps="false"
                     android:fontFamily="serif"
-                    android:layout_marginLeft="20dp"/>
+                    android:drawableLeft="@drawable/ic_delete_forever_black_24dp"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:id="@+id/closeID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Not now"
+                    android:textSize="18sp"
+                    android:textColor="#0EBD5D"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:textAllCaps="false"
+                    android:fontFamily="serif"/>
 
             </LinearLayout>
 

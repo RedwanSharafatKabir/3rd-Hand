@@ -30,6 +30,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,13 +63,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapFragmentClass extends Fragment implements
         OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener{
 
+    Button findAgent;
     ImageView imageView;
     AutoCompleteTextView inputSearch;
     float zoomLevel;
@@ -86,6 +93,7 @@ public class MapFragmentClass extends Fragment implements
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigation;
     View v;
+    DatabaseReference databaseReference;
     Location currentLocation;
     private static final int REQUEST_CODE = 101;
 
@@ -105,6 +113,9 @@ public class MapFragmentClass extends Fragment implements
 
         imageView = v.findViewById(R.id.getDeviceID);
         imageView.setOnClickListener(this);
+        findAgent = v.findViewById(R.id.findPackageServiceAgentID);
+        findAgent.setOnClickListener(this);
+        findAgent.setVisibility(v.GONE);
 
         inputSearch = v.findViewById(R.id.searchMapID);
         locationArrayString = getResources().getStringArray(R.array.location_array);
@@ -113,9 +124,10 @@ public class MapFragmentClass extends Fragment implements
         inputSearch.setThreshold(1);
         inputSearch.setAdapter(adapter);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("Left Equipment List Record of All Users");
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            if(user.getEmail()!=null){}
             if (user.getDisplayName() != null) {
                 DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
                         .child(user.getDisplayName()).child("phone");
@@ -123,18 +135,22 @@ public class MapFragmentClass extends Fragment implements
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         userPhoneNumber = dataSnapshot.getValue(String.class);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
-
-                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("User Information")
-                        .child(user.getDisplayName()).child("username");
-                ref2.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        username = dataSnapshot.getValue(String.class);
+                        DatabaseReference ref2 = databaseReference.child(userPhoneNumber).child("locationThing");
+                        ref2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                location_Thing = dataSnapshot.getValue(String.class);
+                                try {
+                                    if (!location_Thing.isEmpty()) {
+                                        findAgent.setVisibility(v.VISIBLE);
+                                    }
+                                }catch(Exception e){
+                                    findAgent.setVisibility(v.GONE);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        });
                     }
 
                     @Override
@@ -153,7 +169,7 @@ public class MapFragmentClass extends Fragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        zoomLevel = 15f;
+        zoomLevel = 14.5f;
 
         MapStyleOptions mapStyleOptions = MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.map_style);
         mGoogleMap.setMapStyle(mapStyleOptions);
@@ -175,7 +191,7 @@ public class MapFragmentClass extends Fragment implements
                 init();
             }
             mGoogleMap.setMyLocationEnabled(true);
-        }catch(Exception e){getDeviceLocation();}
+        } catch(Exception e){getDeviceLocation();}
     }
 
     private void init() {
@@ -238,8 +254,6 @@ public class MapFragmentClass extends Fragment implements
 
                         DevicelatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                         Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude + ", lng: " + DevicelatLng.longitude);
-//                        mGoogleMap.addMarker(new MarkerOptions().position(DevicelatLng).title(username)
-//                                .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.my_location)));
                         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(DevicelatLng));
                         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
                         getCustomerPackageLocation();
@@ -279,9 +293,55 @@ public class MapFragmentClass extends Fragment implements
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         if (v.getId() == R.id.getDeviceID) {
             getDeviceLocation();
+        }
+
+        if(v.getId()==R.id.findPackageServiceAgentID){
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                if (user.getDisplayName() != null) {
+                    DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
+                            .child(user.getDisplayName()).child("phone");
+                    ref1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            userPhoneNumber = dataSnapshot.getValue(String.class);
+                            DatabaseReference ref2 = databaseReference.child(userPhoneNumber).child("locationThing");
+                            ref2.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    location_Thing = dataSnapshot.getValue(String.class);
+                                    try{
+                                    if(!location_Thing.isEmpty()) {
+                                        Geocoder geocoder1 = new Geocoder(getActivity());
+                                        List<Address> list1 = new ArrayList<>();
+                                        try {
+                                            list1 = geocoder1.getFromLocationName(location_Thing, 1);
+                                        } catch (IOException e) {
+                                            Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
+                                        }
+                                        if (list1.size() > 0) {
+                                            Address address = list1.get(0);
+                                            Log.d(TAG, "geoLocate: found a location" + address.toString());
+
+                                            LatLng SearchlatLng1 = new LatLng(address.getLatitude(), address.getLongitude());
+                                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng1));
+                                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng1, zoomLevel));
+                                        }
+                                    }}catch (Exception e){findAgent.setVisibility(v.GONE);}
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {}
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                }
+            }
         }
     }
 

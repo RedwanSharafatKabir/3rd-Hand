@@ -123,7 +123,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                     ref4.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            //                        String str = Long.toString(dataSnapshot.getValue(Long.class));
+//                        String str = Long.toString(dataSnapshot.getValue(Long.class));
                             NIDnumberText.setText(dataSnapshot.getValue(String.class));
                         }
 
