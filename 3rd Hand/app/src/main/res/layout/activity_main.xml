@@ -67,6 +67,7 @@
             android:layout_gravity="start"
             app:itemTextAppearance="@style/menu_text_style"
             android:theme="@style/navigation_theme"/>
+
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

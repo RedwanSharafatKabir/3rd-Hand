@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.TYPE_STATUS_BAR);
         setContentView(R.layout.activity_main);
 
         drawerLayout = findViewById(R.id.drawerID);
@@ -101,8 +102,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
                 }
 
@@ -116,8 +116,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
 
                     DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("User Information")
@@ -129,8 +128,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
                 }
             }
@@ -143,7 +141,19 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.leftEquipmentSearchID:
-                checkEuipmentRequest();
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connected = true;
+                } else {
+                    connected = false;
+                    Toast.makeText(MainActivity.this, "Turn on internet connection", Toast.LENGTH_SHORT).show();
+                }
+
+                if(connected == true) {
+                    checkEuipmentRequest();
+                }
+
                 return true;
 
             case R.id.paymentMethodID:

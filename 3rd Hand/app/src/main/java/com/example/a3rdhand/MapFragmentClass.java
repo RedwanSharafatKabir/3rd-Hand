@@ -38,11 +38,12 @@ import android.widget.Toast;
 import com.example.a3rdhand.EquipmentOrderAndReceive.Equipment_Agent_Longitude_Latitude_List;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.EquipmentOrderAndReceive.Call_Package_Agent_Dialog;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+//import com.google.android.libraries.places.api.model.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -51,9 +52,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.compat.Place;
+import com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment;
+import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,23 +66,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import static android.app.Activity.RESULT_OK;
 
 public class MapFragmentClass extends Fragment implements
         OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener{
 
+//    EditText inputSearch2;
+    AutoCompleteTextView inputSearch;
     Button findAgent;
     ImageView imageView;
-    AutoCompleteTextView inputSearch;
     float zoomLevel;
-    String username, location_Thing, userPhoneNumber, tempPackage, searchString;
+    String location_Thing, userPhoneNumber, tempPackage, searchString;
     String locationArrayString[];
     int j = 0, i = 0;
     private GoogleMap mGoogleMap;
@@ -116,6 +117,8 @@ public class MapFragmentClass extends Fragment implements
         findAgent = v.findViewById(R.id.findPackageServiceAgentID);
         findAgent.setOnClickListener(this);
         findAgent.setVisibility(v.GONE);
+
+//        inputSearch2 = v.findViewById(R.id.searchMapID2);
 
         inputSearch = v.findViewById(R.id.searchMapID);
         locationArrayString = getResources().getStringArray(R.array.location_array);
@@ -163,13 +166,15 @@ public class MapFragmentClass extends Fragment implements
         bottomNavigation.setOnNavigationItemSelectedListener(this);
         bottomNavigation.getMenu().setGroupCheckable(0, false, true);
 
+        setupAutoCompleteFragment();
+
         return v;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        zoomLevel = 14.5f;
+        zoomLevel = 16f;
 
         MapStyleOptions mapStyleOptions = MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.map_style);
         mGoogleMap.setMapStyle(mapStyleOptions);
@@ -192,6 +197,86 @@ public class MapFragmentClass extends Fragment implements
             }
             mGoogleMap.setMyLocationEnabled(true);
         } catch(Exception e){getDeviceLocation();}
+    }
+
+/*  searchMapMethod() Method for autocomplete editText is below
+
+    public void searchMapMethod(){
+        inputSearch2.setFocusable(false);
+        inputSearch2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS,
+                        Place.Field.LAT_LNG, Place.Field.NAME);
+
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+                        fieldList).build(getActivity());
+
+                startActivityForResult(intent, 100);
+            }
+        });
+    }
+*/
+
+/*  onActivityResult() Method is below
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100 && requestCode==RESULT_OK){
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            inputSearch2.setText(place.getAddress());
+            searchString = place.getAddress();
+            setupAutoCompleteFragment(searchString);
+        }
+    }
+*/
+
+    private void setupAutoCompleteFragment() {
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragmentID);
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                Geocoder geocoder = new Geocoder(getActivity());
+                List<Address> list = new ArrayList<>();
+                try {
+                    list = geocoder.getFromLocationName(place.getAddress().toString(), 1);
+                } catch (IOException e) {
+                    Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
+                }
+                if (list.size() > 0) {
+                    Address address = list.get(0);
+                    Log.d(TAG, "geoLocate: found a location" + address.toString());
+
+                    LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng));
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
+                }
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.e("Error", status.getStatusMessage());
+            }
+        });
+
+//  geoCoder for searchMapMethod() Method
+
+//        Geocoder geocoder = new Geocoder(getActivity());
+//        List<Address> list = new ArrayList<>();
+//        try {
+//            list = geocoder.getFromLocationName(searchString, 1);
+//        } catch (IOException e) {
+//            Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
+//        }
+//        if (list.size() > 0) {
+//            Address address = list.get(0);
+//            Log.d(TAG, "geoLocate: found a location" + address.toString());
+//
+//            LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
+//            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng));
+//            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
+//        }
     }
 
     private void init() {
@@ -376,7 +461,7 @@ public class MapFragmentClass extends Fragment implements
                                             Address address = list.get(0);
                                             Log.d(TAG, "geoLocate: found a location" + address.toString());
                                             LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
-                                            tempPackage = username + "'s package is somewhere in this area. " +
+                                            tempPackage = "Customer's package is somewhere in this area. " +
                                                     "Please find out customer's specified address around here.";
                                             mGoogleMap.addMarker(new MarkerOptions().position(SearchlatLng)
                                                     .title(tempPackage).icon(bitmapDescriptorFromVector(getActivity(),
@@ -392,7 +477,7 @@ public class MapFragmentClass extends Fragment implements
                                                         LeftEquipmentSavedRecord leftEquipmentSavedRecord = new LeftEquipmentSavedRecord();
                                                         leftEquipmentSavedRecord.show(getFragmentManager(), "Sample dialog");
                                                     }
-                                                    else if(!markertitle.equals(tempPackage) && !markertitle.equals(username)){
+                                                    else if(!markertitle.equals(tempPackage)){
                                                         Bundle args = new Bundle();
                                                         args.putString("markertitle_key", markertitle);
                                                         Call_Package_Agent_Dialog call_package_agent_dialog = new Call_Package_Agent_Dialog();
@@ -408,15 +493,10 @@ public class MapFragmentClass extends Fragment implements
                                     mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                         @Override
                                         public boolean onMarkerClick(Marker marker) {
-                                            String markertitle = marker.getTitle();
                                             try {
-                                                if (markertitle.equals(username)) {
-                                                    Toast.makeText(getActivity(), markertitle, Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    Toast t = Toast.makeText(getActivity(), R.string.not_available, Toast.LENGTH_SHORT);
-                                                    t.setGravity(Gravity.CENTER, 0,0);
-                                                    t.show();
-                                                }
+                                                Toast t = Toast.makeText(getActivity(), R.string.not_available, Toast.LENGTH_SHORT);
+                                                t.setGravity(Gravity.CENTER, 0,0);
+                                                t.show();
                                             } catch (Exception e) {}
                                             return false;
                                         }

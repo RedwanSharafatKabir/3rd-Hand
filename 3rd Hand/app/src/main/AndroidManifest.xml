@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:name="androidx.multidex.MultiDexApplication">
+<!--        android:name="android.support.multidex.MultiDexApplication"-->
 
         <activity android:name=".EquipmentOrderAndReceive.Requesting_agent_loading_tab"
             android:screenOrientation="portrait"

@@ -39,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +90,6 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
     public void checkMethod(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            if(user.getEmail()!=null){}
             if (user.getDisplayName() != null) {
                 DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
                         .child(user.getDisplayName()).child("phone");
@@ -200,27 +200,23 @@ public class LeftEquipmentSavedRecord extends DialogFragment implements View.OnC
             alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if (user != null) {
-                        if(user.getEmail()!=null){}
-                        if (user.getDisplayName() != null) {
+                    FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user1 != null) {
+                        if (user1.getDisplayName() != null) {
                             DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
-                                    .child(user.getDisplayName()).child("phone");
+                                    .child(user1.getDisplayName()).child("phone");
                             ref1.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     userPhone_Number = dataSnapshot.getValue(String.class);
                                     try {
                                         databaseReference.child(userPhone_Number).removeValue();
-
                                         Toast t = Toast.makeText(getActivity(), "Record deleted", Toast.LENGTH_LONG);
                                         t.setGravity(Gravity.CENTER, 0, 0);
                                         t.show();
+                                        getDialog().dismiss();
 
-                                        getDialog().dismiss();
-                                    } catch(Exception e){
-                                        getDialog().dismiss();
-                                    }
+                                    } catch(Exception e){getDialog().dismiss();}
                                 }
 
                                 @Override
