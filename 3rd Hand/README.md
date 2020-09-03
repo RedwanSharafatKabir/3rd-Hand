@@ -57,9 +57,8 @@
 * implementation 'com.daimajia.easing:library:2.0@aar'
 * implementation 'com.daimajia.androidanimations:library:2.3@aar'
 * implementation 'com.github.d-max:spots-dialog:1.1@aar'
-* implementation 'com.github.glomadrian:MaterialAnimatedSwitch:1.1@aar'
 * implementation 'com.android.support:multidex:1.0.3'<br><br>
 
-#### Phone number verification dependency -
+#### OTP verification library dependency -
 
 * implementation 'com.googlecode.libphonenumber:libphonenumber:8.9.7'
