@@ -1,7 +1,5 @@
 package com.example.a3rdhand.EquipmentOrderAndReceive;
 
-import androidx.annotation.VisibleForTesting;
-
 public class StoreUserEquipmentListData {
     String userPhoneNumber, username, equipment_name_string,
             equipment_type_string, lane_string, building_string,

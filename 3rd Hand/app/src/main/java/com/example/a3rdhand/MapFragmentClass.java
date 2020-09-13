@@ -14,11 +14,13 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -35,6 +37,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.a3rdhand.EquipmentOrderAndReceive.Equipment_Agent_Longitude_Latitude_List;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.EquipmentOrderAndReceive.Call_Package_Agent_Dialog;
@@ -66,16 +69,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static android.app.Activity.RESULT_OK;
 
 public class MapFragmentClass extends Fragment implements
-        OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener{
+        OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
-//    EditText inputSearch2;
+    //    EditText inputSearch2;
     AutoCompleteTextView inputSearch;
     Button findAgent;
     ImageView imageView;
@@ -147,17 +152,20 @@ public class MapFragmentClass extends Fragment implements
                                     if (!location_Thing.isEmpty()) {
                                         findAgent.setVisibility(v.VISIBLE);
                                     }
-                                }catch(Exception e){
+                                } catch (Exception e) {
                                     findAgent.setVisibility(v.GONE);
                                 }
                             }
+
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
                         });
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
                 });
             }
         }
@@ -182,7 +190,7 @@ public class MapFragmentClass extends Fragment implements
         for (i = 0; i < placelist.size(); i++) {
             if (j == i) {
                 mGoogleMap.addMarker(new MarkerOptions().position(placelist.get(i)).title(String.valueOf(title.get(j)))
-                        .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_logo)));
+                        .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_superman)));
             }
             j++;
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(placelist.get(i)));
@@ -190,17 +198,28 @@ public class MapFragmentClass extends Fragment implements
         }
 
         try {
-            if (locationPermissionGranted) {
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                locationPermissionGranted = true;
+                mGoogleMap.setMyLocationEnabled(true);
+                getDeviceLocation();
+                init();
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
+
                 mGoogleMap.setMyLocationEnabled(true);
                 getDeviceLocation();
                 init();
             }
-            mGoogleMap.setMyLocationEnabled(true);
         } catch(Exception e){getDeviceLocation();}
     }
 
 /*  searchMapMethod() Method for autocomplete editText is below
-
     public void searchMapMethod(){
         inputSearch2.setFocusable(false);
         inputSearch2.setOnClickListener(new View.OnClickListener() {
@@ -208,10 +227,8 @@ public class MapFragmentClass extends Fragment implements
             public void onClick(View v) {
                 List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS,
                         Place.Field.LAT_LNG, Place.Field.NAME);
-
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
                         fieldList).build(getActivity());
-
                 startActivityForResult(intent, 100);
             }
         });
@@ -232,33 +249,33 @@ public class MapFragmentClass extends Fragment implements
 */
 
     private void setupAutoCompleteFragment() {
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragmentID);
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                Geocoder geocoder = new Geocoder(getActivity());
-                List<Address> list = new ArrayList<>();
-                try {
-                    list = geocoder.getFromLocationName(place.getAddress().toString(), 1);
-                } catch (IOException e) {
-                    Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
-                }
-                if (list.size() > 0) {
-                    Address address = list.get(0);
-                    Log.d(TAG, "geoLocate: found a location" + address.toString());
-
-                    LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng));
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
-                }
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.e("Error", status.getStatusMessage());
-            }
-        });
+//        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+//                getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragmentID);
+//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//            @Override
+//            public void onPlaceSelected(Place place) {
+//                Geocoder geocoder = new Geocoder(getActivity());
+//                List<Address> list = new ArrayList<>();
+//                try {
+//                    list = geocoder.getFromLocationName(place.getAddress().toString(), 1);
+//                } catch (IOException e) {
+//                    Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
+//                }
+//                if (list.size() > 0) {
+//                    Address address = list.get(0);
+//                    Log.d(TAG, "geoLocate: found a location" + address.toString());
+//
+//                    LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
+//                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng));
+//                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Status status) {
+//                Log.e("Error", status.getStatusMessage());
+//            }
+//        });
 
 //  geoCoder for searchMapMethod() Method
 
@@ -322,33 +339,28 @@ public class MapFragmentClass extends Fragment implements
         Log.d(TAG, "getDeviceLocation: get current device location");
         mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(), new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-            return;
-        }
-
         try {
-            Task task = mfusedLocationProviderClient.getLastLocation();
-            task.addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(@NonNull Location location) {
-                    if (location != null) {
-                        Log.d(TAG, "onComplete: location found");
-                        currentLocation = location;
+            if(locationPermissionGranted) {
+                Task task = mfusedLocationProviderClient.getLastLocation();
+                task.addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(@NonNull Location location) {
+                        if (location != null) {
+                            Log.d(TAG, "onComplete: location found");
+                            currentLocation = location;
 
-                        DevicelatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                        Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude + ", lng: " + DevicelatLng.longitude);
-                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(DevicelatLng));
-                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
-                        getCustomerPackageLocation();
-                    } else {
-                        Log.d(TAG, "onComplete: current location null!");
-                        Snackbar.make(v, "Cannot load map", Snackbar.LENGTH_LONG).show();
+                            DevicelatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                            Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude + ", lng: " + DevicelatLng.longitude);
+                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(DevicelatLng));
+                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
+                            getCustomerPackageLocation();
+                        } else {
+                            Log.d(TAG, "onComplete: current location null!");
+                            Snackbar.make(v, "Cannot load map", Snackbar.LENGTH_LONG).show();
+                        }
                     }
-                }
-            });
-
+                });
+            }
         } catch (SecurityException e) {
             Log.d(TAG, "getDeviceLocation: SecurityException" + e.getMessage());
         }
@@ -356,10 +368,18 @@ public class MapFragmentClass extends Fragment implements
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        locationPermissionGranted = false;
         switch(requestCode){
             case REQUEST_CODE:
-                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                if(grantResults.length>0){
+                    for(int i=0; i<grantResults.length; i++){
+                        if(grantResults[i]!=PackageManager.PERMISSION_GRANTED){
+                            locationPermissionGranted = false;
+                        }
+                    }
+                    locationPermissionGranted = true;
                     getDeviceLocation();
+                    init();
                 }
                 break;
         }
@@ -399,23 +419,23 @@ public class MapFragmentClass extends Fragment implements
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     location_Thing = dataSnapshot.getValue(String.class);
                                     try{
-                                    if(!location_Thing.isEmpty()) {
-                                        Geocoder geocoder1 = new Geocoder(getActivity());
-                                        List<Address> list1 = new ArrayList<>();
-                                        try {
-                                            list1 = geocoder1.getFromLocationName(location_Thing, 1);
-                                        } catch (IOException e) {
-                                            Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
-                                        }
-                                        if (list1.size() > 0) {
-                                            Address address = list1.get(0);
-                                            Log.d(TAG, "geoLocate: found a location" + address.toString());
+                                        if(!location_Thing.isEmpty()) {
+                                            Geocoder geocoder1 = new Geocoder(getActivity());
+                                            List<Address> list1 = new ArrayList<>();
+                                            try {
+                                                list1 = geocoder1.getFromLocationName(location_Thing, 1);
+                                            } catch (IOException e) {
+                                                Log.d(TAG, "geoLocate: ioexception" + e.getMessage());
+                                            }
+                                            if (list1.size() > 0) {
+                                                Address address = list1.get(0);
+                                                Log.d(TAG, "geoLocate: found a location" + address.toString());
 
-                                            LatLng SearchlatLng1 = new LatLng(address.getLatitude(), address.getLongitude());
-                                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng1));
-                                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng1, zoomLevel));
-                                        }
-                                    }}catch (Exception e){findAgent.setVisibility(v.GONE);}
+                                                LatLng SearchlatLng1 = new LatLng(address.getLatitude(), address.getLongitude());
+                                                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng1));
+                                                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng1, zoomLevel));
+                                            }
+                                        }}catch (Exception e){findAgent.setVisibility(v.GONE);}
                                 }
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {}

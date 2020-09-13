@@ -10,7 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d16faffe-bc39-412f-945d-88311b89db0f" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,24 +37,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="3rd Hand" type="f1a62948:ProjectNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="3rd Hand" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="3rd Hand" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="3rd Hand" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="android" type="c8890929:TasksNode$1" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -66,10 +47,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="layoutResourceFile" />
-        <option value="resourceFile" />
-        <option value="Class" />
         <option value="valueResourceFile" />
+        <option value="layoutResourceFile" />
+        <option value="Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -80,26 +61,55 @@
     <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="ProjectId" id="1bNzYWx39gLFVcCgmK3084o9ble" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="app" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-06-26T18:50:11.674Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-26T18:12:15.041Z" />
     <property name="ExportApk.ApkPath" value="D:\Android Projects\3rd Hand\app" />
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="ExportApk.SignV1" value="true" />
     <property name="ExportApk.SignV2" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../TechTrix_Assignment_One" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="PsdUISettings">
-    <option name="MODULE_TAB" value="Signing Configs" />
+    <option name="MODULE_TAB" value="Properties" />
+    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-xxhdpi" />
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-mdpi" />
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable" />
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\mipmap-xhdpi" />
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\mipmap-xxhdpi\ic_launcher" />
+    </key>
+    <key name="android.template.packageName">
+      <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
+      <recent name="com.example.a3rdhand.ForgotPasswordPackage" />
+      <recent name="com.example.a3rdhand" />
+    </key>
+    <key name="android.template.1233659262">
+      <recent name="com.example.a3rdhand" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.example.a3rdhand.ForgotPasswordPackage" />
+      <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-xxhdpi" />
@@ -107,36 +117,6 @@
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\layout" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\menu" />
     </key>
-    <key name="ExtractSuperBase.RECENT_KEYS">
-      <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.example.a3rdhand.ForgotPasswordPackage" />
-      <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
-    </key>
-    <key name="android.template.packageName">
-      <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
-      <recent name="com.example.a3rdhand.ForgotPasswordPackage" />
-      <recent name="com.example.a3rdhand" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-mdpi" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\mipmap-xhdpi" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\mipmap-xxhdpi\ic_launcher" />
-    </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Android App.app">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -253,5 +233,71 @@
       <updated>1588487387303</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="207" y="77" key="#PSD" timestamp="1599496329352">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="207" y="77" key="#PSD/0.0.1366.738@0.0.1366.738" timestamp="1599496329352" />
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1599598698585">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1599598698585" />
+    <state x="479" y="227" width="408" height="291" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1599504278600">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="479" y="227" width="408" height="291" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1366.738@0.0.1366.738" timestamp="1599504278600" />
+    <state x="695" y="118" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1599975434373">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="695" y="118" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.738@0.0.1366.738" timestamp="1599975434373" />
+    <state x="263" y="123" key="AndroidCreateResourceFileDialog" timestamp="1599984404733">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="263" y="123" key="AndroidCreateResourceFileDialog/0.0.1366.738@0.0.1366.738" timestamp="1599984404733" />
+    <state x="617" y="166" width="616" height="491" key="FileChooserDialogImpl" timestamp="1600008146841">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="617" y="166" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1600008146841" />
+    <state width="1323" height="318" key="GridCell.Tab.0.bottom" timestamp="1599658497537">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="1323" height="318" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1599658497537" />
+    <state width="1323" height="318" key="GridCell.Tab.0.center" timestamp="1599658497537">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="1323" height="318" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1599658497537" />
+    <state width="1323" height="318" key="GridCell.Tab.0.left" timestamp="1599658497537">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="1323" height="318" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1599658497537" />
+    <state width="1323" height="318" key="GridCell.Tab.0.right" timestamp="1599658497537">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state width="1323" height="318" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1599658497537" />
+    <state x="152" y="8" width="998" height="708" key="SettingsEditor" timestamp="1599063601826">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="152" y="8" width="998" height="708" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1599063601826" />
+    <state x="700" y="159" key="chooseDestDirectoryDialog" timestamp="1599974886132">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="700" y="159" key="chooseDestDirectoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1599974886132" />
+    <state x="92" y="92" width="1182" height="554" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1599048255301">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="92" y="92" width="1182" height="554" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1366.738@0.0.1366.738" timestamp="1599048255301" />
+    <state x="92" y="92" width="1182" height="554" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1599638368428">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="92" y="92" width="1182" height="554" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1599638368428" />
+    <state x="379" y="192" key="com.intellij.ide.util.TipDialog" timestamp="1599052314032">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="379" y="192" key="com.intellij.ide.util.TipDialog/0.0.1366.738@0.0.1366.738" timestamp="1599052314032" />
+    <state x="346" y="59" key="search.everywhere.popup" timestamp="1599071795241">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="346" y="59" key="search.everywhere.popup/0.0.1366.738@0.0.1366.738" timestamp="1599071795241" />
   </component>
 </project>

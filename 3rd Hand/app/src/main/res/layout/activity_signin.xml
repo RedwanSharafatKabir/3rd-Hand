@@ -81,21 +81,6 @@
 
             </LinearLayout>
 
-            <!--            <com.agrawalsuneet.dotsloader.loaders.AllianceLoader-->
-            <!--                android:id="@+id/AllianceLoaderID"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:alliance_animDuration="500"-->
-            <!--                app:alliance_distanceMultiplier="3"-->
-            <!--                app:alliance_dotsRadius="8dp"-->
-            <!--                app:alliance_drawOnlyStroke="false"-->
-            <!--                app:alliance_firstDotsColor="#14DCCB"-->
-            <!--                app:alliance_secondDotsColor="#14DCCB"-->
-            <!--                app:alliance_strokeWidth="8dp"-->
-            <!--                app:alliance_thirdDotsColor="#14DCCB"-->
-            <!--                android:visibility="gone"-->
-            <!--                android:layout_marginTop="10dp"/>-->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

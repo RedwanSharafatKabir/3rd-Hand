@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreen"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.agrawalsuneet.dotsloader.loaders.LightsLoader
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:lights_circleColor="#686767"
+        app:lights_circleDistance="5dp"
+        app:lights_circleRadius="12dp"
+        app:lights_noOfCircles="7"
+        android:scrollbarFadeDuration="50"/>
+
+    <com.agrawalsuneet.dotsloader.loaders.AllianceLoader
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:alliance_animDuration="500"
+        app:alliance_distanceMultiplier="9"
+        app:alliance_dotsRadius="11dp"
+        app:alliance_drawOnlyStroke="false"
+        app:alliance_firstDotsColor="#323232"
+        app:alliance_secondDotsColor="#323232"
+        app:alliance_strokeWidth="8dp"
+        app:alliance_thirdDotsColor="#323232"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+</RelativeLayout>

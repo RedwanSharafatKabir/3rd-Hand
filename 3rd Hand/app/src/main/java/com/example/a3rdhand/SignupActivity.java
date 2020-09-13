@@ -172,8 +172,8 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
 
                                     } else {
                                         waitingDialog.dismiss();
-                                        Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : " +
-                                                task.getException().getMessage(), Toast.LENGTH_LONG);
+                                        Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : "
+                                                + "Connection lost.", Toast.LENGTH_LONG);
                                         t.setGravity(Gravity.CENTER, 0, 0);
                                         t.show();
                                     }
@@ -195,7 +195,7 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
                             } else {
                                 waitingDialog.dismiss();
                                 Toast t = Toast.makeText(getActivity(), "Authentication failed. Error : "
-                                        + task.getException().getMessage(), Toast.LENGTH_LONG);
+                                        + "Connection lost.", Toast.LENGTH_LONG);
                                 t.setGravity(Gravity.CENTER, 0, 0);
                                 t.show();
                             }

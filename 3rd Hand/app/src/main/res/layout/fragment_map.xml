@@ -23,18 +23,18 @@
         <LinearLayout
             android:id="@+id/linearLayoutID"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical"
             android:background="#FFFFFF"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="0dp">
 
-            <fragment
-                android:id="@+id/place_autocomplete_fragmentID"
-                android:name="com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+<!--            <fragment-->
+<!--                android:id="@+id/place_autocomplete_fragmentID"-->
+<!--                android:name="com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"/>-->
 
         </LinearLayout>
 

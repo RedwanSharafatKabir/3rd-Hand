@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -43,6 +45,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
     String emailObj, passObj, passedString = "Remember me";
     Button close, forgetPass;
     View view;
+    boolean connection = false;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -107,6 +110,17 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
             }
 
             if(checkBox.isChecked()){
+                ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connection = true;
+                } else {
+                    connection = false;
+                    Toast.makeText(getActivity(), "Internet connection lost", Toast.LENGTH_SHORT).show();
+                    waitingDialog.dismiss();
+                }
+
+                if(connection==true){
                 rememberMethod(passedString);
                 mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -131,10 +145,21 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                             t.show();
                         }
                     }
-                });
+                });}
             }
 
             if(!checkBox.isChecked()) {
+                ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connection = true;
+                } else {
+                    connection = false;
+                    Toast.makeText(getActivity(), "Internet connection lost", Toast.LENGTH_SHORT).show();
+                    waitingDialog.dismiss();
+                }
+
+                if(connection==true){
                 passedString = "";
                 setNullDataMethod(passedString);
                 mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -159,7 +184,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                             t.show();
                         }
                     }
-                });
+                });}
             }
         }
 
@@ -203,8 +228,3 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         }
     }
 }
-
-//    AllianceLoader allianceLoader;
-//    allianceLoader = view.findViewById(R.id.AllianceLoaderID);
-//    allianceLoader.setVisibility(VISIBLE);
-//    allianceLoader.setVisibility(INVISIBLE);

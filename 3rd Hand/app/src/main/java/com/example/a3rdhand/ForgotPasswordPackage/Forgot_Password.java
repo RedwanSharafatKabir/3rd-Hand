@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.util.Patterns;
@@ -34,6 +37,7 @@ public class Forgot_Password extends AppCompatDialogFragment implements View.OnC
     LinearLayout linearLayoutID;
     Animation fromTop, fromBottom;
     FirebaseAuth mAuth;
+    boolean connection = false;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -90,21 +94,34 @@ public class Forgot_Password extends AppCompatDialogFragment implements View.OnC
             }
 
             else {
-                mAuth.sendPasswordResetEmail(emailobj).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            dialog.dismiss();
-                            VerifyEmail_OTP_Code verifyEmail = new VerifyEmail_OTP_Code();
-                            verifyEmail.show(getFragmentManager(), "Sample dialog");
+                ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connection = true;
+                } else {
+                    connection = false;
+                    Toast.makeText(getActivity(), "Internet connection lost", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
 
-                            getDialog().dismiss();
+                if(connection == true) {
+                    mAuth.sendPasswordResetEmail(emailobj).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                dialog.dismiss();
+                                VerifyEmail_OTP_Code verifyEmail = new VerifyEmail_OTP_Code();
+                                verifyEmail.show(getFragmentManager(), "Sample dialog");
 
-                        } else {
-                            Snackbar.make(view, task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+                                getDialog().dismiss();
+
+                            } else {
+                                Snackbar.make(view, task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
 
