@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentActivity;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,8 +42,12 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
     String userPhoneNumber, location_Thing;
-    View hView;
+    View hView, parentLayout;
     boolean connected = false;
+    Snackbar snackbar;
+    FirebaseAuth mAuth;
+    ConnectivityManager cm;
+    NetworkInfo netInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +78,26 @@ public class MainActivity extends AppCompatActivity
         phone = hView.findViewById(R.id.profilePhoneID);
         imageView = hView.findViewById(R.id.profileImageID);
 
-        View parentLayout = findViewById(android.R.id.content);
-        Snackbar.make(parentLayout, " Login successful", Snackbar.LENGTH_LONG).show();
+        parentLayout = findViewById(android.R.id.content);
+
+        cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            connected = true;
+            snackbar = Snackbar.make(parentLayout, "Tap location icon below searchbar", Snackbar.LENGTH_LONG);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Green));
+            snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+            snackbar.setDuration(10000).show();
+
+        } else {
+            connected = false;
+            snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
+            snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+            snackbar.setDuration(10000).show();
+        }
 
         navigationDrawerOpen();
     }
@@ -136,13 +161,17 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.leftEquipmentSearchID:
-                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
                 } else {
                     connected = false;
-                    Toast.makeText(MainActivity.this, "Turn on internet connection", Toast.LENGTH_SHORT).show();
+                    snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
+                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                    snackbar.setDuration(10000).show();
                 }
 
                 if(connected == true) {
@@ -157,13 +186,51 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.feedbackID:
-                FeedbackActivity feedbackActivity = new FeedbackActivity();
-                feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
+                cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                netInfo = cm.getActiveNetworkInfo();
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connected = true;
+                } else {
+                    connected = false;
+                    snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
+                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                    snackbar.setDuration(10000).show();
+                }
+
+                if(connected == true) {
+                    FeedbackActivity feedbackActivity = new FeedbackActivity();
+                    feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
+                }
                 return true;
 
-            case R.id.aboutID:
-                AboutActivity aboutActivity = new AboutActivity();
-                aboutActivity.show(getSupportFragmentManager(), "Sample dialog");
+            case R.id.logoutID:
+                AlertDialog.Builder alertDialogBuilder;
+                alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setTitle("LOGOUT ?");
+                alertDialogBuilder.setMessage("Your positive decision will make you logged out.");
+                alertDialogBuilder.setIcon(R.drawable.exit);
+                alertDialogBuilder.setCancelable(false);
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth.getInstance().signOut();
+                        finish();
+                        Intent it = new Intent(MainActivity.this, StartScreen.class);
+                        startActivity(it);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    }
+                });
+
+                alertDialogBuilder.setNeutralButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
                 return true;
         }
 

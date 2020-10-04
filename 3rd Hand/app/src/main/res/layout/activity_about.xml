@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:text="Mr. Shah Md. Tanvir Siddiquee"
                         android:textSize="17sp"
-                        android:textColor="#048371"
+                        android:textColor="@color/colorPrimary"
                         android:padding="5dp"
                         android:fontFamily="sans-serif"/>
                     <TextView
@@ -141,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:text="Redwan Sharafat Kabir"
                         android:textSize="17sp"
-                        android:textColor="#048371"
+                        android:textColor="@color/colorPrimary"
                         android:padding="5dp"
                         android:fontFamily="sans-serif"/>
                     <TextView
@@ -184,9 +184,18 @@
                         android:layout_height="wrap_content"
                         android:text="Md. Himel Junaet"
                         android:textSize="17sp"
-                        android:textColor="#048371"
+                        android:textColor="@color/colorPrimary"
                         android:padding="5dp"
                         android:fontFamily="sans-serif"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="UI/UX designer"
+                        android:textSize="15sp"
+                        android:textColor="#000000"
+                        android:padding="5dp"
+                        android:fontFamily="serif"
+                        android:textStyle="italic"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -218,7 +227,7 @@
                         android:layout_height="wrap_content"
                         android:text="Md. Shihab Sharar Khan"
                         android:textSize="17sp"
-                        android:textColor="#048371"
+                        android:textColor="@color/colorPrimary"
                         android:padding="5dp"
                         android:fontFamily="sans-serif" />
                 </LinearLayout>
@@ -232,7 +241,7 @@
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:background="@drawable/rectangle_shape_border"
+                android:background="@drawable/edit_button_design"
                 android:layout_marginTop="35dp"
                 android:fontFamily="serif-monospace"
                 android:padding="10dp"

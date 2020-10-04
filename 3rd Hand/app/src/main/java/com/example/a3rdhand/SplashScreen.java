@@ -1,26 +1,26 @@
 package com.example.a3rdhand;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
-
-import com.agrawalsuneet.dotsloader.loaders.AllianceLoader;
-
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 public class SplashScreen extends AppCompatActivity {
 
-    int SPLASH_TIME_OUT = 5000;
+    int SPLASH_TIME_OUT = 2500;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
+
+        imageView = findViewById(R.id.splashImageID);
+        imageView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in_fade_in));
 
         new Handler().postDelayed(new Runnable() {
             @Override

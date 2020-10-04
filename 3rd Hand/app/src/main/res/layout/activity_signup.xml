@@ -62,7 +62,7 @@
                         android:hint=" Govt. issued ID: NID / Birth certificate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textColor="#000000"
                         android:textColorHint="#000000"
                         android:drawableLeft="@drawable/ic_security_black_24dp"/>
@@ -72,25 +72,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-<!--                    <Spinner-->
-<!--                        android:id="@+id/spinnerCountriesID"-->
-<!--                        android:layout_width="200dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:gravity="center"-->
-<!--                        android:layout_marginBottom="5dp"/>-->
+                    <!--                    <Spinner-->
+                    <!--                        android:id="@+id/spinnerCountriesID"-->
+                    <!--                        android:layout_width="200dp"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:layout_marginBottom="5dp"/>-->
                     <TextView
                         android:id="@+id/bdCountryCodeID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_gravity="bottom"
                         android:text="Bangladesh  +88"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:paddingRight="10dp"
                         android:paddingLeft="10dp"
                         android:textColor="#000000"
-                        android:fontFamily="@font/sfc_artoonist_hand"/>
+                        android:fontFamily="sans-serif"
+                        android:paddingBottom="10dp"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:text="Close"
                     android:textSize="16dp"
-                    android:textColor="#12D86B"
+                    android:textColor="#00A6D8"
                     android:textStyle="bold"
                     android:layout_gravity="center"
                     android:clickable="true"

@@ -25,19 +25,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:orientation="horizontal"
-                android:background="#ffffff">
+                android:background="#A1A1A1">
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/toolBarID"
-                    android:outlineAmbientShadowColor="#000000"
-                    android:outlineSpotShadowColor="#000000"
+                    android:outlineAmbientShadowColor="#ffffff"
+                    android:outlineSpotShadowColor="#ffffff"
                     android:theme="@style/Animation.Design.BottomSheetDialog">
                     <TextView
                         android:id="@+id/MenuLayoutID"
                         android:layout_width="wrap_content"
                         android:layout_height="55dp"
-                        android:background="#ffffff"
+                        android:background="@android:color/transparent"
                         android:text="3rd Hand"
                         android:textAllCaps="true"
                         android:gravity="center"

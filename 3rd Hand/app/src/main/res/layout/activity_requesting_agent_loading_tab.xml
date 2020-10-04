@@ -17,17 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="10dp"
-            android:background="#ffffff">
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/requestingAgentNameID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
+                android:textSize="22sp"
                 android:textAllCaps="false"
                 android:textColor="#000000"
-                android:fontFamily="@font/sfc_artoonist_hand"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginRight="10dp"
@@ -49,7 +47,7 @@
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:textColor="#FF0E0E"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:fontFamily="serif"
                 android:textStyle="bold"
                 android:layout_gravity="center"

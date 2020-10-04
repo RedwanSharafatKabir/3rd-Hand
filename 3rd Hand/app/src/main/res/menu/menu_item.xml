@@ -7,7 +7,7 @@
                 <item
                     android:id="@+id/requestShopID"
                     android:title="Request for shopping"
-                    android:icon="@drawable/ic_add_shopping_cart_black_24dp" />
+                    android:icon="@drawable/ic_baseline_shopping_cart_24" />
                 <item
                     android:id="@+id/requestMedicalID"
                     android:title="Instant medic"
@@ -28,9 +28,9 @@
                     android:title="Payment method"
                     android:icon="@drawable/ic_payment_black_24dp" />
                 <item
-                    android:id="@+id/aboutID"
-                    android:title="About"
-                    android:icon="@drawable/ic_about_black_24"/>
+                    android:id="@+id/logoutID"
+                    android:title="Log Out"
+                    android:icon="@drawable/logout"/>
             </group>
         </menu>
     </item>

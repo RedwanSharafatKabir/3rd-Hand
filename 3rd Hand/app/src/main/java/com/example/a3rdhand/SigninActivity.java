@@ -116,7 +116,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                     connection = true;
                 } else {
                     connection = false;
-                    Toast.makeText(getActivity(), "Internet connection lost", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "wifi or mobile data connection lost", Toast.LENGTH_SHORT).show();
                     waitingDialog.dismiss();
                 }
 

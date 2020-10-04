@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -61,6 +62,7 @@ import com.google.android.libraries.places.compat.Place;
 import com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment;
 import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -96,7 +98,6 @@ public class MapFragmentClass extends Fragment implements
     private Equipment_Agent_Longitude_Latitude_List equipmentAgentLongitude_latitude_list;
     ArrayList<LatLng> placelist;
     ArrayList<String> title;
-    FirebaseAuth mAuth;
     BottomNavigationView bottomNavigation;
     View v;
     DatabaseReference databaseReference;
@@ -193,8 +194,7 @@ public class MapFragmentClass extends Fragment implements
                         .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_superman)));
             }
             j++;
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(placelist.get(i)));
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(placelist.get(i), zoomLevel));
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(placelist.get(i)));
         }
 
         try {
@@ -328,8 +328,7 @@ public class MapFragmentClass extends Fragment implements
                     Log.d(TAG, "geoLocate: found a location" + address.toString());
 
                     LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng));
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
                 }
             }
         });
@@ -338,6 +337,11 @@ public class MapFragmentClass extends Fragment implements
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: get current device location");
         mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
 
         try {
             if(locationPermissionGranted) {
@@ -351,12 +355,13 @@ public class MapFragmentClass extends Fragment implements
 
                             DevicelatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                             Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude + ", lng: " + DevicelatLng.longitude);
-                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(DevicelatLng));
-                            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
+                            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
                             getCustomerPackageLocation();
                         } else {
-                            Log.d(TAG, "onComplete: current location null!");
-                            Snackbar.make(v, "Cannot load map", Snackbar.LENGTH_LONG).show();
+                            Snackbar snackbar = Snackbar.make(v, "Tap location icon below searchbar", Snackbar.LENGTH_LONG);
+                            View sbView = snackbar.getView();
+                            sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Green));
+                            snackbar.setDuration(10000).show();
                         }
                     }
                 });
@@ -432,8 +437,7 @@ public class MapFragmentClass extends Fragment implements
                                                 Log.d(TAG, "geoLocate: found a location" + address.toString());
 
                                                 LatLng SearchlatLng1 = new LatLng(address.getLatitude(), address.getLongitude());
-                                                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(SearchlatLng1));
-                                                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng1, zoomLevel));
+                                                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng1, zoomLevel));
                                             }
                                         }}catch (Exception e){findAgent.setVisibility(v.GONE);}
                                 }
@@ -485,7 +489,7 @@ public class MapFragmentClass extends Fragment implements
                                                     "Please find out customer's specified address around here.";
                                             mGoogleMap.addMarker(new MarkerOptions().position(SearchlatLng)
                                                     .title(tempPackage).icon(bitmapDescriptorFromVector(getActivity(),
-                                                            R.drawable.customer_package_final)));
+                                                            R.drawable.package_location_two)));
                                         }
 
                                         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -552,37 +556,10 @@ public class MapFragmentClass extends Fragment implements
                 helpActivity.show(getFragmentManager(), "Sample dialog");
                 return true;
 
-            case R.id.logoutID:
+            case R.id.aboutID:
                 bottomNavigation.getMenu().setGroupCheckable(0, true, true);
-                AlertDialog.Builder alertDialogBuilder;
-
-                alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
-                alertDialogBuilder.setTitle("LOGOUT ?");
-                alertDialogBuilder.setMessage("Your positive decision will make you logged out.");
-                alertDialogBuilder.setIcon(R.drawable.exit);
-                alertDialogBuilder.setCancelable(false);
-
-                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mAuth.getInstance().signOut();
-                        getActivity().finish();
-                        Intent it = new Intent(getActivity(), StartScreen.class);
-                        startActivity(it);
-                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                    }
-                });
-
-                alertDialogBuilder.setNeutralButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        bottomNavigation.getMenu().setGroupCheckable(0, false, true);
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                AboutActivity aboutActivity = new AboutActivity();
+                aboutActivity.show(getFragmentManager(), "Sample dialog");
                 return true;
         }
 

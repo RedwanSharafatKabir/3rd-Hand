@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:text="Okay"
                 android:textSize="18sp"
-                android:textColor="#12D86B"
+                android:textColor="#00A6D8"
                 android:textStyle="bold"
                 android:layout_gravity="center|bottom"
                 android:layout_marginTop="10dp"
