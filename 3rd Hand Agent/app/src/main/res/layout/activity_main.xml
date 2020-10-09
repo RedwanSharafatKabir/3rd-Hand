@@ -27,22 +27,6 @@
                 android:outlineAmbientShadowColor="#ffffff"
                 android:outlineSpotShadowColor="#ffffff"
                 android:theme="@style/Animation.Design.BottomSheetDialog">
-                <TextView
-                    android:id="@+id/MenuLayoutID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:background="@android:color/transparent"
-                    android:text="3rd Hand Agent"
-                    android:textAllCaps="true"
-                    android:gravity="bottom"
-                    android:fontFamily="@font/android101"
-                    android:textStyle="bold"
-                    android:textColor="#000000"
-                    android:textSize="20dp"
-                    android:layout_toRightOf="@+id/toolBarID"
-                    android:layout_alignBaseline="@id/toolBarID"
-                    android:layout_gravity="center"
-                    android:paddingBottom="2dp"/>
             </androidx.appcompat.widget.Toolbar>
         </LinearLayout>
 

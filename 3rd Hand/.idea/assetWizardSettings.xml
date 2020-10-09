@@ -353,7 +353,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/verified_user/baseline_verified_user_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/eco/baseline_eco_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -363,7 +363,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_profile_user_24" />
+                            <entry key="outputName" value="ic_baseline_eco_24" />
                             <entry key="sourceFile" value="C:\Users\moham" />
                           </map>
                         </option>

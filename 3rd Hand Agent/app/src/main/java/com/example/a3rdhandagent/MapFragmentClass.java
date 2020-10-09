@@ -9,28 +9,30 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.firebase.geofire.GeoFire;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,12 +43,9 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.compat.Place;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,30 +60,35 @@ import java.util.ArrayList;
 import java.util.List;
 //import com.google.android.libraries.places.api.model.Place;
 
-public class MapFragmentClass extends Fragment implements OnMapReadyCallback, View.OnClickListener{
+public class MapFragmentClass extends Fragment implements OnMapReadyCallback, View.OnClickListener {
 
     //    EditText inputSearch2;
     View v;
-    AutoCompleteTextView inputSearch;
-    ImageView imageView;
     float zoomLevel;
-    String searchString;
+    ImageView imageView;
+    NetworkInfo netInfo;
+    LatLng DevicelatLng;
+    ConnectivityManager cm;
+    Location currentLocation;
+    boolean connected = false;
+    Double agentLat, agentLng;
     String locationArrayString[];
     private GoogleMap mGoogleMap;
-    private static final String TAG = "FindLotFragment";
-    private boolean locationPermissionGranted = true;
-    FusedLocationProviderClient mfusedLocationProviderClient;
-    LatLng DevicelatLng;
-    Location currentLocation;
+    AutoCompleteTextView inputSearch;
+    String searchString, agentPhoneNumber;
+    SupportMapFragment supportMapFragment;
+    DatabaseReference currentAgentLocationRef;
     private static final int REQUEST_CODE = 101;
-
+    private boolean locationPermissionGranted = false;
+    private static final String TAG = "FindLotFragment";
+    FusedLocationProviderClient mfusedLocationProviderClient;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_map, container, false);
 
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapID);
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapID);
         supportMapFragment.getMapAsync(this);
 
         imageView = v.findViewById(R.id.getDeviceID);
@@ -99,6 +103,8 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         inputSearch.setThreshold(1);
         inputSearch.setAdapter(adapter);
 
+        currentAgentLocationRef = FirebaseDatabase.getInstance().getReference("Agent Current Location");
+
         return v;
     }
 
@@ -109,6 +115,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
 
         MapStyleOptions mapStyleOptions = MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.map_style);
         mGoogleMap.setMapStyle(mapStyleOptions);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         LatLng dhakalatLng = new LatLng(23.8103, 90.4125);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dhakalatLng, 10f));
@@ -129,6 +136,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
 
+                locationPermissionGranted = true;
                 mGoogleMap.setMyLocationEnabled(true);
                 getDeviceLocation();
                 init();
@@ -256,10 +264,12 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         Log.d(TAG, "getDeviceLocation: get current device location");
         mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(),
+//                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//            return;
+//        }
 
         try {
             if(locationPermissionGranted) {
@@ -272,23 +282,51 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
                             currentLocation = location;
 
                             DevicelatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                            Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude + ", lng: " + DevicelatLng.longitude);
-                            mGoogleMap.addMarker(new MarkerOptions().position(DevicelatLng)
-                                    .icon(bitmapDescriptorFromVector(getActivity(),
-                                            R.drawable.agent_self_location)));
+                            Log.d(TAG, "moveCamera: move camera to: lat: " + DevicelatLng.latitude
+                                    + ", lng: " + DevicelatLng.longitude);
                             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
+                            agentLat = currentLocation.getLatitude();
+                            agentLng = currentLocation.getLongitude();
+
+                            cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                            netInfo = cm.getActiveNetworkInfo();
+                            if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                                connected = true;
+                                FirebaseUser agent = FirebaseAuth.getInstance().getCurrentUser();
+                                if (agent != null) {
+                                    if (agent.getDisplayName() != null) {
+                                        DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("Agent Information")
+                                                .child(agent.getDisplayName()).child("phone");
+                                        ref1.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                agentPhoneNumber = dataSnapshot.getValue(String.class);
+                                                storeAgentCurrentLocation(agentPhoneNumber, agentLat.toString(), agentLng.toString());
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                                        });
+                                    }
+                                }
+                            } else {
+                                connected = false;
+                                Snackbar snackbar = Snackbar.make(v, "Turn on internet connection", Snackbar.LENGTH_LONG);
+                                View sbView = snackbar.getView();
+                                sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Red));
+                                snackbar.setDuration(5000).show();
+                            }
+
                         } else {
-                            Snackbar snackbar = Snackbar.make(v, "Tap location icon below searchbar", Snackbar.LENGTH_LONG);
+                            Snackbar snackbar = Snackbar.make(v, "Connection lost: Restart you app", Snackbar.LENGTH_LONG);
                             View sbView = snackbar.getView();
-                            sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Green));
-                            snackbar.setDuration(10000).show();
+                            sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Red));
+                            snackbar.setDuration(5000).show();
                         }
                     }
                 });
             }
-        } catch (SecurityException e) {
-            Log.d(TAG, "getDeviceLocation: SecurityException" + e.getMessage());
-        }
+        } catch (SecurityException e) {Log.d(TAG, "getDeviceLocation: SecurityException" + e.getMessage());}
     }
 
     @Override
@@ -327,5 +365,11 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback, Vi
         if (v.getId() == R.id.getDeviceID) {
             getDeviceLocation();
         }
+    }
+
+    public void storeAgentCurrentLocation(String phone, String lattitude, String longitude){
+        String Key_User_Info = phone;
+        StoreAgentSelfCurrentLatLng storeAgentSelfCurrentLatLng = new StoreAgentSelfCurrentLatLng(phone, lattitude, longitude);
+        currentAgentLocationRef.child(Key_User_Info).setValue(storeAgentSelfCurrentLatLng);
     }
 }

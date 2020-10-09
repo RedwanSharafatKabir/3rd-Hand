@@ -138,11 +138,12 @@
             android:background="@drawable/non_corner_rectangle_two"
             android:textAllCaps="false"
             android:paddingRight="20dp"
-            android:paddingLeft="20dp"
+            android:paddingLeft="25dp"
             android:fontFamily="serif"
             android:layout_below="@+id/getDeviceID"
             android:layout_gravity="center"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:drawableLeft="@drawable/ic_baseline_near_me_24"/>
 
     </LinearLayout>
 

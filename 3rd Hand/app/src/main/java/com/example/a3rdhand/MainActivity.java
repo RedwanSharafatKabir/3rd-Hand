@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentActivity;
@@ -33,7 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
     ImageView imageView;
     TextView name, email, phone;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     FirebaseAuth mAuth;
     ConnectivityManager cm;
     NetworkInfo netInfo;
+    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,10 @@ public class MainActivity extends AppCompatActivity
         name = hView.findViewById(R.id.profileNameID);
         email = hView.findViewById(R.id.profileEmailID);
         phone = hView.findViewById(R.id.profilePhoneID);
-        imageView = hView.findViewById(R.id.profileImageID);
+        imageView = hView.findViewById(R.id.headerProfileImageID);
+        imageView.setOnClickListener(this);
+        linearLayout = hView.findViewById(R.id.headerProfileDetailID);
+        linearLayout.setOnClickListener(this);
 
         parentLayout = findViewById(android.R.id.content);
 
@@ -89,7 +94,6 @@ public class MainActivity extends AppCompatActivity
             sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Green));
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.setDuration(10000).show();
-
         } else {
             connected = false;
             snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -280,6 +284,14 @@ public class MainActivity extends AppCompatActivity
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.headerProfileImageID || v.getId()==R.id.headerProfileDetailID){
+            ProfileActivity profileActivity = new ProfileActivity();
+            profileActivity.show(getSupportFragmentManager(), "Sample dialog");
         }
     }
 

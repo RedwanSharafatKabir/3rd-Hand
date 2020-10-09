@@ -93,7 +93,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../3rd Hand Agent" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -127,11 +127,11 @@
       <recent name="com.example.a3rdhand.EquipmentOrderAndReceive" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-xhdpi" />
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-anydpi" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-xxhdpi" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\font" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\layout" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\menu" />
     </key>
     <key name="android.template.989205044">
       <recent name="com.example.a3rdhand" />
@@ -286,22 +286,22 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="617" y="166" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1601712207778" />
-    <state width="1323" height="313" key="GridCell.Tab.0.bottom" timestamp="1601655644134">
+    <state width="1323" height="313" key="GridCell.Tab.0.bottom" timestamp="1601912487374">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="313" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1601655644134" />
-    <state width="1323" height="313" key="GridCell.Tab.0.center" timestamp="1601655644134">
+    <state width="1323" height="313" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1601912487374" />
+    <state width="1323" height="313" key="GridCell.Tab.0.center" timestamp="1601912487374">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="313" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1601655644134" />
-    <state width="1323" height="313" key="GridCell.Tab.0.left" timestamp="1601655644134">
+    <state width="1323" height="313" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1601912487374" />
+    <state width="1323" height="313" key="GridCell.Tab.0.left" timestamp="1601912487373">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="313" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1601655644134" />
-    <state width="1323" height="313" key="GridCell.Tab.0.right" timestamp="1601655644134">
+    <state width="1323" height="313" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1601912487373" />
+    <state width="1323" height="313" key="GridCell.Tab.0.right" timestamp="1601912487374">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="313" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1601655644134" />
+    <state width="1323" height="313" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1601912487374" />
     <state x="198" y="11" width="998" height="708" key="SettingsEditor" timestamp="1601400353507">
       <screen x="0" y="0" width="1366" height="738" />
     </state>

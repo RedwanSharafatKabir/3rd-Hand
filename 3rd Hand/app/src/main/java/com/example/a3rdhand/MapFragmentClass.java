@@ -92,7 +92,7 @@ public class MapFragmentClass extends Fragment implements
     int j = 0, i = 0;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
-    private boolean locationPermissionGranted = true;
+    private boolean locationPermissionGranted = false;
     FusedLocationProviderClient mfusedLocationProviderClient;
     LatLng DevicelatLng;
     private Equipment_Agent_Longitude_Latitude_List equipmentAgentLongitude_latitude_list;
@@ -159,14 +159,12 @@ public class MapFragmentClass extends Fragment implements
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                            }
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
             }
         }
@@ -174,8 +172,6 @@ public class MapFragmentClass extends Fragment implements
         bottomNavigation = v.findViewById(R.id.bottomNavigationID);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
         bottomNavigation.getMenu().setGroupCheckable(0, false, true);
-
-        setupAutoCompleteFragment();
 
         return v;
     }
@@ -187,15 +183,18 @@ public class MapFragmentClass extends Fragment implements
 
         MapStyleOptions mapStyleOptions = MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.map_style);
         mGoogleMap.setMapStyle(mapStyleOptions);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         for (i = 0; i < placelist.size(); i++) {
             if (j == i) {
                 mGoogleMap.addMarker(new MarkerOptions().position(placelist.get(i)).title(String.valueOf(title.get(j)))
-                        .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_superman)));
+                        .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_agent_location_on_24)));
             }
             j++;
-            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(placelist.get(i)));
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(placelist.get(i), 10f));
         }
+
+        setupAutoCompleteFragment();
 
         try {
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -212,11 +211,13 @@ public class MapFragmentClass extends Fragment implements
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
 
+                locationPermissionGranted = true;
                 mGoogleMap.setMyLocationEnabled(true);
                 getDeviceLocation();
                 init();
             }
         } catch(Exception e){getDeviceLocation();}
+
     }
 
 /*  searchMapMethod() Method for autocomplete editText is below
@@ -338,11 +339,6 @@ public class MapFragmentClass extends Fragment implements
         Log.d(TAG, "getDeviceLocation: get current device location");
         mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
-
         try {
             if(locationPermissionGranted) {
                 Task task = mfusedLocationProviderClient.getLastLocation();
@@ -358,10 +354,10 @@ public class MapFragmentClass extends Fragment implements
                             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
                             getCustomerPackageLocation();
                         } else {
-                            Snackbar snackbar = Snackbar.make(v, "Tap location icon below searchbar", Snackbar.LENGTH_LONG);
+                            Snackbar snackbar = Snackbar.make(v, "Connection lost: Restart you app", Snackbar.LENGTH_LONG);
                             View sbView = snackbar.getView();
-                            sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Green));
-                            snackbar.setDuration(10000).show();
+                            sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Red));
+                            snackbar.setDuration(5000).show();
                         }
                     }
                 });

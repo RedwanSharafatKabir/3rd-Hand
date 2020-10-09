@@ -173,17 +173,17 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
 
             if(connected == true) {
                 usernid = NIDnumberText.getRawText();
-                storeMethod(useremail, username, userphone, usercountry, usernid, employeeidID);
+                storeMethod(useremail, username, employeeidID, userphone, usercountry, usernid);
                 getDialog().dismiss();
             }
         }
     }
 
-    public void storeMethod(String email, String username, String phone,
-                            String country, String nid, String employeeid){
+    public void storeMethod(String email, String username, String employeeid, String phone,
+                            String country, String nid){
 
         String Key_User_Info = phone;
-        StoreAgentData storeAgentData = new StoreAgentData(email, username, phone, country, nid,employeeid);
+        StoreAgentData storeAgentData = new StoreAgentData(email, username, employeeid, phone, country, nid);
         databaseReference.child(Key_User_Info).setValue(storeAgentData);
     }
 }
