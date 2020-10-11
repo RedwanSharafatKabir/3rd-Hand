@@ -22,27 +22,34 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profileActivityPicID"
+            <LinearLayout
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:orientation="vertical"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:src="@drawable/redwan"
-                android:clickable="true"
-                android:background="@android:color/transparent"/>
+                android:gravity="center">
 
-            <ImageView
-                android:id="@+id/editProfilePicture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_edit_24"
-                android:layout_gravity="right"
-                android:gravity="right"
-                android:background="@drawable/white_circle_shape"
-                android:padding="5dp"
-                android:layout_marginTop="-22dp"
-                android:clickable="true"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileActivityPicID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:src="@drawable/ic_profile_image_24"
+                    android:clickable="true"/>
+
+                <ImageView
+                    android:id="@+id/uploadProfilePictureID"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_baseline_edit_24"
+                    android:layout_gravity="end|bottom"
+                    android:background="@drawable/white_circle_shape"
+                    android:padding="5dp"
+                    android:layout_marginTop="-32dp"
+                    android:clickable="true"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/second"
@@ -109,7 +116,6 @@
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:fontFamily="serif"
-                        android:textStyle="bold"
                         android:drawableLeft="@drawable/ic_security_black_24dp"
                         android:layout_gravity="center"/>
 
@@ -122,7 +128,7 @@
                         android:textColor="#000000"
                         android:layout_gravity="center"
                         android:inputType="text"
-                        app:met_mask="#############"/>
+                        app:met_mask="#############" />
                 </LinearLayout>
 
                 <TextView

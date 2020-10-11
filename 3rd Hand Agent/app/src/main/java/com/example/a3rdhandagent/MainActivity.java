@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Green));
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-            snackbar.setDuration(10000).show();
+            snackbar.setDuration(2500).show();
 
         } else {
             connected = false;

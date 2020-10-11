@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentActivity;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.google.android.material.navigation.NavigationView;
@@ -32,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Green));
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-            snackbar.setDuration(10000).show();
+            snackbar.setDuration(2500).show();
         } else {
             connected = false;
             snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -116,6 +120,10 @@ public class MainActivity extends AppCompatActivity
         if(connected == true) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
+                if (user.getPhotoUrl() != null) {
+                    Glide.with(MainActivity.this).load(user.getPhotoUrl().toString()).into(imageView);
+                }
+
                 if (user.getEmail() != null) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User Information")
                             .child(user.getDisplayName()).child("email");

@@ -357,7 +357,7 @@ public class MapFragmentClass extends Fragment implements
                             Snackbar snackbar = Snackbar.make(v, "Connection lost: Restart you app", Snackbar.LENGTH_LONG);
                             View sbView = snackbar.getView();
                             sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Red));
-                            snackbar.setDuration(5000).show();
+                            snackbar.setDuration(2000).show();
                         }
                     }
                 });

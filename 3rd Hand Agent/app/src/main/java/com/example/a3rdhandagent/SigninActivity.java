@@ -26,6 +26,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,14 +42,15 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
     AlertDialog waitingDialog;
     CheckBox checkBox;
     Animation fromTop, fromBottom;
-    EditText signinEmailText, signinpasswordText;
+    EditText signinPhoneText, signinpasswordText;
     ImageButton signinButton;
     private FirebaseAuth mAuth;
     LinearLayout linearLayoutID;
-    String emailObj, passObj, passedString = "Remember me";
+    String emailObj, passObj, passedString = "Remember me", phoneObj, phonenumber;
     Button close, forgetPass;
     View view;
     boolean connection = false;
+    DatabaseReference databaseReference;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -58,7 +65,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         setCancelable(false);
 
         linearLayoutID = view.findViewById(R.id.second);
-        signinEmailText = view.findViewById(R.id.loginEmailID);
+        signinPhoneText = view.findViewById(R.id.loginPhoneID);
         signinpasswordText = view.findViewById(R.id.loginpassID);
 
         forgetPass = view.findViewById(R.id.forgetPassID);
@@ -73,36 +80,28 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         checkBox = view.findViewById(R.id.rememberCheckBoxID);
 
         mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Agent Information");
 
         return builder.create();
     }
 
     @Override
     public void onClick(View v) {
-        emailObj = signinEmailText.getText().toString();
+        phoneObj = signinPhoneText.getText().toString();
         passObj = signinpasswordText.getText().toString();
         waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
 
         if(v.getId()==R.id.SigninID){
             waitingDialog.show();
 
-            if (emailObj.isEmpty()) {
-                signinEmailText.setError("Please enter email address");
+            if (phoneObj.isEmpty()) {
+                signinPhoneText.setError("Please enter phone number");
                 waitingDialog.dismiss();
                 return;
             }
 
             if (passObj.isEmpty()) {
-                signinpasswordText.setError("Please enter username");
-                waitingDialog.dismiss();
-                return;
-            }
-
-            if(!Patterns.EMAIL_ADDRESS.matcher(emailObj).matches()) {
-                Toast t = Toast.makeText(getActivity(), "Invalid email address", Toast.LENGTH_LONG);
-                t.setGravity(Gravity.CENTER, 0, 0);
-                t.show();
-                signinEmailText.requestFocus();
+                signinpasswordText.setError("Please enter password");
                 waitingDialog.dismiss();
                 return;
             }
@@ -120,30 +119,45 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
 
                 if(connection==true){
                     rememberMethod(passedString);
-                    mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    phonenumber = "+88" + phoneObj;
+                    databaseReference.child(phonenumber).child("email").addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            try {
+                                emailObj = snapshot.getValue(String.class);
+                                mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            waitingDialog.dismiss();
+
+                                            getActivity().finish();
+
+                                            Intent it = new Intent(getActivity(), MainActivity.class);
+                                            startActivity(it);
+                                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                                            signinPhoneText.setText("");
+                                            signinpasswordText.setText("");
+                                        } else {
+                                            waitingDialog.dismiss();
+                                            Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : " +
+                                                    task.getException().getMessage(), Toast.LENGTH_LONG);
+                                            t.setGravity(Gravity.CENTER, 0, 0);
+                                            t.show();
+                                        }
+                                    }
+                                });
+                            } catch (Exception e){
+                                signinPhoneText.setError("Wrong phone number !");
                                 waitingDialog.dismiss();
-
-                                getActivity().finish();
-
-                                Intent it = new Intent(getActivity(), MainActivity.class);
-                                startActivity(it);
-                                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-                                signinEmailText.setText("");
-                                signinpasswordText.setText("");
-                            }
-                            else {
-                                waitingDialog.dismiss();
-                                Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : " +
-                                        task.getException().getMessage(), Toast.LENGTH_LONG);
-                                t.setGravity(Gravity.CENTER, 0, 0);
-                                t.show();
                             }
                         }
-                    });}
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
+                }
             }
 
             if(!checkBox.isChecked()) {
@@ -160,29 +174,45 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                 if(connection==true){
                     passedString = "";
                     setNullDataMethod(passedString);
-                    mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    phonenumber = "+88" + phoneObj;
+                    databaseReference.child(phonenumber).child("email").addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            try {
+                                emailObj = snapshot.getValue(String.class);
+                                mAuth.signInWithEmailAndPassword(emailObj, passObj).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            waitingDialog.dismiss();
+
+                                            getActivity().finish();
+
+                                            Intent it = new Intent(getActivity(), MainActivity.class);
+                                            startActivity(it);
+                                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                                            signinPhoneText.setText("");
+                                            signinpasswordText.setText("");
+                                        } else {
+                                            waitingDialog.dismiss();
+                                            Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : " +
+                                                    task.getException().getMessage(), Toast.LENGTH_LONG);
+                                            t.setGravity(Gravity.CENTER, 0, 0);
+                                            t.show();
+                                        }
+                                    }
+                                });
+                            } catch (Exception e){
+                                signinPhoneText.setError("Wrong phone number !");
                                 waitingDialog.dismiss();
-
-                                getActivity().finish();
-
-                                Intent it = new Intent(getActivity(), MainActivity.class);
-                                startActivity(it);
-                                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-                                signinEmailText.setText("");
-                                signinpasswordText.setText("");
-                            } else {
-                                waitingDialog.dismiss();
-                                Toast t = Toast.makeText(getActivity(), "Authentication failed\nError : " +
-                                        task.getException().getMessage(), Toast.LENGTH_LONG);
-                                t.setGravity(Gravity.CENTER, 0, 0);
-                                t.show();
                             }
                         }
-                    });}
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
+                }
             }
         }
 

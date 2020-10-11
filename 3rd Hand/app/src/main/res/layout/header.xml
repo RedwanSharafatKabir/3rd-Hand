@@ -13,7 +13,7 @@
         android:id="@+id/headerProfileImageID"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/redwan"
+        android:src="@drawable/ic_profile_image_24"
         android:clickable="true"
         android:layout_gravity="center|left"
         android:background="@android:color/transparent"/>
