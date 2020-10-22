@@ -31,7 +31,7 @@
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable,LockedOrientationActivity" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".AppActions.ProfileActivity"
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable,LockedOrientationActivity" />
         <activity
@@ -43,19 +43,19 @@
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable,LockedOrientationActivity" />
         <activity
-            android:name=".AboutActivity"
+            android:name=".AppActions.AboutActivity"
             android:screenOrientation="fullSensor"
             tools:ignore="Instantiatable" />
         <activity
-            android:name=".FeedbackActivity"
+            android:name=".AppActions.FeedbackActivity"
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable,LockedOrientationActivity" />
         <activity
-            android:name=".HelpActivity"
+            android:name=".AppActions.HelpActivity"
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable,LockedOrientationActivity" />
         <activity
-            android:name=".PaymentMethodActivity"
+            android:name=".PaymentSystem.PaymentMethodActivity"
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable,LockedOrientationActivity" />
 
@@ -67,15 +67,15 @@
             android:value="@string/google_map_API_key" />
 
         <activity
-            android:name=".SignupActivity"
+            android:name=".UserAuthentication.SignupActivity"
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable,LockedOrientationActivity" />
         <activity
-            android:name=".SigninActivity"
+            android:name=".UserAuthentication.SigninActivity"
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable,LockedOrientationActivity" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".AppActions.SplashScreen"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
@@ -85,7 +85,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StartScreen"
+            android:name=".AppActions.StartScreen"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
@@ -95,7 +95,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".AppActions.MainActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"></activity>

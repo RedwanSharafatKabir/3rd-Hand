@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutActivity"
+    tools:context=".AppActions.AboutActivity"
     android:background="#FFFFFF">
 
     <ScrollView
@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Version: 1.0"
+                    android:text="Version: 1.1"
                     android:textSize="20dp"
                     android:textColor="#ffffff"
                     android:textStyle="bold"

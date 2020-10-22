@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".AppActions.MainActivity"
     android:orientation="vertical">
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -53,7 +53,7 @@
 
             <fragment
                 android:id="@+id/fragmentID"
-                android:name="com.example.a3rdhand.MapFragmentClass"
+                android:name="com.example.a3rdhand.GoogleMap.MapFragmentClass"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>

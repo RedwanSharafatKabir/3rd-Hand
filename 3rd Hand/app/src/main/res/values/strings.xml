@@ -28,6 +28,7 @@
     <string name="rem">Enter phone number from first 2 digits country code past.\nFormat: +88 01234567890</string>
 
     <string name="not_available">Must apply for at least one service, Go to > menuBar > Actions > choose any one action from 3</string>
+    <string name="no_agent_available">No Agent available</string>
 
     <string-array name="location_array">
         <item>Mugdapara</item>

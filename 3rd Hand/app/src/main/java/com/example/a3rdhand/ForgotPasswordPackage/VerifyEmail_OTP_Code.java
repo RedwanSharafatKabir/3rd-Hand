@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.example.a3rdhand.R;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class VerifyEmail_OTP_Code extends AppCompatDialogFragment implements View.OnClickListener {
 
@@ -50,7 +49,7 @@ public class VerifyEmail_OTP_Code extends AppCompatDialogFragment implements Vie
             getDialog().dismiss();
         }
 
-        if(v.getId()==R.id.resendVerificationEmailID){
+        if(v.getId()==R.id.resendVerificationEmailID) {
             Forgot_Password forgot_password = new Forgot_Password();
             forgot_password.show(getFragmentManager(), "Sample dialog");
 
