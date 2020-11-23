@@ -27,6 +27,8 @@
 
     <string name="rem">Enter phone number from first 2 digits country code past.\nFormat: +88 01234567890</string>
 
+    <string name="email_alert">Email is already used.\nYou can use one email address only once for client app or agent app</string>
+
     <string-array name="location_array">
         <item>Mugdapara</item>
         <item>South Mugdapara</item>

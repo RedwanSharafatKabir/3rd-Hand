@@ -186,39 +186,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mAuth.getInstance().signOut();
-
-                        if (agent1 != null) {
-                            if (agent1.getDisplayName() != null) {
-                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Agent Information")
-                                        .child(agent1.getDisplayName()).child("phone");
-                                ref.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        agentPhone_Number = dataSnapshot.getValue(String.class);
-                                        try {
-                                            databaseReference.child(agentPhone_Number).removeValue();
-                                            finish();
-                                            Intent it = new Intent(MainActivity.this, StartScreen.class);
-                                            startActivity(it);
-                                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                        } catch(Exception e){
-                                            finish();
-                                            Intent it = new Intent(MainActivity.this, StartScreen.class);
-                                            startActivity(it);
-                                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        finish();
-                                        Intent it = new Intent(MainActivity.this, StartScreen.class);
-                                        startActivity(it);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                    }
-                                });
-                            }
-                        }
+                        finish();
+                        Intent it = new Intent(MainActivity.this, StartScreen.class);
+                        startActivity(it);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     }
                 });
 

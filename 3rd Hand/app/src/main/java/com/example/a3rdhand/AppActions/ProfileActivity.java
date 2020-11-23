@@ -129,8 +129,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
 
                     DatabaseReference ref2 = databaseReference.child(user.getDisplayName()).child("username");
@@ -142,8 +141,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
 
                     DatabaseReference ref3 = databaseReference.child(user.getDisplayName()).child("country");
@@ -155,8 +153,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
 
                     DatabaseReference ref4 = databaseReference.child(user.getDisplayName()).child("nid");

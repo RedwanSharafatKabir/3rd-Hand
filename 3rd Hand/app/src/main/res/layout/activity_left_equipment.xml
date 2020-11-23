@@ -44,22 +44,25 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp">
 
-                <EditText
-                    android:id="@+id/equipmentNameID"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="  Enter equipement name"
-                    android:inputType="text"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_equipmentname_black_24dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/equipmentNameID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="  Enter equipement name"
+                        android:inputType="text"
+                        android:textColor="#000000"
+                        android:textColorHint="#333333"
+                        android:drawableLeft="@drawable/ic_equipmentname_black_24dp"
+                        android:layout_marginBottom="5dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="5dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:paddingLeft="5dp"
@@ -77,60 +80,75 @@
                         android:gravity="center"/>
                 </LinearLayout>
 
-                <AutoCompleteTextView
-                    android:id="@+id/customerAddressID"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="  Location of your left thing"
-                    android:inputType="text"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_add_location_black_24dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <AutoCompleteTextView
+                        android:id="@+id/customerAddressID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="  Location of your left thing"
+                        android:inputType="text"
+                        android:textColor="#000000"
+                        android:textColorHint="#333333"
+                        android:drawableLeft="@drawable/ic_add_location_black_24dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/laneNumberID"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="  Block and Road name / no."
-                    android:inputType="text"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_lane_black_24dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/laneNumberID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="  Block and Road name / no."
+                        android:inputType="text"
+                        android:textColor="#000000"
+                        android:textColorHint="#333333"
+                        android:drawableLeft="@drawable/ic_lane_black_24dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/buildingNumberID"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="  Apartment / Building no."
-                    android:inputType="text"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_building_black_24dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/buildingNumberID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="  Apartment / Building no."
+                        android:inputType="text"
+                        android:textColor="#000000"
+                        android:textColorHint="#333333"
+                        android:drawableLeft="@drawable/ic_building_black_24dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/floorID"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="  Enter floor no."
-                    android:inputType="text"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_floor_1_black_24dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/floorID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="  Enter floor no."
+                        android:inputType="text"
+                        android:textColor="#000000"
+                        android:textColorHint="#333333"
+                        android:drawableLeft="@drawable/ic_floor_1_black_24dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/flatID"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="  Enter flat number"
-                    android:inputType="text"
-                    android:textColor="#000000"
-                    android:textColorHint="#333333"
-                    android:drawableLeft="@drawable/ic_flat_black_24dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/flatID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="  Enter flat number"
+                        android:inputType="text"
+                        android:textColor="#000000"
+                        android:textColorHint="#333333"
+                        android:drawableLeft="@drawable/ic_flat_black_24dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 

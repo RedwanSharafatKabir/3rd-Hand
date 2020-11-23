@@ -69,8 +69,8 @@
         <option value="valueResourceFile" />
         <option value="layoutResourceFile" />
         <option value="resourceFile" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -88,7 +88,7 @@
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="3rd_Hand.app" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-09-25T12:51:51.217Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-11-23T17:50:34.800Z" />
     <property name="ExportApk.ApkPath" value="D:\Android Projects\3rd Hand\app" />
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="ExportApk.SignV1" value="true" />
@@ -133,12 +133,15 @@
       <recent name="com.example.a3rdhand.AppActions" />
       <recent name="com.example.a3rdhand.UserAuthentication" />
     </key>
+    <key name="android.template.139299344">
+      <recent name="com.example.a3rdhand.UserAuthentication" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android Projects\3rd Hand\app\libs" />
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\java\com\example\a3rdhand\UserAuthentication" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-xhdpi" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-anydpi" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-xxhdpi" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\font" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.a3rdhand.ModelClass" />
@@ -274,18 +277,22 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="289" y="23" key="#Chrome_Settings/0.0.1366.738@0.0.1366.738" timestamp="1600784109859" />
+    <state x="309" y="47" key="#Inspections" timestamp="1606152264423">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="309" y="47" key="#Inspections/0.0.1366.738@0.0.1366.738" timestamp="1606152264423" />
     <state x="275" y="27" key="#Notifications" timestamp="1601557128157">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="275" y="27" key="#Notifications/0.0.1366.738@0.0.1366.738" timestamp="1601557128157" />
-    <state x="207" y="31" width="966" height="676" key="#PSD" timestamp="1602529044778">
+    <state x="282" y="0" width="966" height="738" key="#PSD" timestamp="1605881849788">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="207" y="31" width="966" height="676" key="#PSD/0.0.1366.738@0.0.1366.738" timestamp="1602529044778" />
-    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1602699722341">
+    <state x="282" y="0" width="966" height="738" key="#PSD/0.0.1366.738@0.0.1366.738" timestamp="1605881849788" />
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1603653855189">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1602699722341" />
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1603653855189" />
     <state x="413" y="148" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1602476199797">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -294,6 +301,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="479" y="227" width="634" height="293" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1366.738@0.0.1366.738" timestamp="1602788315708" />
+    <state x="68" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1606149278209">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="68" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.738@0.0.1366.738" timestamp="1606149278209" />
     <state x="695" y="118" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602684113095">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -302,34 +313,34 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="263" y="123" key="AndroidCreateResourceFileDialog/0.0.1366.738@0.0.1366.738" timestamp="1601038561687" />
-    <state x="527" y="158" key="AndroidCreateXmlResourceDialog" timestamp="1602766259873">
+    <state x="527" y="158" key="AndroidCreateXmlResourceDialog" timestamp="1603653466920">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="527" y="158" key="AndroidCreateXmlResourceDialog/0.0.1366.738@0.0.1366.738" timestamp="1602766259873" />
-    <state x="539" y="114" width="616" height="491" key="FileChooserDialogImpl" timestamp="1602858902037">
+    <state x="527" y="158" key="AndroidCreateXmlResourceDialog/0.0.1366.738@0.0.1366.738" timestamp="1603653466920" />
+    <state x="539" y="114" width="616" height="491" key="FileChooserDialogImpl" timestamp="1606154240684">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="539" y="114" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1602858902037" />
-    <state width="1323" height="313" key="GridCell.Tab.0.bottom" timestamp="1603266287606">
+    <state x="539" y="114" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1606154240684" />
+    <state width="1323" height="443" key="GridCell.Tab.0.bottom" timestamp="1606157952408">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="313" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1603266287606" />
-    <state width="1323" height="313" key="GridCell.Tab.0.center" timestamp="1603266287606">
+    <state width="1323" height="443" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1606157952408" />
+    <state width="1323" height="443" key="GridCell.Tab.0.center" timestamp="1606157952408">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="313" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1603266287606" />
-    <state width="1323" height="313" key="GridCell.Tab.0.left" timestamp="1603266287606">
+    <state width="1323" height="443" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1606157952408" />
+    <state width="1323" height="443" key="GridCell.Tab.0.left" timestamp="1606157952400">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="313" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1603266287606" />
-    <state width="1323" height="313" key="GridCell.Tab.0.right" timestamp="1603266287606">
+    <state width="1323" height="443" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1606157952400" />
+    <state width="1323" height="443" key="GridCell.Tab.0.right" timestamp="1606157952408">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="313" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1603266287606" />
-    <state x="198" y="11" width="998" height="708" key="SettingsEditor" timestamp="1601400353507">
+    <state width="1323" height="443" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1606157952408" />
+    <state x="198" y="11" width="998" height="708" key="SettingsEditor" timestamp="1603534623031">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="198" y="11" width="998" height="708" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1601400353507" />
+    <state x="198" y="11" width="998" height="708" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1603534623031" />
     <state x="700" y="159" key="chooseDestDirectoryDialog" timestamp="1601668994271">
       <screen x="0" y="0" width="1366" height="738" />
     </state>

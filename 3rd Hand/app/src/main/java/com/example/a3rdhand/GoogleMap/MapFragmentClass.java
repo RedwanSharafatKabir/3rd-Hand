@@ -11,14 +11,15 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -26,25 +27,26 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.a3rdhand.AppActions.AboutActivity;
 import com.example.a3rdhand.AppActions.HelpActivity;
 import com.example.a3rdhand.AppActions.ProfileActivity;
+import com.example.a3rdhand.CallBack.IFirebaseAgentInfoListener;
+import com.example.a3rdhand.CallBack.IFirebaseFailedListener;
+import com.example.a3rdhand.ModelClass.AgentGeoModel;
+import com.example.a3rdhand.ModelClass.AgentInfoModel;
+import com.example.a3rdhand.ModelClass.Common;
 import com.example.a3rdhand.ModelClass.Equipment_Agent_Longitude_Latitude_List;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.EquipmentOrderAndReceive.Call_Package_Agent_Dialog;
 import com.example.a3rdhand.R;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
+import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -62,7 +64,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,18 +79,24 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MapFragmentClass extends Fragment implements
-        OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
+        OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener,
+        IFirebaseFailedListener, IFirebaseAgentInfoListener {
 
     View v;
     Button findAgent;
     float zoomLevel = 16f;
-    String location_Thing, userPhoneNumber, tempPackage;
+    String location_Thing, userPhoneNumber, tempPackage, agentLocationName;
     int j = 0, i = 0;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
@@ -103,6 +110,12 @@ public class MapFragmentClass extends Fragment implements
     BottomNavigationView bottomNavigation;
     DatabaseReference databaseReference;
     SupportMapFragment supportMapFragment;
+    private Double distance = 1.0;
+    private static final double LIMIT_RANGE = 10.0;
+    private Location previousLocation, currentLocation;
+    IFirebaseAgentInfoListener iFirebaseAgentInfoListener;
+    IFirebaseFailedListener iFirebaseFailedListener;
+    private boolean firstTime = true;
 
     public MapFragmentClass() {
         equipmentAgentLongitude_latitude_list = new Equipment_Agent_Longitude_Latitude_List();
@@ -159,14 +172,12 @@ public class MapFragmentClass extends Fragment implements
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                            }
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
             }
         }
@@ -181,6 +192,9 @@ public class MapFragmentClass extends Fragment implements
     }
 
     private void init() {
+        iFirebaseFailedListener = this;
+        iFirebaseAgentInfoListener = this;
+
         locationRequest = new LocationRequest();
         locationRequest.setSmallestDisplacement(10f);
         locationRequest.setInterval(5000);
@@ -194,6 +208,21 @@ public class MapFragmentClass extends Fragment implements
                 LatLng newPosition = new LatLng(locationResult.getLastLocation().getLatitude(),
                         locationResult.getLastLocation().getLongitude());
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPosition, zoomLevel));
+
+                // When user change location it counts distance from previous location
+                if (firstTime) {
+                    previousLocation = currentLocation = locationResult.getLastLocation();
+                    firstTime = false;
+                } else {
+                    previousLocation = currentLocation;
+                    currentLocation = locationResult.getLastLocation();
+                }
+
+                if (previousLocation.distanceTo(currentLocation) / 1000 <= LIMIT_RANGE) {
+                    loadAvailableAgents();
+                } else {
+                    // Do nothing
+                }
             }
         };
 
@@ -201,10 +230,115 @@ public class MapFragmentClass extends Fragment implements
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             return;
         }
         mfusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+
+        loadAvailableAgents();
+    }
+
+    private void loadAvailableAgents() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Snackbar.make(supportMapFragment.getView(), "Location permission required", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        mfusedLocationProviderClient.getLastLocation()
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Snackbar.make(supportMapFragment.getView(), e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Load all agents in the city
+                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                List<Address> addressList;
+                try {
+                    addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    agentLocationName = addressList.get(0).getLocality();
+                    DatabaseReference agentsLocationRef = FirebaseDatabase.getInstance()
+                            .getReference("Agent Current Location").child(agentLocationName);
+
+                    GeoFire gf = new GeoFire(agentsLocationRef);
+                    GeoQuery geoQuery = gf.queryAtLocation(new GeoLocation(location.getLatitude(), location.getLongitude()), distance);
+                    geoQuery.removeAllListeners();
+                    geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+                        @Override
+                        public void onKeyEntered(String key, GeoLocation location) {
+                            Common.agentsFound.add(new AgentGeoModel(key, location));
+                        }
+
+                        @Override
+                        public void onKeyExited(String key) {
+
+                        }
+
+                        @Override
+                        public void onKeyMoved(String key, GeoLocation location) {
+
+                        }
+
+                        @Override
+                        public void onGeoQueryReady() {
+                            if(distance <= LIMIT_RANGE){
+                                distance++;
+                                loadAvailableAgents(); // continue search in new distance
+                            } else {
+                                distance = 1.0; // reset distance
+                                addAgentMarker();
+                            }
+                        }
+
+                        @Override
+                        public void onGeoQueryError(DatabaseError error) {
+                            Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+
+                } catch (IOException e) {
+                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void addAgentMarker() {
+        if(Common.agentsFound.size() > 0) {
+            Observable.fromIterable(Common.agentsFound).subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(agentGeoModel -> {
+                        findAgentByKey(agentGeoModel);
+                    }, throwable -> {
+                        Snackbar.make(getView(), throwable.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }, ()->{
+
+                    });
+        } else {
+            Snackbar.make(getView(), "Agents aren't available", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private void findAgentByKey(AgentGeoModel agentGeoModel) {
+        FirebaseDatabase.getInstance().getReference("Agent Information").child(agentGeoModel.getKey())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.hasChildren()){
+                            agentGeoModel.setAgentInfoModel(snapshot.getValue(AgentInfoModel.class));
+                            iFirebaseAgentInfoListener.onAgentInfoLoadSuccess(agentGeoModel);
+                        } else {
+                            iFirebaseFailedListener.onFirebaseLoadFailure(getString(R.string.not_found_agent) + agentGeoModel.getKey());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        iFirebaseFailedListener.onFirebaseLoadFailure(error.getMessage());
+                    }
+                });
     }
 
     @Override
@@ -277,15 +411,6 @@ public class MapFragmentClass extends Fragment implements
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {}
                 }).check();
-
-        for (i = 0; i < placelist.size(); i++) {
-            if (j == i) {
-                mGoogleMap.addMarker(new MarkerOptions().position(placelist.get(i)).title(String.valueOf(title.get(j)))
-                        .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_agent_location_on_24)));
-            }
-            j++;
-            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(placelist.get(i), 10f));
-        }
     }
 
     @Override
@@ -458,5 +583,44 @@ public class MapFragmentClass extends Fragment implements
         vectorDrawable.draw(canvas);
 
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    @Override
+    public void onFirebaseLoadFailure(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAgentInfoLoadSuccess(AgentGeoModel agentGeoModel) {
+        if(!Common.markerList.containsKey(agentGeoModel.getKey())){
+            Common.markerList.put(agentGeoModel.getKey(),
+                    mGoogleMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(agentGeoModel.getGeoLocation().latitude, agentGeoModel.getGeoLocation().longitude))
+                            .flat(true).title(Common.buildName(agentGeoModel.getAgentInfoModel().getUsername(),
+                                    agentGeoModel.getAgentInfoModel().getEmployeeid()))
+                                    .snippet(agentGeoModel.getAgentInfoModel().getPhone())
+                                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_agent_location_on_24))));
+        }
+        if(!TextUtils.isEmpty(agentLocationName)){
+            DatabaseReference agentLocation = FirebaseDatabase.getInstance().getReference("Agent Current Location")
+                    .child(agentLocationName).child(agentGeoModel.getKey());
+            agentLocation.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(!snapshot.hasChildren()){
+                        if(Common.markerList.get(agentGeoModel.getKey()) != null){
+                            Common.markerList.get(agentGeoModel.getKey()).remove(); // Remove marker
+                            Common.markerList.remove(agentGeoModel.getKey()); // Remove info from HashMap
+                            agentLocation.removeEventListener(this); // Remove event listener
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 }

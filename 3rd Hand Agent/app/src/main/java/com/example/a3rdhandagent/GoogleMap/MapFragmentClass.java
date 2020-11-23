@@ -66,6 +66,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 //import com.google.android.libraries.places.api.model.Place;
@@ -76,10 +77,10 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
     float zoomLevel = 16f;
     LatLng DevicelatLng;
     GeoFire geoFire;
-    String agentLocationName;
+    String agentLocationName, agentPhoneNumberID, agentUsername;
     private GoogleMap mGoogleMap;
     SupportMapFragment supportMapFragment;
-    DatabaseReference onlineRef, currentAgentRef, agentsLocationRef;
+    DatabaseReference onlineRef, currentAgentRef, agentsLocationRef, agentTemporaryInfoRef;
     FusedLocationProviderClient mfusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
@@ -129,6 +130,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapID);
         supportMapFragment.getMapAsync(this);
 
+        agentTemporaryInfoRef = FirebaseDatabase.getInstance().getReference("Agent Temporary Info");
         init();
 
         return v;
@@ -162,6 +164,9 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
                     currentAgentRef = agentsLocationRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     geoFire = new GeoFire(agentsLocationRef);
 
+                    agentPhoneNumberID = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                    storeAgentTemporaryInfo(agentPhoneNumberID);
+
                 } catch (IOException e) {
                     Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
                 }
@@ -191,6 +196,22 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
             return;
         }
         mfusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+    }
+
+    public void storeAgentTemporaryInfo(String agentPhoneNumberID){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Agent Information").child(agentPhoneNumberID).child("username");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                agentUsername = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
+        StoreAgentSelfCurrentLatLng storeAgentSelfCurrentLatLng = new StoreAgentSelfCurrentLatLng(agentPhoneNumberID, agentUsername);
+        agentTemporaryInfoRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(storeAgentSelfCurrentLatLng);
     }
 
     @Override

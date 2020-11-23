@@ -1,16 +1,13 @@
 package com.example.a3rdhandagent.ModelClass;
 
 public class StoreAgentSelfCurrentLatLng {
-    String phone, username, lattitude, longitude, locationName;
+    String phone, username;
 
     public StoreAgentSelfCurrentLatLng() {}
 
-    public StoreAgentSelfCurrentLatLng(String phone, String username, String lattitude, String longitude, String locationName) {
+    public StoreAgentSelfCurrentLatLng(String phone, String username) {
         this.phone = phone;
         this.username = username;
-        this.lattitude = lattitude;
-        this.longitude = longitude;
-        this.locationName = locationName;
     }
 
     public String getPhone() {
@@ -27,29 +24,5 @@ public class StoreAgentSelfCurrentLatLng {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getLattitude() {
-        return lattitude;
-    }
-
-    public void setLattitude(String lattitude) {
-        this.lattitude = lattitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
     }
 }
