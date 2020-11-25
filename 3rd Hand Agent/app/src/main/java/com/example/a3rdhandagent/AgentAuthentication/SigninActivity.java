@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.a3rdhandagent.AppActions.MainActivity;
+import com.example.a3rdhandagent.ForgotPasswordPackage.Forgot_Password;
 import com.example.a3rdhandagent.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -224,8 +225,9 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         }
 
         if(v.getId()==R.id.forgetPassID){
-//            Forgot_Password forgot_password = new Forgot_Password();
-//            forgot_password.show(getFragmentManager(), "Sample dialog");
+            Forgot_Password forgot_password = new Forgot_Password();
+            forgot_password.show(getFragmentManager(), "Sample dialog");
+            getDialog().dismiss();
         }
     }
 

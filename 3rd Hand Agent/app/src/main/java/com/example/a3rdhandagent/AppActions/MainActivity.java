@@ -8,6 +8,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.a3rdhandagent.PaymentSystem.PaymentMethodActivity;
 import com.example.a3rdhandagent.R;
+import com.firebase.geofire.GeoFire;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -29,6 +32,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         BottomNavigationView.OnNavigationItemSelectedListener {
@@ -185,11 +192,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mAuth.getInstance().signOut();
-                        finish();
-                        Intent it = new Intent(MainActivity.this, StartScreen.class);
-                        startActivity(it);
-                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        try {
+                            DatabaseReference onlineAvailableAgents = FirebaseDatabase.getInstance().getReference("Online Available Agents")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            onlineAvailableAgents.removeValue();
+
+                            mAuth.getInstance().signOut();
+                            finish();
+                            Intent it = new Intent(MainActivity.this, StartScreen.class);
+                            startActivity(it);
+                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        } catch (Exception e){
+                            Toast.makeText(MainActivity.this, "Try later", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

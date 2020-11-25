@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
+import com.example.a3rdhandagent.ModelClass.Common;
 import com.example.a3rdhandagent.ModelClass.StoreAgentData;
+import com.example.a3rdhandagent.ModelClass.StoreAgentImageUrlData;
 import com.example.a3rdhandagent.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,26 +39,32 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.santalu.maskedittext.MaskEditText;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.mail.Store;
 
 import static android.app.Activity.RESULT_OK;
 
 public class ProfileActivity extends DialogFragment implements View.OnClickListener{
 
     View v;
+    Button close;
     ProgressDialog dialog;
     boolean connected = false;
     MaskEditText NIDnumberText;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, imageUrlReference;
     TextView userPhoneNumberText, regionText, emailText, usernameText, employeeidText;
-    Button close;
     ImageView profilePic, uploadProfilePic;
-    String username, userphone, usercountry, useremail, usernid, employeeidID, profileImageUrl, image_name;;
-    private static final int CHOOSE_IMAGE_REQUEST = 1;
-    private static Uri uriProfileImage;
+    String username, userphone, usercountry, useremail, usernid, employeeidID, profileImageUrl, image_name;
+    private static final int CHOOSE_IMAGE_REQUEST = 7172;
+    private Uri uriProfileImage;
     StorageReference storageReference;
 
     @Nullable
@@ -79,6 +88,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
         uploadProfilePic.setOnClickListener(this);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Agent Information");
+        imageUrlReference = FirebaseDatabase.getInstance().getReference("Agent Image URL");
         findInfoMethod();
 
         dialog = new ProgressDialog(getActivity());
@@ -90,13 +100,16 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        if (dialog != null)
-        {
+        if (dialog != null){
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null) {
             if (user.getPhotoUrl() != null) {
@@ -199,14 +212,11 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                 connected = true;
-            } else {
-                connected = false;
-                getDialog().dismiss();
-            }
-
-            if(connected == true) {
                 usernid = NIDnumberText.getRawText();
                 storeMethod(useremail, username, employeeidID, userphone, usercountry, usernid);
+                getDialog().dismiss();
+            } else {
+                connected = false;
                 getDialog().dismiss();
             }
         }
@@ -222,7 +232,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                 startActivityForResult(intent, CHOOSE_IMAGE_REQUEST);
             } else {
                 connected = false;
-                Toast.makeText(getActivity(), "Turn on internet connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Turn on internet connection", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -274,6 +284,57 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
         }
     }
 
+//    private void uploadImageToFirebase() {
+//        if(uriProfileImage!=null){
+//            dialog.setMessage("Uploading.....");
+//            dialog.show();
+//
+//            image_name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+//            StorageReference avatarFolder = storageReference.child("avatars/" + image_name + ".jpg");
+//
+//            avatarFolder.putFile(uriProfileImage)
+//            .addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    dialog.dismiss();
+//                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+//                }
+//            })
+//            .addOnCompleteListener(task -> {
+//                if(task.isSuccessful()){
+//                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                        @Override
+//                        public void onSuccess(Uri uri) {
+//                            Map<String, Object> updateData = new HashMap<>();
+//                            updateData.put("avatar", uri.toString());
+//                            profileImageUrl = uri.toString();
+////                                saveUserInfo();
+//                        }
+//                    });
+//                }
+//                dialog.dismiss();
+//            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+//                    double progress = (100.0*snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+//                    dialog.setMessage(new StringBuilder("Uploading: ").append(progress).append("%"));
+//                }
+//            });
+//        }
+//    }
+
+//    public void init(){
+//        dialog.setMessage("Waiting.....");
+//        dialog.show();
+//
+//        storageReference = FirebaseStorage.getInstance().getReference();
+//        if(Common.currentUser!=null && Common.currentUser.getAvatar()!=null &&
+//                !TextUtils.isEmpty(Common.currentUser.getAvatar())){
+//            Glide.with(getActivity()).load(Common.currentUser.getAvatar()).into(profilePic);
+//            dialog.dismiss();
+//        }
+//    }
+
     private void saveUserInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -286,6 +347,8 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {}
             });
+
+            storeImageMethod(profileImageUrl);
             dialog.dismiss();
             Toast.makeText(getActivity(), "Successfully uploaded", Toast.LENGTH_SHORT).show();
         }
@@ -295,7 +358,13 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                             String country, String nid){
 
         String Key_User_Info = phone;
-        StoreAgentData storeAgentData = new StoreAgentData(email, username, employeeid, phone, country, nid);
+        StoreAgentData storeAgentData = new StoreAgentData(email, username,
+                employeeid, phone, country, nid);
         databaseReference.child(Key_User_Info).setValue(storeAgentData);
+    }
+
+    public void storeImageMethod(String profileImageUrl){
+        StoreAgentImageUrlData storeAgentImageUrlData = new StoreAgentImageUrlData(profileImageUrl);
+        imageUrlReference.child(image_name).setValue(storeAgentImageUrlData);
     }
 }

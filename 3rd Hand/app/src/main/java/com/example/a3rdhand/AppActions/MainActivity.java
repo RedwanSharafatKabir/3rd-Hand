@@ -110,6 +110,23 @@ public class MainActivity extends AppCompatActivity
         navigationDrawerOpen();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            connected = true;
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                if (user.getPhotoUrl() != null) {
+                    Glide.with(MainActivity.this).load(user.getPhotoUrl().toString()).into(imageView);
+                }
+            }
+        } else { connected = false;
+            Toast.makeText(getApplicationContext(), "Turn on internet connection", Toast.LENGTH_SHORT).show(); }
+    }
+
     public void navigationDrawerOpen(){
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();

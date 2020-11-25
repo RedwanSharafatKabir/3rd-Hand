@@ -227,6 +227,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
         if(v.getId()==R.id.forgetPassID){
             Forgot_Password forgot_password = new Forgot_Password();
             forgot_password.show(getFragmentManager(), "Sample dialog");
+            getDialog().dismiss();
         }
     }
 

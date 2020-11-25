@@ -97,7 +97,6 @@ public class MapFragmentClass extends Fragment implements
     Button findAgent;
     float zoomLevel = 16f;
     String location_Thing, userPhoneNumber, tempPackage, agentLocationName;
-    int j = 0, i = 0;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
     FusedLocationProviderClient mfusedLocationProviderClient;
@@ -272,14 +271,10 @@ public class MapFragmentClass extends Fragment implements
                         }
 
                         @Override
-                        public void onKeyExited(String key) {
-
-                        }
+                        public void onKeyExited(String key) {}
 
                         @Override
-                        public void onKeyMoved(String key, GeoLocation location) {
-
-                        }
+                        public void onKeyMoved(String key, GeoLocation location) {}
 
                         @Override
                         public void onGeoQueryReady() {
@@ -322,7 +317,7 @@ public class MapFragmentClass extends Fragment implements
     }
 
     private void findAgentByKey(AgentGeoModel agentGeoModel) {
-        FirebaseDatabase.getInstance().getReference("Agent Information").child(agentGeoModel.getKey())
+        FirebaseDatabase.getInstance().getReference("Online Available Agents").child(agentGeoModel.getKey())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

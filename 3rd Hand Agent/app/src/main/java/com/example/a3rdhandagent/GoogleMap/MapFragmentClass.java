@@ -1,21 +1,14 @@
 package com.example.a3rdhandagent.GoogleMap;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +16,12 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.a3rdhandagent.AppActions.MainActivity;
 import com.example.a3rdhandagent.AppActions.StartScreen;
-import com.example.a3rdhandagent.ModelClass.StoreAgentSelfCurrentLatLng;
+import com.example.a3rdhandagent.ModelClass.StoreCurrentOnlineAgentsInfo;
 import com.example.a3rdhandagent.R;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -43,16 +34,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -66,7 +53,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 //import com.google.android.libraries.places.api.model.Place;
@@ -77,10 +63,10 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
     float zoomLevel = 16f;
     LatLng DevicelatLng;
     GeoFire geoFire;
-    String agentLocationName, agentPhoneNumberID, agentUsername;
+    String agentLocationName, agentPhoneNumberID, agentUsername, agentEmployeeId, agentAvatar;
     private GoogleMap mGoogleMap;
     SupportMapFragment supportMapFragment;
-    DatabaseReference onlineRef, currentAgentRef, agentsLocationRef, agentTemporaryInfoRef;
+    DatabaseReference onlineRef, currentAgentRef, agentsLocationRef, onlineAvailableAgents;
     FusedLocationProviderClient mfusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
@@ -104,10 +90,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
         try {
             geoFire.removeLocation(FirebaseAuth.getInstance().getCurrentUser().getUid());
         } catch(Exception e){
-            getActivity().finish();
-            Intent intent = new Intent(getActivity().getBaseContext(), StartScreen.class);
-            getActivity().startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            Toast.makeText(getActivity(), "You're offline now", Toast.LENGTH_LONG).show();
         }
         onlineRef.removeEventListener(onlineValueEventListener);
         super.onDestroy();
@@ -121,6 +104,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
 
     private void registerOnlineSystem() {
         onlineRef.addValueEventListener(onlineValueEventListener);
+        storeAgentTemporaryInfoMethod();
     }
 
     @Override
@@ -130,7 +114,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapID);
         supportMapFragment.getMapAsync(this);
 
-        agentTemporaryInfoRef = FirebaseDatabase.getInstance().getReference("Agent Temporary Info");
+        onlineAvailableAgents = FirebaseDatabase.getInstance().getReference("Online Available Agents");
         init();
 
         return v;
@@ -163,10 +147,6 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
                     agentsLocationRef = FirebaseDatabase.getInstance().getReference("Agent Current Location").child(agentLocationName);
                     currentAgentRef = agentsLocationRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     geoFire = new GeoFire(agentsLocationRef);
-
-                    agentPhoneNumberID = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                    storeAgentTemporaryInfo(agentPhoneNumberID);
-
                 } catch (IOException e) {
                     Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
                 }
@@ -181,7 +161,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
                                 if (error != null) {
                                     Snackbar.make(supportMapFragment.getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
                                 } else {
-                                    Snackbar.make(supportMapFragment.getView(), "You are online", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(supportMapFragment.getView(), "You are online", Snackbar.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -198,20 +178,47 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
         mfusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
     }
 
-    public void storeAgentTemporaryInfo(String agentPhoneNumberID){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Agent Information").child(agentPhoneNumberID).child("username");
-        ref.addValueEventListener(new ValueEventListener() {
+    public void storeAgentTemporaryInfoMethod(){
+        agentPhoneNumberID = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        DatabaseReference agentInfoRef1 = FirebaseDatabase.getInstance().getReference("Agent Information")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()).child("username");
+        agentInfoRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 agentUsername = dataSnapshot.getValue(String.class);
+
+                DatabaseReference agentInfoRef2 = FirebaseDatabase.getInstance().getReference("Agent Information")
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()).child("employeeid");
+                agentInfoRef2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        agentEmployeeId = dataSnapshot.getValue(String.class);
+
+                        DatabaseReference agentInfoRef3 = FirebaseDatabase.getInstance().getReference("Agent Image URL")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()).child("avatar");
+                        agentInfoRef3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                agentAvatar = dataSnapshot.getValue(String.class);
+
+                                StoreCurrentOnlineAgentsInfo storeCurrentOnlineAgentsInfo =
+                                        new StoreCurrentOnlineAgentsInfo(agentPhoneNumberID, agentUsername, agentEmployeeId, agentAvatar);
+                                onlineAvailableAgents.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(storeCurrentOnlineAgentsInfo);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
-
-        StoreAgentSelfCurrentLatLng storeAgentSelfCurrentLatLng = new StoreAgentSelfCurrentLatLng(agentPhoneNumberID, agentUsername);
-        agentTemporaryInfoRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(storeAgentSelfCurrentLatLng);
     }
 
     @Override

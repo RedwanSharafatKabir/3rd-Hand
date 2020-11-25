@@ -1,6 +1,5 @@
-package com.example.a3rdhand.ForgotPasswordPackage;
+package com.example.a3rdhandagent.ForgotPasswordPackage;
 
-import androidx.appcompat.app.AppCompatDialogFragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -18,7 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import com.example.a3rdhand.R;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import com.example.a3rdhandagent.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.santalu.maskedittext.MaskEditText;
 import java.io.FileOutputStream;

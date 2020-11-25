@@ -29,6 +29,8 @@
 
     <string name="email_alert">Email is already used.\nYou can use one email address only once for client app or agent app</string>
 
+    <string name="codemsg">Verification link will be sent to your email address in a few minutes</string>
+
     <string-array name="location_array">
         <item>Mugdapara</item>
         <item>South Mugdapara</item>

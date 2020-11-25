@@ -1,9 +1,16 @@
-package com.example.a3rdhand.ModelClass;
+package com.example.a3rdhandagent.ModelClass;
 
-public class AgentInfoModel {
-    private String phone, username, employeeid, avatar;
+public class StoreCurrentOnlineAgentsInfo {
+    String phone, username, employeeid, avatar;
 
-    public AgentInfoModel() {}
+    public StoreCurrentOnlineAgentsInfo() {}
+
+    public StoreCurrentOnlineAgentsInfo(String phone, String username, String employeeid, String avatar) {
+        this.phone = phone;
+        this.username = username;
+        this.employeeid = employeeid;
+        this.avatar = avatar;
+    }
 
     public String getPhone() {
         return phone;

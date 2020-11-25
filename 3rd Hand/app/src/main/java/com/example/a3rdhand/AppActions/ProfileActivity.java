@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.a3rdhand.ModelClass.StoreUserData;
+import com.example.a3rdhand.ModelClass.StoreUserImageUrlData;
 import com.example.a3rdhand.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -82,7 +83,7 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
         uploadProfilePic.setOnClickListener(this);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("User Information");
-        databaseReference2 = FirebaseDatabase.getInstance().getReference("User profile pictures");
+        databaseReference2 = FirebaseDatabase.getInstance().getReference("User Image URL");
         findInfoMethod();
         waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
         dialog = new ProgressDialog(getActivity());
@@ -100,13 +101,23 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
+    }
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!=null) {
-            if (user.getPhotoUrl() != null) {
-                Glide.with(getActivity()).load(user.getPhotoUrl().toString()).into(profilePic);
+    @Override
+    public void onResume() {
+        super.onResume();
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            connected = true;
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                if (user.getPhotoUrl() != null) {
+                    Glide.with(getActivity()).load(user.getPhotoUrl().toString()).into(profilePic);
+                }
             }
-        }
+        } else { connected = false;
+            Toast.makeText(getActivity(), "Turn on internet connection", Toast.LENGTH_SHORT).show(); }
     }
 
     public void findInfoMethod(){
@@ -281,6 +292,8 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {}
             });
+
+            storeImageMethod(profileImageUrl);
             dialog.dismiss();
             Toast.makeText(getActivity(), "Successfully uploaded", Toast.LENGTH_SHORT).show();
         }
@@ -292,5 +305,10 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
         String Key_User_Info = phone;
         StoreUserData storeUserData = new StoreUserData(email, username, phone, country, nid);
         databaseReference.child(Key_User_Info).setValue(storeUserData);
+    }
+
+    public void storeImageMethod(String profileImageUrl){
+        StoreUserImageUrlData storeUserImageUrlData = new StoreUserImageUrlData(profileImageUrl);
+        databaseReference2.child(image_name).setValue(storeUserImageUrlData);
     }
 }
