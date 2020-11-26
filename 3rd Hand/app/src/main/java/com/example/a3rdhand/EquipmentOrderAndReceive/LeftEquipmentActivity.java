@@ -1,6 +1,7 @@
 package com.example.a3rdhand.EquipmentOrderAndReceive;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -135,24 +137,7 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
-
-        try {
-            FileInputStream fileInputStream = getActivity().openFileInput("random_Info.txt");
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String recievedMessage;
-            StringBuffer stringBuffer = new StringBuffer();
-
-            while((recievedMessage=bufferedReader.readLine())!=null){
-                stringBuffer.append(recievedMessage);
-            }
-
-            passed_String = stringBuffer.toString();
-            if(!passed_String.isEmpty()){
-                testRecord();
-            }
-        } catch (FileNotFoundException e) {e.printStackTrace();
-        } catch (IOException e) {e.printStackTrace();}
+        testRecord();
     }
 
     public void testRecord(){
@@ -241,7 +226,6 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
         }
 
         if(v.getId()==R.id.leftEquipmentSaveButtonID) {
-
             if(locationThing.isEmpty()){
                 autoCompleteTextView.setError("Set your left equipment's location");
                 return;
@@ -280,14 +264,53 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
             }
 
             else {
-                storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
-                        lane_string, building_string, floor_string, flat_string, locationThing);
+                try {
+                    FileInputStream fileInputStream = getActivity().openFileInput("random_Info.txt");
+                    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String recievedMessage;
+                    StringBuffer stringBuffer = new StringBuffer();
+                    while((recievedMessage=bufferedReader.readLine())!=null){
+                        stringBuffer.append(recievedMessage);
+                    }
+                    passed_String = stringBuffer.toString();
+                    if(!passed_String.isEmpty()){
+                        sendVerifyStringToRemoveOldMarker();
+                        storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
+                                lane_string, building_string, floor_string, flat_string, locationThing);
 
-                Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
-                t.setGravity(Gravity.CENTER, 0, 0);
-                t.show();
+                        Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER, 0, 0);
+                        t.show();
+                    } else if(passed_String.isEmpty()){
+                        storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
+                                lane_string, building_string, floor_string, flat_string, locationThing);
+
+                        Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER, 0, 0);
+                        t.show();
+                    }
+                } catch (FileNotFoundException e) {e.printStackTrace();
+                } catch (IOException e) {e.printStackTrace();}
+
                 getDialog().dismiss();
             }
+        }
+    }
+
+    public void sendVerifyStringToRemoveOldMarker(){
+        String oldMarkerRemoveString = "7991";
+        try {
+            FileOutputStream fileOutputStream = getContext()
+                    .openFileOutput("remove_old_marker.txt", Context.MODE_PRIVATE);
+            fileOutputStream.write(oldMarkerRemoveString.getBytes());
+            fileOutputStream.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

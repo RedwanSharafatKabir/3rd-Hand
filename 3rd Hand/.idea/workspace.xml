@@ -97,7 +97,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../3rd Hand Agent" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -137,11 +137,11 @@
       <recent name="com.example.a3rdhand.UserAuthentication" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable" />
       <recent name="D:\Android Projects\3rd Hand\app\libs" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\java\com\example\a3rdhand\UserAuthentication" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-xhdpi" />
       <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable-anydpi" />
-      <recent name="D:\Android Projects\3rd Hand\app\src\main\res\drawable" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.a3rdhand.ModelClass" />
@@ -289,10 +289,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="282" y="0" width="966" height="738" key="#PSD/0.0.1366.738@0.0.1366.738" timestamp="1605881849788" />
-    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1606298039537">
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1606413656151">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1606298039537" />
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1606413656151" />
     <state x="413" y="148" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1602476199797">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -321,30 +321,30 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="539" y="114" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1606313767451" />
-    <state width="1323" height="442" key="GridCell.Tab.0.bottom" timestamp="1606337507075">
+    <state width="1323" height="442" key="GridCell.Tab.0.bottom" timestamp="1606413106483">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="442" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1606337507075" />
-    <state width="1323" height="442" key="GridCell.Tab.0.center" timestamp="1606337507075">
+    <state width="1323" height="442" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1606413106483" />
+    <state width="1323" height="442" key="GridCell.Tab.0.center" timestamp="1606413106482">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="442" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1606337507075" />
-    <state width="1323" height="442" key="GridCell.Tab.0.left" timestamp="1606337507075">
+    <state width="1323" height="442" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1606413106482" />
+    <state width="1323" height="442" key="GridCell.Tab.0.left" timestamp="1606413106482">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="442" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1606337507075" />
-    <state width="1323" height="442" key="GridCell.Tab.0.right" timestamp="1606337507075">
+    <state width="1323" height="442" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1606413106482" />
+    <state width="1323" height="442" key="GridCell.Tab.0.right" timestamp="1606413106482">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="442" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1606337507075" />
+    <state width="1323" height="442" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1606413106482" />
     <state x="198" y="11" width="998" height="708" key="SettingsEditor" timestamp="1603534623031">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="198" y="11" width="998" height="708" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1603534623031" />
-    <state x="700" y="159" key="chooseDestDirectoryDialog" timestamp="1601668994271">
+    <state x="700" y="159" key="chooseDestDirectoryDialog" timestamp="1606379907176">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="700" y="159" key="chooseDestDirectoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1601668994271" />
+    <state x="700" y="159" key="chooseDestDirectoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1606379907176" />
     <state x="92" y="92" width="1182" height="554" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1600618168900">
       <screen x="0" y="0" width="1366" height="738" />
     </state>

@@ -16,13 +16,9 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +42,6 @@ import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.GeoQueryEventListener;
-import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -79,14 +74,17 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MapFragmentClass extends Fragment implements
@@ -131,6 +129,7 @@ public class MapFragmentClass extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
+        getCustomerPackageLocation();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -440,6 +439,7 @@ public class MapFragmentClass extends Fragment implements
 
                                                 LatLng SearchlatLng1 = new LatLng(address.getLatitude(), address.getLongitude());
                                                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng1, zoomLevel));
+
                                             }
                                         }}catch (Exception e){findAgent.setVisibility(v.GONE);}
                                 }
@@ -487,11 +487,12 @@ public class MapFragmentClass extends Fragment implements
                                             Address address = list.get(0);
                                             Log.d(TAG, "geoLocate: found a location" + address.toString());
                                             LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
-                                            tempPackage = "Customer's package is somewhere in this area. " +
-                                                    "Please find out customer's specified address around here.";
+                                            tempPackage = "Please locate customer's specified address around here.";
                                             mGoogleMap.addMarker(new MarkerOptions().position(SearchlatLng)
                                                     .title(tempPackage).icon(bitmapDescriptorFromVector(getActivity(),
-                                                            R.drawable.package_location_two)));
+                                                            R.drawable.package_location_one)));
+
+                                            getRemoveMarkerRequest();
                                         }
 
                                         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -515,18 +516,8 @@ public class MapFragmentClass extends Fragment implements
                                             }
                                         });
                                     }
-                                }catch(Exception e){
-                                    mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                                        @Override
-                                        public boolean onMarkerClick(Marker marker) {
-                                            try {
-                                                Toast t = Toast.makeText(getActivity(), R.string.not_available, Toast.LENGTH_SHORT);
-                                                t.setGravity(Gravity.CENTER, 0,0);
-                                                t.show();
-                                            } catch (Exception e) {}
-                                            return false;
-                                        }
-                                    });
+                                } catch(Exception e){
+                                    mGoogleMap.clear();
                                 }
                             }
 
@@ -616,6 +607,43 @@ public class MapFragmentClass extends Fragment implements
                     Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
             });
+        }
+    }
+
+    public void getRemoveMarkerRequest(){
+        try {
+            FileInputStream fileInputStream1 = getActivity().openFileInput("remove_old_marker.txt");
+            InputStreamReader inputStreamReader1 = new InputStreamReader(fileInputStream1);
+            BufferedReader bufferedReader1 = new BufferedReader(inputStreamReader1);
+            String recievedMessage1;
+            StringBuffer stringBuffer1 = new StringBuffer();
+            while((recievedMessage1=bufferedReader1.readLine())!=null){
+                stringBuffer1.append(recievedMessage1);
+            }
+
+            String removeOldMarkerString = stringBuffer1.toString();
+            if(!removeOldMarkerString.isEmpty()){
+                mGoogleMap.clear();
+                setRemoveMarkerRequestNull();
+                getCustomerPackageLocation();
+            }
+        } catch (FileNotFoundException e) {e.printStackTrace();
+        } catch (IOException e) {e.printStackTrace();}
+    }
+
+    public void setRemoveMarkerRequestNull(){
+        String oldMarkerRemoveStringNull = "";
+        try {
+            FileOutputStream fileOutputStream = getContext()
+                    .openFileOutput("remove_old_marker.txt", Context.MODE_PRIVATE);
+            fileOutputStream.write(oldMarkerRemoveStringNull.getBytes());
+            fileOutputStream.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
