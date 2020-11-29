@@ -88,7 +88,7 @@
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="3rd_Hand.app" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-11-23T17:50:34.800Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-11-28T23:51:57.522Z" />
     <property name="ExportApk.ApkPath" value="D:\Android Projects\3rd Hand\app" />
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="ExportApk.SignV1" value="true" />
@@ -97,7 +97,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../3rd Hand Agent" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -317,26 +317,26 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="527" y="158" key="AndroidCreateXmlResourceDialog/0.0.1366.738@0.0.1366.738" timestamp="1603653466920" />
-    <state x="539" y="114" width="616" height="491" key="FileChooserDialogImpl" timestamp="1606313767451">
+    <state x="240" y="144" width="616" height="491" key="FileChooserDialogImpl" timestamp="1606424209331">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="539" y="114" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1606313767451" />
-    <state width="1323" height="442" key="GridCell.Tab.0.bottom" timestamp="1606413106483">
+    <state x="240" y="144" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1606424209331" />
+    <state width="1323" height="350" key="GridCell.Tab.0.bottom" timestamp="1606609585458">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="442" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1606413106483" />
-    <state width="1323" height="442" key="GridCell.Tab.0.center" timestamp="1606413106482">
+    <state width="1323" height="350" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1606609585458" />
+    <state width="1323" height="350" key="GridCell.Tab.0.center" timestamp="1606609585457">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="442" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1606413106482" />
-    <state width="1323" height="442" key="GridCell.Tab.0.left" timestamp="1606413106482">
+    <state width="1323" height="350" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1606609585457" />
+    <state width="1323" height="350" key="GridCell.Tab.0.left" timestamp="1606609585457">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="442" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1606413106482" />
-    <state width="1323" height="442" key="GridCell.Tab.0.right" timestamp="1606413106482">
+    <state width="1323" height="350" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1606609585457" />
+    <state width="1323" height="350" key="GridCell.Tab.0.right" timestamp="1606609585458">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="442" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1606413106482" />
+    <state width="1323" height="350" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1606609585458" />
     <state x="198" y="11" width="998" height="708" key="SettingsEditor" timestamp="1603534623031">
       <screen x="0" y="0" width="1366" height="738" />
     </state>

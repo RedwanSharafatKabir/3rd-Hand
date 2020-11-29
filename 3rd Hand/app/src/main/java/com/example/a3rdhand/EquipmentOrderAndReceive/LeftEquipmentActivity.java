@@ -291,7 +291,20 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
                         t.show();
                     }
                 } catch (FileNotFoundException e) {e.printStackTrace();
-                } catch (IOException e) {e.printStackTrace();}
+                    storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
+                            lane_string, building_string, floor_string, flat_string, locationThing);
+
+                    Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER, 0, 0);
+                    t.show();
+                } catch (IOException e) {e.printStackTrace();
+                    storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
+                            lane_string, building_string, floor_string, flat_string, locationThing);
+
+                    Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER, 0, 0);
+                    t.show();
+                }
 
                 getDialog().dismiss();
             }

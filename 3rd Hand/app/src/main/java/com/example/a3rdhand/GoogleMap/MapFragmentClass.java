@@ -101,24 +101,15 @@ public class MapFragmentClass extends Fragment implements
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     LatLng DevicelatLng;
-    private Equipment_Agent_Longitude_Latitude_List equipmentAgentLongitude_latitude_list;
-    ArrayList<LatLng> placelist;
-    ArrayList<String> title;
     BottomNavigationView bottomNavigation;
     DatabaseReference databaseReference;
     SupportMapFragment supportMapFragment;
     private Double distance = 1.0;
-    private static final double LIMIT_RANGE = 10.0;
+    private static final double LIMIT_RANGE = 30.0;
     private Location previousLocation, currentLocation;
     IFirebaseAgentInfoListener iFirebaseAgentInfoListener;
     IFirebaseFailedListener iFirebaseFailedListener;
     private boolean firstTime = true;
-
-    public MapFragmentClass() {
-        equipmentAgentLongitude_latitude_list = new Equipment_Agent_Longitude_Latitude_List();
-        placelist = equipmentAgentLongitude_latitude_list.getPlacelist();
-        title = equipmentAgentLongitude_latitude_list.getTitle();
-    }
 
     @Override
     public void onDestroy() {
@@ -231,7 +222,6 @@ public class MapFragmentClass extends Fragment implements
             return;
         }
         mfusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-
         loadAvailableAgents();
     }
 
@@ -378,6 +368,7 @@ public class MapFragmentClass extends Fragment implements
                                         DevicelatLng = new LatLng(location.getLatitude(), location.getLongitude());
                                         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(DevicelatLng, zoomLevel));
                                         getCustomerPackageLocation();
+                                        loadAvailableAgents();
                                     }
                                 });
 
@@ -385,7 +376,7 @@ public class MapFragmentClass extends Fragment implements
                             }
                         });
 
-                        // Set device location button right bottom
+                        // Set device location button layout right bottom
                         View locationButton = ((View)supportMapFragment.getView().findViewById(Integer.parseInt("1"))
                                 .getParent()).findViewById(Integer.parseInt("2"));
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
@@ -492,7 +483,7 @@ public class MapFragmentClass extends Fragment implements
                                                     .title(tempPackage).icon(bitmapDescriptorFromVector(getActivity(),
                                                             R.drawable.package_location_one)));
 
-                                            getRemoveMarkerRequest();
+                                            getRemoveMarkerRequest(SearchlatLng);
                                         }
 
                                         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -610,7 +601,7 @@ public class MapFragmentClass extends Fragment implements
         }
     }
 
-    public void getRemoveMarkerRequest(){
+    public void getRemoveMarkerRequest(LatLng SearchlatLng){
         try {
             FileInputStream fileInputStream1 = getActivity().openFileInput("remove_old_marker.txt");
             InputStreamReader inputStreamReader1 = new InputStreamReader(fileInputStream1);
@@ -626,6 +617,7 @@ public class MapFragmentClass extends Fragment implements
                 mGoogleMap.clear();
                 setRemoveMarkerRequestNull();
                 getCustomerPackageLocation();
+                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
             }
         } catch (FileNotFoundException e) {e.printStackTrace();
         } catch (IOException e) {e.printStackTrace();}
