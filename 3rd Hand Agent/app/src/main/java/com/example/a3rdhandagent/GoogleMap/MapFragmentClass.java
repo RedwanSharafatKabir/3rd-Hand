@@ -90,7 +90,7 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
         try {
             geoFire.removeLocation(FirebaseAuth.getInstance().getCurrentUser().getUid());
         } catch(Exception e){
-            Toast.makeText(getActivity(), "You're offline now", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "You're offline now", Toast.LENGTH_SHORT).show();
         }
         onlineRef.removeEventListener(onlineValueEventListener);
         super.onDestroy();
@@ -155,14 +155,9 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
                 geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(),
                         new GeoLocation(locationResult.getLastLocation().getLatitude(),
                                 locationResult.getLastLocation().getLongitude()),
-                        new GeoFire.CompletionListener() {
-                            @Override
-                            public void onComplete(String key, DatabaseError error) {
-                                if (error != null) {
-                                    Snackbar.make(supportMapFragment.getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
-                                } else {
-                                    Snackbar.make(supportMapFragment.getView(), "You are online", Snackbar.LENGTH_SHORT).show();
-                                }
+                        (key, error) -> {
+                            if (error != null) {
+                                Snackbar.make(supportMapFragment.getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
                             }
                         });
                 registerOnlineSystem();

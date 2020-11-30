@@ -22,6 +22,12 @@ import android.widget.Toast;
 import com.example.a3rdhandagent.PaymentSystem.PaymentMethodActivity;
 import com.example.a3rdhandagent.R;
 import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -105,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
+//                    TaskListActivity taskListActivity = new TaskListActivity();
+//                    taskListActivity.show(getSupportFragmentManager(), "Sample dialog");
+                    Toast.makeText(this, "task", Toast.LENGTH_SHORT).show();
                 } else {
                     connected = false;
                     snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -112,12 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.setDuration(10000).show();
-                }
-
-                if(connected == true) {
-//                    TaskListActivity taskListActivity = new TaskListActivity();
-//                    taskListActivity.show(getSupportFragmentManager(), "Sample dialog");
-                    Toast.makeText(this, "task", Toast.LENGTH_SHORT).show();
                 }
                 return;
 
@@ -126,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
+                    PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
+                    paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
                 } else {
                     connected = false;
                     snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -133,11 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.setDuration(10000).show();
-                }
-
-                if(connected == true) {
-                    PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
-                    paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
                 }
                 return;
 
@@ -146,6 +146,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
+//                    ContactActivity contactActivity = new ContactActivity();
+//                    contactActivity.show(getSupportFragmentManager(), "Sample dialog");
+                    Toast.makeText(this, "contact", Toast.LENGTH_SHORT).show();
                 } else {
                     connected = false;
                     snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -153,12 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.setDuration(10000).show();
-                }
-
-                if(connected == true) {
-//                    ContactActivity contactActivity = new ContactActivity();
-//                    contactActivity.show(getSupportFragmentManager(), "Sample dialog");
-                    Toast.makeText(this, "contact", Toast.LENGTH_SHORT).show();
                 }
                 return;
 
@@ -167,6 +164,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
+                    FeedbackActivity feedbackActivity = new FeedbackActivity();
+                    feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
                 } else {
                     connected = false;
                     snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -174,11 +173,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.setDuration(10000).show();
-                }
-
-                if(connected == true) {
-                    FeedbackActivity feedbackActivity = new FeedbackActivity();
-                    feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
                 }
                 return;
 

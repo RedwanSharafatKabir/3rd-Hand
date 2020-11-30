@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
@@ -110,6 +111,15 @@ public class MapFragmentClass extends Fragment implements
     IFirebaseAgentInfoListener iFirebaseAgentInfoListener;
     IFirebaseFailedListener iFirebaseFailedListener;
     private boolean firstTime = true;
+    private Handler handler = new Handler();
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            loadAvailableAgents();
+            handler.postDelayed(this, 5000);
+        }
+    };
 
     @Override
     public void onDestroy() {
@@ -121,6 +131,7 @@ public class MapFragmentClass extends Fragment implements
     public void onResume() {
         super.onResume();
         getCustomerPackageLocation();
+        runnable.run();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -278,12 +289,13 @@ public class MapFragmentClass extends Fragment implements
 
                         @Override
                         public void onGeoQueryError(DatabaseError error) {
-                            Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(getView(), "Agents aren't available", Snackbar.LENGTH_LONG).show();
                         }
                     });
 
                 } catch (IOException e) {
-                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+//                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), "Agents aren't available", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -296,12 +308,10 @@ public class MapFragmentClass extends Fragment implements
                     .subscribe(agentGeoModel -> {
                         findAgentByKey(agentGeoModel);
                     }, throwable -> {
-                        Snackbar.make(getView(), throwable.getMessage(), Snackbar.LENGTH_LONG).show();
+                        loadAvailableAgents();
                     }, ()->{
 
                     });
-        } else {
-            Snackbar.make(getView(), "Agents aren't available", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -576,7 +586,7 @@ public class MapFragmentClass extends Fragment implements
                             .flat(true).title(Common.buildName(agentGeoModel.getAgentInfoModel().getUsername(),
                                     agentGeoModel.getAgentInfoModel().getEmployeeid()))
                                     .snippet(agentGeoModel.getAgentInfoModel().getPhone())
-                                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_agent_location_on_24))));
+                                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_with_utility))));
         }
         if(!TextUtils.isEmpty(agentLocationName)){
             DatabaseReference agentLocation = FirebaseDatabase.getInstance().getReference("Agent Current Location")
