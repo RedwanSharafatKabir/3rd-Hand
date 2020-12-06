@@ -1,6 +1,8 @@
 package com.example.a3rdhand.EquipmentOrderAndReceive;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -34,6 +36,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import dmax.dialog.SpotsDialog;
+
 public class LeftEquipmentActivity extends DialogFragment implements View.OnClickListener{
 
     EditText eqpName, lane, building, floor, flat;
@@ -44,6 +48,8 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
     Spinner eqpType;
     DatabaseReference databaseReference;
     String userPhoneNumber, username, location_Thing, passed_String;
+//    AlertDialog waitingDialog;
+    ProgressDialog waitingDialog;
 
     @Nullable
     @Override
@@ -220,39 +226,49 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
         final String building_string = building.getText().toString();
         final String floor_string = floor.getText().toString();
         final String flat_string = flat.getText().toString();
+//        waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
+        waitingDialog = new ProgressDialog(getActivity());
 
         if(v.getId()==R.id.cancelID){
             getDialog().dismiss();
         }
 
         if(v.getId()==R.id.leftEquipmentSaveButtonID) {
+            waitingDialog.setMessage("Saving.....");
+            waitingDialog.show();
             if(locationThing.isEmpty()){
                 autoCompleteTextView.setError("Set your left equipment's location");
+                waitingDialog.dismiss();
                 return;
             }
 
             if (equipment_name_string.isEmpty()) {
                 eqpName.setError("enter equipment name");
+                waitingDialog.dismiss();
                 return;
             }
 
             if (lane_string.isEmpty()) {
                 lane.setError("enter lane no.");
+                waitingDialog.dismiss();
                 return;
             }
 
             if (building_string.isEmpty()) {
                 building.setError("enter apartment no.");
+                waitingDialog.dismiss();
                 return;
             }
 
             if (floor_string.isEmpty()) {
                 floor.setError("enter floor no.");
+                waitingDialog.dismiss();
                 return;
             }
 
             if (flat_string.isEmpty()) {
                 flat.setError("enter flat no.");
+                waitingDialog.dismiss();
                 return;
             }
 
@@ -261,6 +277,7 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
                         Toast.LENGTH_LONG);
                 t.setGravity(Gravity.CENTER, 0, 0);
                 t.show();
+                waitingDialog.dismiss();
             }
 
             else {
@@ -282,6 +299,8 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
                         Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER, 0, 0);
                         t.show();
+                        waitingDialog.dismiss();
+                        getDialog().dismiss();
                     } else if(passed_String.isEmpty()){
                         storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
                                 lane_string, building_string, floor_string, flat_string, locationThing);
@@ -289,24 +308,20 @@ public class LeftEquipmentActivity extends DialogFragment implements View.OnClic
                         Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER, 0, 0);
                         t.show();
+                        waitingDialog.dismiss();
+                        getDialog().dismiss();
                     }
-                } catch (FileNotFoundException e) {e.printStackTrace();
+                } catch (Exception e) {
+//                    e.printStackTrace();
                     storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
                             lane_string, building_string, floor_string, flat_string, locationThing);
 
                     Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
                     t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
-                } catch (IOException e) {e.printStackTrace();
-                    storeAllUsersEquipmentList(userPhoneNumber, username, equipment_name_string, equipment_type_string,
-                            lane_string, building_string, floor_string, flat_string, locationThing);
-
-                    Toast t = Toast.makeText(getActivity(), "Saved successfully", Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER, 0, 0);
-                    t.show();
+                    waitingDialog.dismiss();
+                    getDialog().dismiss();
                 }
-
-                getDialog().dismiss();
             }
         }
     }

@@ -29,7 +29,7 @@
 
     <string name="not_available">Must apply for at least one service, Go to > menuBar > Actions > choose any one action from 3</string>
     <string name="no_agent_available">No Agent available</string>
-    <string name="not_found_agent">Not found agent with key</string>
+    <string name="not_found_agent">One agent is offline</string>
     <string name="codemsg">Verification link will be sent to your email address in a few minutes</string>
     <string name="email_alert">Email is already used\nYou can use one email address only once for client app or agent app</string>
 

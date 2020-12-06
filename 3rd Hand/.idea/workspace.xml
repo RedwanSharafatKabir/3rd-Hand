@@ -88,7 +88,7 @@
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="3rd_Hand.app" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-11-28T23:51:57.522Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-12-01T00:13:29.131Z" />
     <property name="ExportApk.ApkPath" value="D:\Android Projects\3rd Hand\app" />
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="ExportApk.SignV1" value="true" />
@@ -285,14 +285,14 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="275" y="27" key="#Notifications/0.0.1366.738@0.0.1366.738" timestamp="1601557128157" />
-    <state x="282" y="0" width="966" height="738" key="#PSD" timestamp="1605881849788">
+    <state x="271" y="0" width="966" height="738" key="#PSD" timestamp="1607198258962">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="282" y="0" width="966" height="738" key="#PSD/0.0.1366.738@0.0.1366.738" timestamp="1605881849788" />
-    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1606413656151">
+    <state x="271" y="0" width="966" height="738" key="#PSD/0.0.1366.738@0.0.1366.738" timestamp="1607198258962" />
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1607151713431">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1606413656151" />
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1607151713431" />
     <state x="413" y="148" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1602476199797">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -305,10 +305,14 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="68" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.738@0.0.1366.738" timestamp="1606149278209" />
-    <state x="695" y="118" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1606198299612">
+    <state x="695" y="118" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1607230971117">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="695" y="118" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.738@0.0.1366.738" timestamp="1606198299612" />
+    <state x="695" y="118" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.738@0.0.1366.738" timestamp="1607230971117" />
+    <state x="92" y="92" width="1182" height="554" key="AVDManager" timestamp="1606992632849">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="92" y="92" width="1182" height="554" key="AVDManager/0.0.1366.738@0.0.1366.738" timestamp="1606992632849" />
     <state x="263" y="123" key="AndroidCreateResourceFileDialog" timestamp="1601038561687">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -317,38 +321,42 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="527" y="158" key="AndroidCreateXmlResourceDialog/0.0.1366.738@0.0.1366.738" timestamp="1603653466920" />
-    <state x="240" y="144" width="616" height="491" key="FileChooserDialogImpl" timestamp="1606674500565">
+    <state x="240" y="144" width="616" height="491" key="FileChooserDialogImpl" timestamp="1607231128200">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="240" y="144" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1606674500565" />
-    <state width="1323" height="350" key="GridCell.Tab.0.bottom" timestamp="1606674053370">
+    <state x="240" y="144" width="616" height="491" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1607231128200" />
+    <state width="1323" height="350" key="GridCell.Tab.0.bottom" timestamp="1607198675471">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="350" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1606674053370" />
-    <state width="1323" height="350" key="GridCell.Tab.0.center" timestamp="1606674053370">
+    <state width="1323" height="350" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1607198675471" />
+    <state width="1323" height="350" key="GridCell.Tab.0.center" timestamp="1607198675471">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="350" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1606674053370" />
-    <state width="1323" height="350" key="GridCell.Tab.0.left" timestamp="1606674053370">
+    <state width="1323" height="350" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1607198675471" />
+    <state width="1323" height="350" key="GridCell.Tab.0.left" timestamp="1607198675470">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="350" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1606674053370" />
-    <state width="1323" height="350" key="GridCell.Tab.0.right" timestamp="1606674053370">
+    <state width="1323" height="350" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1607198675470" />
+    <state width="1323" height="350" key="GridCell.Tab.0.right" timestamp="1607198675471">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state width="1323" height="350" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1606674053370" />
+    <state width="1323" height="350" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1607198675471" />
     <state x="198" y="11" width="998" height="708" key="SettingsEditor" timestamp="1603534623031">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="198" y="11" width="998" height="708" key="SettingsEditor/0.0.1366.738@0.0.1366.738" timestamp="1603534623031" />
-    <state x="700" y="159" key="chooseDestDirectoryDialog" timestamp="1606673950666">
+    <state x="700" y="159" key="chooseDestDirectoryDialog" timestamp="1607230981653">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="700" y="159" key="chooseDestDirectoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1606673950666" />
+    <state x="700" y="159" key="chooseDestDirectoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1607230981653" />
     <state x="92" y="92" width="1182" height="554" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1600618168900">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="92" y="92" width="1182" height="554" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1366.738@0.0.1366.738" timestamp="1600618168900" />
+    <state x="385" y="177" key="com.android.tools.idea.run.deployment.ModifyDeviceSetDialog" timestamp="1606992301809">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="385" y="177" key="com.android.tools.idea.run.deployment.ModifyDeviceSetDialog/0.0.1366.738@0.0.1366.738" timestamp="1606992301809" />
     <state x="92" y="92" width="1182" height="554" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1600959133202">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -357,6 +365,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="379" y="192" key="com.intellij.ide.util.TipDialog/0.0.1366.738@0.0.1366.738" timestamp="1599052314032" />
+    <state x="285" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1607155802095">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="285" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.738@0.0.1366.738" timestamp="1607155802095" />
     <state x="346" y="59" key="search.everywhere.popup" timestamp="1599071795241">
       <screen x="0" y="0" width="1366" height="738" />
     </state>

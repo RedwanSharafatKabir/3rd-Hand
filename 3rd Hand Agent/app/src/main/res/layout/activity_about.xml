@@ -187,15 +187,6 @@
                         android:textColor="@color/colorPrimary"
                         android:padding="5dp"
                         android:fontFamily="sans-serif"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="UI/UX designer"
-                        android:textSize="15sp"
-                        android:textColor="#000000"
-                        android:padding="5dp"
-                        android:fontFamily="serif"
-                        android:textStyle="italic"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -236,7 +227,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Last updated:\nSEP-13-2020"
+                android:text="Last updated:\nDEC-5-2020"
                 android:textSize="23sp"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center"

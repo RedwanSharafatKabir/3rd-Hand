@@ -58,7 +58,6 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
     Button close;
     ImageView profilePic, uploadProfilePic;
     String username, userphone, usercountry, useremail, usernid, profileImageUrl, image_name;
-    AlertDialog waitingDialog;
     private static final int CHOOSE_IMAGE_REQUEST = 1;
     private static Uri uriProfileImage;
     StorageReference storageReference;
@@ -85,7 +84,6 @@ public class ProfileActivity extends DialogFragment implements View.OnClickListe
         databaseReference = FirebaseDatabase.getInstance().getReference("User Information");
         databaseReference2 = FirebaseDatabase.getInstance().getReference("User Image URL");
         findInfoMethod();
-        waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
         dialog = new ProgressDialog(getActivity());
 
         return view;

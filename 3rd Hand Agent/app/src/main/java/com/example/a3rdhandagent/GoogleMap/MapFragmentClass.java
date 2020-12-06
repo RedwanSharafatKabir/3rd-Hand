@@ -70,11 +70,13 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
     FusedLocationProviderClient mfusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
+    private boolean isFirstTime = true;
     ValueEventListener onlineValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             if (snapshot.exists() && currentAgentRef!=null) {
                 currentAgentRef.onDisconnect().removeValue();
+                isFirstTime = true;
             }
         }
 
@@ -124,9 +126,9 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
         onlineRef = FirebaseDatabase.getInstance().getReference().child(".info/connected");
 
         locationRequest = new LocationRequest();
-        locationRequest.setSmallestDisplacement(10f);
-        locationRequest.setInterval(5000);
-        locationRequest.setFastestInterval(3000);
+        locationRequest.setSmallestDisplacement(50f);
+        locationRequest.setInterval(15000);
+        locationRequest.setFastestInterval(10000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         locationCallback = new LocationCallback() {
@@ -157,7 +159,12 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
                                 locationResult.getLastLocation().getLongitude()),
                         (key, error) -> {
                             if (error != null) {
-                                Snackbar.make(supportMapFragment.getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
+                            } else {
+                                if(isFirstTime){
+                                    Snackbar.make(getView(), "You're online", Snackbar.LENGTH_LONG).show();
+                                    isFirstTime = false;
+                                }
                             }
                         });
                 registerOnlineSystem();

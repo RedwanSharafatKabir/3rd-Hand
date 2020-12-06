@@ -1,6 +1,7 @@
 package com.example.a3rdhand.GoogleMap;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,18 +13,21 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.os.Handler;
 import android.os.Looper;
+import android.renderscript.Sampler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -34,11 +38,14 @@ import com.example.a3rdhand.CallBack.IFirebaseAgentInfoListener;
 import com.example.a3rdhand.CallBack.IFirebaseFailedListener;
 import com.example.a3rdhand.ModelClass.AgentGeoModel;
 import com.example.a3rdhand.ModelClass.AgentInfoModel;
+import com.example.a3rdhand.ModelClass.AnimationModel;
 import com.example.a3rdhand.ModelClass.Common;
-import com.example.a3rdhand.ModelClass.Equipment_Agent_Longitude_Latitude_List;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.EquipmentOrderAndReceive.Call_Package_Agent_Dialog;
+import com.example.a3rdhand.ModelClass.GeoQueryModel;
 import com.example.a3rdhand.R;
+import com.example.a3rdhand.Remote.IGoogleApi;
+import com.example.a3rdhand.Remote.RetrofitClient;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
@@ -64,6 +71,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,6 +83,10 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -84,16 +96,18 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MapFragmentClass extends Fragment implements
         OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener,
         IFirebaseFailedListener, IFirebaseAgentInfoListener {
 
-    View v;
+    View views;
     Button findAgent;
+    LatLng DevicelatLng, start, end;
     float zoomLevel = 16f;
     String location_Thing, userPhoneNumber, tempPackage, agentLocationName;
     private GoogleMap mGoogleMap;
@@ -101,25 +115,28 @@ public class MapFragmentClass extends Fragment implements
     FusedLocationProviderClient mfusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    LatLng DevicelatLng;
     BottomNavigationView bottomNavigation;
     DatabaseReference databaseReference;
     SupportMapFragment supportMapFragment;
     private Double distance = 1.0;
-    private static final double LIMIT_RANGE = 30.0;
+    private static final double LIMIT_RANGE = 20.0;
     private Location previousLocation, currentLocation;
     IFirebaseAgentInfoListener iFirebaseAgentInfoListener;
     IFirebaseFailedListener iFirebaseFailedListener;
     private boolean firstTime = true;
     private Handler handler = new Handler();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private IGoogleApi iGoogleApi;
+    private List<LatLng> polylineList;
+    private int index, next;
+    private float v;
+    private double lat, lng;
 
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            loadAvailableAgents();
-            handler.postDelayed(this, 5000);
-        }
-    };
+    @Override
+    public void onStop() {
+        compositeDisposable.clear();
+        super.onStop();
+    }
 
     @Override
     public void onDestroy() {
@@ -131,20 +148,19 @@ public class MapFragmentClass extends Fragment implements
     public void onResume() {
         super.onResume();
         getCustomerPackageLocation();
-        runnable.run();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_map, container, false);
+        views = inflater.inflate(R.layout.fragment_map, container, false);
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapID);
         supportMapFragment.getMapAsync(this);
 
-        findAgent = v.findViewById(R.id.findPackageServiceAgentID);
+        findAgent = views.findViewById(R.id.findPackageServiceAgentID);
         findAgent.setOnClickListener(this);
-        findAgent.setVisibility(v.GONE);
+        findAgent.setVisibility(views.GONE);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Left Equipment List Record of All Users");
 
@@ -164,10 +180,10 @@ public class MapFragmentClass extends Fragment implements
                                 location_Thing = dataSnapshot.getValue(String.class);
                                 try {
                                     if (!location_Thing.isEmpty()) {
-                                        findAgent.setVisibility(v.VISIBLE);
+                                        findAgent.setVisibility(views.VISIBLE);
                                     }
                                 } catch (Exception e) {
-                                    findAgent.setVisibility(v.GONE);
+                                    findAgent.setVisibility(views.GONE);
                                 }
                             }
 
@@ -182,16 +198,17 @@ public class MapFragmentClass extends Fragment implements
             }
         }
 
-        bottomNavigation = v.findViewById(R.id.bottomNavigationID);
+        bottomNavigation = views.findViewById(R.id.bottomNavigationID);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
         bottomNavigation.getMenu().setGroupCheckable(0, false, true);
-
         init();
 
-        return v;
+        return views;
     }
 
     private void init() {
+        iGoogleApi = RetrofitClient.getInstance().create(IGoogleApi.class);
+
         iFirebaseFailedListener = this;
         iFirebaseAgentInfoListener = this;
 
@@ -293,6 +310,35 @@ public class MapFragmentClass extends Fragment implements
                         }
                     });
 
+                    agentsLocationRef.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            GeoQueryModel geoQueryModel = snapshot.getValue(GeoQueryModel.class);
+                            GeoLocation geoLocation = new GeoLocation(geoQueryModel.getL().get(0),
+                                    geoQueryModel.getL().get(1));
+                            AgentGeoModel agentGeoModel = new AgentGeoModel(snapshot.getKey(), geoLocation);
+                            Location newAgentLocation = new Location("");
+                            newAgentLocation.setLatitude(geoLocation.latitude);
+                            newAgentLocation.setLongitude(geoLocation.longitude);
+                            float newDistance = location.distanceTo(newAgentLocation)/1000;
+                            if(newDistance<=LIMIT_RANGE){
+                                findAgentByKey(agentGeoModel);
+                            }
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
+
                 } catch (IOException e) {
 //                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
                     Snackbar.make(getView(), "Agents aren't available", Snackbar.LENGTH_LONG).show();
@@ -324,7 +370,7 @@ public class MapFragmentClass extends Fragment implements
                             agentGeoModel.setAgentInfoModel(snapshot.getValue(AgentInfoModel.class));
                             iFirebaseAgentInfoListener.onAgentInfoLoadSuccess(agentGeoModel);
                         } else {
-                            iFirebaseFailedListener.onFirebaseLoadFailure(getString(R.string.not_found_agent) + agentGeoModel.getKey());
+                            iFirebaseFailedListener.onFirebaseLoadFailure(getString(R.string.not_found_agent));
                         }
                     }
 
@@ -367,7 +413,7 @@ public class MapFragmentClass extends Fragment implements
                                 mfusedLocationProviderClient.getLastLocation().addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Snackbar snackbar = Snackbar.make(v, "Location permission denied !", Snackbar.LENGTH_LONG);
+                                        Snackbar snackbar = Snackbar.make(views, "Location permission denied !", Snackbar.LENGTH_LONG);
                                         View sbView = snackbar.getView();
                                         sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Red));
                                         snackbar.setDuration(5000).show();
@@ -397,7 +443,7 @@ public class MapFragmentClass extends Fragment implements
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                        Snackbar snackbar = Snackbar.make(v, "Location permission denied !", Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(views, "Location permission denied !", Snackbar.LENGTH_LONG);
                         View sbView = snackbar.getView();
                         sbView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.Red));
                         snackbar.setDuration(5000).show();
@@ -440,7 +486,6 @@ public class MapFragmentClass extends Fragment implements
 
                                                 LatLng SearchlatLng1 = new LatLng(address.getLatitude(), address.getLongitude());
                                                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng1, zoomLevel));
-
                                             }
                                         }}catch (Exception e){findAgent.setVisibility(v.GONE);}
                                 }
@@ -488,7 +533,7 @@ public class MapFragmentClass extends Fragment implements
                                             Address address = list.get(0);
                                             Log.d(TAG, "geoLocate: found a location" + address.toString());
                                             LatLng SearchlatLng = new LatLng(address.getLatitude(), address.getLongitude());
-                                            tempPackage = "Please locate customer's specified address around here.";
+                                            tempPackage = "Locate customer's specified address around here.";
                                             mGoogleMap.addMarker(new MarkerOptions().position(SearchlatLng)
                                                     .title(tempPackage).icon(bitmapDescriptorFromVector(getActivity(),
                                                             R.drawable.package_location_one)));
@@ -518,7 +563,21 @@ public class MapFragmentClass extends Fragment implements
                                         });
                                     }
                                 } catch(Exception e){
-                                    mGoogleMap.clear();
+//                                    mGoogleMap.clear();
+                                    mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                        @Override
+                                        public boolean onMarkerClick(Marker marker) {
+                                            String markertitle = marker.getTitle();
+                                            try {
+                                                Bundle args = new Bundle();
+                                                args.putString("markertitle_key", markertitle);
+                                                Call_Package_Agent_Dialog call_package_agent_dialog = new Call_Package_Agent_Dialog();
+                                                call_package_agent_dialog.setArguments(args);
+                                                call_package_agent_dialog.show(getFragmentManager(), "Custom Sheet");
+                                            } catch (Exception e) {}
+                                            return false;
+                                        }
+                                    });
                                 }
                             }
 
@@ -585,9 +644,10 @@ public class MapFragmentClass extends Fragment implements
                             .position(new LatLng(agentGeoModel.getGeoLocation().latitude, agentGeoModel.getGeoLocation().longitude))
                             .flat(true).title(Common.buildName(agentGeoModel.getAgentInfoModel().getUsername(),
                                     agentGeoModel.getAgentInfoModel().getEmployeeid()))
-                                    .snippet(agentGeoModel.getAgentInfoModel().getPhone())
-                                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_with_utility))));
+                            .snippet(agentGeoModel.getAgentInfoModel().getPhone())
+                            .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_with_utility))));
         }
+
         if(!TextUtils.isEmpty(agentLocationName)){
             DatabaseReference agentLocation = FirebaseDatabase.getInstance().getReference("Agent Current Location")
                     .child(agentLocationName).child(agentGeoModel.getKey());
@@ -598,9 +658,32 @@ public class MapFragmentClass extends Fragment implements
                         if(Common.markerList.get(agentGeoModel.getKey()) != null){
                             Common.markerList.get(agentGeoModel.getKey()).remove(); // Remove marker
                             Common.markerList.remove(agentGeoModel.getKey()); // Remove info from HashMap
+                            Common.agentLocationSubscribe.remove(agentGeoModel.getKey()); // Remove agent information
                             agentLocation.removeEventListener(this); // Remove event listener
                         }
                     }
+                    /* Below code is for updating agent location in customer app (Needs Google Map Billing account)
+                    else {
+                        if(Common.markerList.get(agentGeoModel.getKey()) != null){
+                            GeoQueryModel geoQueryModel = snapshot.getValue(GeoQueryModel.class);
+                            AnimationModel animationModel = new AnimationModel(false, geoQueryModel);
+                            if(Common.agentLocationSubscribe.get(agentGeoModel.getKey()) != null){
+                                Marker currentMarker = Common.markerList.get(agentGeoModel.getKey());
+                                AnimationModel oldPosition = Common.agentLocationSubscribe.get(agentGeoModel.getKey());
+                                String from = new StringBuilder()
+                                        .append(oldPosition.getGeoQueryModel().getL().get(0))
+                                        .append(", ")
+                                        .append(oldPosition.getGeoQueryModel().getL().get(1)).toString();
+                                String to = new StringBuilder()
+                                        .append(animationModel.getGeoQueryModel().getL().get(0))
+                                        .append(", ")
+                                        .append(animationModel.getGeoQueryModel().getL().get(1)).toString();
+                                moveMarkerAnimation(agentGeoModel.getKey(), animationModel, currentMarker, from, to);
+                            } else {
+                                Common.agentLocationSubscribe.put(agentGeoModel.getKey(), animationModel);
+                            }
+                        }
+                    }*/
                 }
 
                 @Override
@@ -608,6 +691,71 @@ public class MapFragmentClass extends Fragment implements
                     Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
             });
+        }
+    }
+
+    /* Below code is for updating agent location in customer app (Needs Google Map Billing account) */
+    private void moveMarkerAnimation(String key, AnimationModel animationModel, Marker currentMarker, String from, String to) {
+        if(!animationModel.isRun()){
+            compositeDisposable.add(iGoogleApi.getDirections("onService", "offService",
+                     from, to, getString(R.string.google_map_API_key))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(returnResult -> {
+                Log.d("API_RETURN", returnResult);
+                try{
+                    JSONObject jsonObject = new JSONObject(returnResult);
+                    JSONArray jsonArray = jsonObject.getJSONArray("routes");
+                    for(int i=0; i<jsonArray.length(); i++){
+                        JSONObject route = jsonArray.getJSONObject(i);
+                        JSONObject poly = route.getJSONObject("overview_polyline");
+                        String polyline = poly.getString("points");
+                        polylineList = Common.decodePoly(polyline);
+
+                        index = -1;
+                        next = 1;
+
+                        Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                if(polylineList.size()>1){
+                                    if(index < polylineList.size()-2){
+                                        index++;
+                                        next = index + 1;
+                                        start = polylineList.get(index);
+                                        end = polylineList.get(next);
+                                    }
+                                    ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 1);
+                                    valueAnimator.setDuration(3000);
+                                    valueAnimator.setInterpolator(new LinearInterpolator());
+                                    valueAnimator.addUpdateListener(value -> {
+                                        v = value.getAnimatedFraction();
+                                        lat = v*end.latitude + (1-v)*start.latitude;
+                                        lng = v*end.longitude + (1-v)*start.longitude;
+                                        LatLng newPos = new LatLng(lat, lng);
+                                        currentMarker.setPosition(newPos);
+                                        currentMarker.setAnchor(0.5f, 0.5f);
+                                        currentMarker.setRotation(Common.getBearing(start, newPos));
+                                    });
+
+                                    valueAnimator.start();
+                                    if(index<polylineList.size() - 2){
+                                        handler.postDelayed(this, 1500);
+                                    } else if(index<polylineList.size() - 1){
+                                        animationModel.setRun(false);
+                                        Common.agentLocationSubscribe.put(key, animationModel);
+                                    }
+                                }
+                            }
+                        };
+
+                        handler.postDelayed(runnable, 1500);
+                    }
+                } catch (Exception e){
+                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                }
+            })
+            );
         }
     }
 
@@ -624,13 +772,14 @@ public class MapFragmentClass extends Fragment implements
 
             String removeOldMarkerString = stringBuffer1.toString();
             if(!removeOldMarkerString.isEmpty()){
-                mGoogleMap.clear();
+//                mGoogleMap.clear();
                 setRemoveMarkerRequestNull();
                 getCustomerPackageLocation();
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng, zoomLevel));
             }
-        } catch (FileNotFoundException e) {e.printStackTrace();
-        } catch (IOException e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setRemoveMarkerRequestNull(){

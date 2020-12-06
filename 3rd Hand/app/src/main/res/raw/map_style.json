@@ -73,7 +73,7 @@
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#e08f8f"
+        "color": "#e82121"
       }
     ]
   },
@@ -82,7 +82,7 @@
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#8cb596"
+        "color": "#4fb568"
       }
     ]
   },
@@ -109,7 +109,7 @@
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#e2dfd9"
+        "color": "#ffffff"
       }
     ]
   },
@@ -172,7 +172,16 @@
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#dfd2ae"
+        "color": "#de9e45"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.line",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#ffffff"
       }
     ]
   },

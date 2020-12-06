@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AppActions.StartScreen"
-    android:background="@drawable/front_page"
+    android:background="@drawable/app_background"
     android:orientation="vertical">
 
     <ScrollView
@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_gravity="center"
-            android:paddingBottom="5dp">
+            android:paddingBottom="7dp">
 
             <Button
                 android:id="@+id/signinPageID"
