@@ -47,9 +47,8 @@
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:textColor="#FF0E0E"
-                android:textSize="22sp"
-                android:fontFamily="serif"
-                android:textStyle="bold"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginTop="10dp"/>

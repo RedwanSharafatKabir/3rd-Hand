@@ -18,9 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import android.os.Handler;
 import android.os.Looper;
-import android.renderscript.Sampler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,19 +27,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.example.a3rdhand.AppActions.AboutActivity;
 import com.example.a3rdhand.AppActions.HelpActivity;
 import com.example.a3rdhand.AppActions.ProfileActivity;
 import com.example.a3rdhand.CallBack.IFirebaseAgentInfoListener;
 import com.example.a3rdhand.CallBack.IFirebaseFailedListener;
+import com.example.a3rdhand.EquipmentOrderAndReceive.Requesting_agent_loading_tab;
 import com.example.a3rdhand.ModelClass.AgentGeoModel;
 import com.example.a3rdhand.ModelClass.AgentInfoModel;
 import com.example.a3rdhand.ModelClass.AnimationModel;
 import com.example.a3rdhand.ModelClass.Common;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
-import com.example.a3rdhand.EquipmentOrderAndReceive.Call_Package_Agent_Dialog;
 import com.example.a3rdhand.ModelClass.GeoQueryModel;
 import com.example.a3rdhand.R;
 import com.example.a3rdhand.Remote.IGoogleApi;
@@ -68,6 +70,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -107,9 +110,9 @@ public class MapFragmentClass extends Fragment implements
 
     View views;
     Button findAgent;
-    LatLng DevicelatLng, start, end;
+    LatLng DevicelatLng;
     float zoomLevel = 16f;
-    String location_Thing, userPhoneNumber, tempPackage, agentLocationName;
+    String location_Thing, userPhoneNumber, tempPackage, agentLocationName, agentImageAvatarUrl;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
     FusedLocationProviderClient mfusedLocationProviderClient;
@@ -124,13 +127,9 @@ public class MapFragmentClass extends Fragment implements
     IFirebaseAgentInfoListener iFirebaseAgentInfoListener;
     IFirebaseFailedListener iFirebaseFailedListener;
     private boolean firstTime = true;
-    private Handler handler = new Handler();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private IGoogleApi iGoogleApi;
-    private List<LatLng> polylineList;
-    private int index, next;
-    private float v;
-    private double lat, lng;
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     public void onStop() {
@@ -551,11 +550,7 @@ public class MapFragmentClass extends Fragment implements
                                                         leftEquipmentSavedRecord.show(getFragmentManager(), "Sample dialog");
                                                     }
                                                     else if(!markertitle.equals(tempPackage)){
-                                                        Bundle args = new Bundle();
-                                                        args.putString("markertitle_key", markertitle);
-                                                        Call_Package_Agent_Dialog call_package_agent_dialog = new Call_Package_Agent_Dialog();
-                                                        call_package_agent_dialog.setArguments(args);
-                                                        call_package_agent_dialog.show(getFragmentManager(), "Custom Sheet");
+                                                        showBottomSheetDialog(markertitle);
                                                     }
                                                 } catch (Exception e) {}
                                                 return false;
@@ -569,11 +564,7 @@ public class MapFragmentClass extends Fragment implements
                                         public boolean onMarkerClick(Marker marker) {
                                             String markertitle = marker.getTitle();
                                             try {
-                                                Bundle args = new Bundle();
-                                                args.putString("markertitle_key", markertitle);
-                                                Call_Package_Agent_Dialog call_package_agent_dialog = new Call_Package_Agent_Dialog();
-                                                call_package_agent_dialog.setArguments(args);
-                                                call_package_agent_dialog.show(getFragmentManager(), "Custom Sheet");
+                                                showBottomSheetDialog(markertitle);
                                             } catch (Exception e) {}
                                             return false;
                                         }
@@ -646,6 +637,8 @@ public class MapFragmentClass extends Fragment implements
                                     agentGeoModel.getAgentInfoModel().getEmployeeid()))
                             .snippet(agentGeoModel.getAgentInfoModel().getPhone())
                             .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_with_utility))));
+
+            agentImageAvatarUrl = agentGeoModel.getAgentInfoModel().getAvatar();
         }
 
         if(!TextUtils.isEmpty(agentLocationName)){
@@ -710,38 +703,40 @@ public class MapFragmentClass extends Fragment implements
                         JSONObject route = jsonArray.getJSONObject(i);
                         JSONObject poly = route.getJSONObject("overview_polyline");
                         String polyline = poly.getString("points");
-                        polylineList = Common.decodePoly(polyline);
 
-                        index = -1;
-                        next = 1;
+                        animationModel.setPolylineList(Common.decodePoly(polyline));
+                        animationModel.setIndex(-1);
+                        animationModel.setNext(1);
 
                         Runnable runnable = new Runnable() {
                             @Override
                             public void run() {
-                                if(polylineList.size()>1){
-                                    if(index < polylineList.size()-2){
-                                        index++;
-                                        next = index + 1;
-                                        start = polylineList.get(index);
-                                        end = polylineList.get(next);
+                                if(animationModel.getPolylineList()!=null && animationModel.getPolylineList().size()>1){
+                                    if(animationModel.getIndex() < animationModel.getPolylineList().size()-2){
+                                        animationModel.setIndex(animationModel.getIndex()+1);
+                                        animationModel.setNext(animationModel.getIndex()+1);
+                                        animationModel.setStart(animationModel.getPolylineList().get(animationModel.getIndex()));
+                                        animationModel.setEnd(animationModel.getPolylineList().get(animationModel.getNext()));
                                     }
                                     ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 1);
                                     valueAnimator.setDuration(3000);
                                     valueAnimator.setInterpolator(new LinearInterpolator());
                                     valueAnimator.addUpdateListener(value -> {
-                                        v = value.getAnimatedFraction();
-                                        lat = v*end.latitude + (1-v)*start.latitude;
-                                        lng = v*end.longitude + (1-v)*start.longitude;
-                                        LatLng newPos = new LatLng(lat, lng);
+                                        animationModel.setV(value.getAnimatedFraction());
+                                        animationModel.setLat(animationModel.getV()*animationModel.getEnd().latitude +
+                                                (1-animationModel.getV())*animationModel.getStart().latitude);
+                                        animationModel.setLng(animationModel.getV()*animationModel.getEnd().longitude +
+                                                (1-animationModel.getV())*animationModel.getStart().longitude);
+                                        LatLng newPos = new LatLng(animationModel.getLat(), animationModel.getLng());
                                         currentMarker.setPosition(newPos);
                                         currentMarker.setAnchor(0.5f, 0.5f);
-                                        currentMarker.setRotation(Common.getBearing(start, newPos));
+                                        currentMarker.setRotation(Common.getBearing(animationModel.getStart(), newPos));
                                     });
 
                                     valueAnimator.start();
-                                    if(index<polylineList.size() - 2){
-                                        handler.postDelayed(this, 1500);
-                                    } else if(index<polylineList.size() - 1){
+                                    if(animationModel.getIndex()<animationModel.getPolylineList().size() - 2){
+                                        animationModel.getHandler().postDelayed(this, 1500);
+                                    } else if(animationModel.getIndex()<animationModel.getPolylineList().size() - 1){
                                         animationModel.setRun(false);
                                         Common.agentLocationSubscribe.put(key, animationModel);
                                     }
@@ -749,7 +744,7 @@ public class MapFragmentClass extends Fragment implements
                             }
                         };
 
-                        handler.postDelayed(runnable, 1500);
+                        animationModel.getHandler().postDelayed(runnable, 1500);
                     }
                 } catch (Exception e){
                     Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
@@ -796,5 +791,37 @@ public class MapFragmentClass extends Fragment implements
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showBottomSheetDialog(String markertitle){
+        bottomSheetDialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetTheme);
+        View bottomSheetView = LayoutInflater.from(getActivity())
+                .inflate(R.layout.call_agent_botomsheet_dialog,
+                        views.findViewById(R.id.bottomSheetContainerId));
+
+        TextView textView = bottomSheetView.findViewById(R.id.callingPackageAgentNameID);
+        textView.setText(markertitle);
+
+        ImageView imageView = bottomSheetView.findViewById(R.id.agentImageId);
+        Glide.with(getActivity()).load(agentImageAvatarUrl).into(imageView);
+
+        bottomSheetView.findViewById(R.id.callPackageAgentID)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(), "Send notification to agent", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        bottomSheetView.findViewById(R.id.rejectPackageAgentID)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
     }
 }

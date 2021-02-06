@@ -52,48 +52,46 @@
                     android:fontFamily="@font/idroid"/>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Developed by:"
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:fontFamily="serif-monospace"
+                android:padding="10dp"
+                android:textStyle="bold"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="20dp"
                 android:padding="10dp"
                 android:background="@drawable/gray_rectangle_shape">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/supervisorPicID"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:gravity="center"
-                    android:src="@drawable/tanvir_sir"
-                    android:layout_gravity="center" />
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:paddingLeft="10dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Mr. Shah Md. Tanvir Siddiquee"
-                        android:textSize="17sp"
-                        android:textColor="@color/colorPrimary"
-                        android:padding="5dp"
-                        android:fontFamily="sans-serif"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Project supervisor"
-                        android:textSize="15sp"
-                        android:textColor="#000000"
-                        android:padding="5dp"
-                        android:fontFamily="serif"
-                        android:textStyle="italic"/>
-                </LinearLayout>
+                    android:text="Mr. Shah Md. Tanvir Siddiquee"
+                    android:textSize="17sp"
+                    android:textColor="@color/colorPrimary"
+                    android:padding="5dp"
+                    android:fontFamily="sans-serif"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Project supervisor"
+                    android:textSize="15sp"
+                    android:textColor="#000000"
+                    android:padding="5dp"
+                    android:fontFamily="serif"
+                    android:textStyle="italic"/>
             </LinearLayout>
 
             <View
@@ -116,119 +114,74 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
                 android:background="@drawable/gray_rectangle_shape">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/redwanPicID"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:gravity="center"
-                    android:src="@drawable/redwan"
-                    android:layout_gravity="center" />
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:paddingLeft="10dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Redwan Sharafat Kabir"
-                        android:textSize="17sp"
-                        android:textColor="@color/colorPrimary"
-                        android:padding="5dp"
-                        android:fontFamily="sans-serif"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Android developer"
-                        android:textSize="15sp"
-                        android:textColor="#000000"
-                        android:padding="5dp"
-                        android:fontFamily="serif"
-                        android:textStyle="italic"/>
-                </LinearLayout>
+                    android:text="Redwan Sharafat Kabir"
+                    android:textSize="17sp"
+                    android:textColor="@color/colorPrimary"
+                    android:padding="5dp"
+                    android:fontFamily="sans-serif"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Android developer"
+                    android:textSize="15sp"
+                    android:textColor="#000000"
+                    android:padding="5dp"
+                    android:fontFamily="serif"
+                    android:textStyle="italic"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:padding="10dp"
                 android:background="@drawable/gray_rectangle_shape">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/himelPicID"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:gravity="center"
-                    android:src="@drawable/himel"
-                    android:layout_gravity="center" />
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:paddingLeft="10dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Md. Himel Junaet"
-                        android:textSize="17sp"
-                        android:textColor="@color/colorPrimary"
-                        android:padding="5dp"
-                        android:fontFamily="sans-serif"/>
-                </LinearLayout>
+                    android:text="Md. Himel Junaet"
+                    android:textSize="17sp"
+                    android:textColor="@color/colorPrimary"
+                    android:padding="5dp"
+                    android:fontFamily="sans-serif"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:padding="10dp"
                 android:background="@drawable/gray_rectangle_shape">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/shararPicID"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:gravity="center"
-                    android:src="@drawable/charar"
-                    android:layout_gravity="center" />
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:paddingLeft="10dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Md. Shihab Sharar Khan"
-                        android:textSize="17sp"
-                        android:textColor="@color/colorPrimary"
-                        android:padding="5dp"
-                        android:fontFamily="sans-serif" />
-                </LinearLayout>
+                    android:text="Md. Shihab Sharar Khan"
+                    android:textSize="17sp"
+                    android:textColor="@color/colorPrimary"
+                    android:padding="5dp"
+                    android:fontFamily="sans-serif" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Last updated:\DEC-5-2020"
-                android:textSize="23sp"
+                android:text="Last updated:FEB-6-2021"
+                android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center"
                 android:gravity="center"

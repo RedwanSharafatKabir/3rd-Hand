@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".EquipmentOrderAndReceive.Call_Package_Agent_Dialog"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:id="@+id/bottomSheetContainerId"
+    android:background="@drawable/bottomsheet_background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@android:color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/agentImageId"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_face_black_24dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/callingPackageAgentNameID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:text="Agent name"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/callPackageAgentID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:text="Confirm agent"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginTop="40dp"/>
+
+            <Button
+                android:id="@+id/rejectPackageAgentID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/delete_button_design"
+                android:text="Decline"
+                android:textAllCaps="false"
+                android:textColor="#E30000"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"/>
+
+            </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
