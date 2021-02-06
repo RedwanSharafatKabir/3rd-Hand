@@ -14,12 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import com.example.a3rdhandagent.AppActions.StartScreen;
 import com.example.a3rdhandagent.ModelClass.StoreCurrentOnlineAgentsInfo;
 import com.example.a3rdhandagent.R;
@@ -51,7 +49,6 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -162,7 +159,6 @@ public class MapFragmentClass extends Fragment implements OnMapReadyCallback {
                                 Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
                             } else {
                                 if(isFirstTime){
-                                    Snackbar.make(getView(), "You're online", Snackbar.LENGTH_LONG).show();
                                     isFirstTime = false;
                                 }
                             }
