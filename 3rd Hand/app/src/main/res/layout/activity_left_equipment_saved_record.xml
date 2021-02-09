@@ -23,10 +23,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Requested package detail"
+                android:text="Requested package details"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
@@ -93,10 +92,9 @@
                     android:text="Edit record"
                     android:textSize="18sp"
                     android:textColor="#ffffff"
-                    android:textStyle="bold"
                     android:layout_gravity="center"
                     android:background="@drawable/edit_button_design"
-                    android:textAllCaps="false"
+                    android:textAllCaps="true"
                     android:fontFamily="sans-serif"
                     android:gravity="center"/>
 
@@ -107,10 +105,9 @@
                     android:text="Delete record"
                     android:textSize="18sp"
                     android:textColor="#FF0E0E"
-                    android:textStyle="bold"
                     android:layout_gravity="center"
                     android:background="@drawable/delete_button_design"
-                    android:textAllCaps="false"
+                    android:textAllCaps="true"
                     android:fontFamily="sans-serif"
                     android:layout_marginTop="30dp"/>
 
@@ -121,18 +118,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Not now"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="@android:color/transparent"
-                android:textAllCaps="false"
+                android:textAllCaps="true"
                 android:fontFamily="sans-serif"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp" />
 
         </LinearLayout>
 

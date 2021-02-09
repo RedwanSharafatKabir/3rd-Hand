@@ -109,7 +109,7 @@ public class MapFragmentClass extends Fragment implements
         IFirebaseFailedListener, IFirebaseAgentInfoListener {
 
     View views;
-    Button findAgent;
+    Button findPackage;
     LatLng DevicelatLng;
     float zoomLevel = 16f;
     String location_Thing, userPhoneNumber, tempPackage, agentLocationName, agentImageAvatarUrl;
@@ -157,9 +157,9 @@ public class MapFragmentClass extends Fragment implements
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapID);
         supportMapFragment.getMapAsync(this);
 
-        findAgent = views.findViewById(R.id.findPackageServiceAgentID);
-        findAgent.setOnClickListener(this);
-        findAgent.setVisibility(views.GONE);
+        findPackage = views.findViewById(R.id.findPackageID);
+        findPackage.setOnClickListener(this);
+        findPackage.setVisibility(views.GONE);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Left Equipment List Record of All Users");
 
@@ -179,10 +179,10 @@ public class MapFragmentClass extends Fragment implements
                                 location_Thing = dataSnapshot.getValue(String.class);
                                 try {
                                     if (!location_Thing.isEmpty()) {
-                                        findAgent.setVisibility(views.VISIBLE);
+                                        findPackage.setVisibility(views.VISIBLE);
                                     }
                                 } catch (Exception e) {
-                                    findAgent.setVisibility(views.GONE);
+                                    findPackage.setVisibility(views.GONE);
                                 }
                             }
 
@@ -455,7 +455,7 @@ public class MapFragmentClass extends Fragment implements
 
     @Override
     public void onClick(final View v) {
-        if(v.getId()==R.id.findPackageServiceAgentID){
+        if(v.getId()==R.id.findPackageID){
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
                 if (user.getDisplayName() != null) {
@@ -486,7 +486,7 @@ public class MapFragmentClass extends Fragment implements
                                                 LatLng SearchlatLng1 = new LatLng(address.getLatitude(), address.getLongitude());
                                                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(SearchlatLng1, zoomLevel));
                                             }
-                                        }}catch (Exception e){findAgent.setVisibility(v.GONE);}
+                                        }}catch (Exception e){findPackage.setVisibility(v.GONE);}
                                 }
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {}
@@ -548,8 +548,7 @@ public class MapFragmentClass extends Fragment implements
                                                     if (markertitle.equals(tempPackage)) {
                                                         LeftEquipmentSavedRecord leftEquipmentSavedRecord = new LeftEquipmentSavedRecord();
                                                         leftEquipmentSavedRecord.show(getFragmentManager(), "Sample dialog");
-                                                    }
-                                                    else if(!markertitle.equals(tempPackage)){
+                                                    } else if(!markertitle.equals(tempPackage)){
                                                         showBottomSheetDialog(markertitle);
                                                     }
                                                 } catch (Exception e) {}
@@ -562,9 +561,13 @@ public class MapFragmentClass extends Fragment implements
                                     mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                         @Override
                                         public boolean onMarkerClick(Marker marker) {
-                                            String markertitle = marker.getTitle();
+                                            String markerTitle = marker.getTitle();
                                             try {
-                                                showBottomSheetDialog(markertitle);
+                                                if (markerTitle.equals(tempPackage)) {
+                                                    Snackbar.make(getView(), "This package is no longer available", Snackbar.LENGTH_LONG).show();
+                                                } else if(!markerTitle.equals(tempPackage)){
+                                                    showBottomSheetDialog(markerTitle);
+                                                }
                                             } catch (Exception e) {}
                                             return false;
                                         }
@@ -624,7 +627,7 @@ public class MapFragmentClass extends Fragment implements
 
     @Override
     public void onFirebaseLoadFailure(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getView(), "Database failure", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -805,11 +808,14 @@ public class MapFragmentClass extends Fragment implements
         ImageView imageView = bottomSheetView.findViewById(R.id.agentImageId);
         Glide.with(getActivity()).load(agentImageAvatarUrl).into(imageView);
 
-        bottomSheetView.findViewById(R.id.callPackageAgentID)
+        bottomSheetView.findViewById(R.id.confirmPackageAgentID)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(), "Send notification to agent", Toast.LENGTH_SHORT).show();
+                        // Send data to agent app and open bottomSheetDialog to accept customer request
+                        userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                        // এখানে user এর নাম, ফোন, ছবি SendDataToAgent() মেথড এ পাঠাতে হবে
+                        // এই ডাটাগুলো Firebase এ "Send Data To Agent" ফিল্ড create করে store করতে হবে
                     }
                 });
 
@@ -822,6 +828,7 @@ public class MapFragmentClass extends Fragment implements
                 });
 
         bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.setCancelable(false);
         bottomSheetDialog.show();
     }
 }

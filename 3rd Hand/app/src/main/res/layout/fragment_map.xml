@@ -116,7 +116,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/findPackageServiceAgentID"
+        android:id="@+id/findPackageID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Show my package location"

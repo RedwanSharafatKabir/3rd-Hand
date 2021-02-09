@@ -9,7 +9,8 @@
     android:gravity="center"
     android:layout_gravity="center"
     android:id="@+id/bottomSheetContainerId"
-    android:background="@drawable/bottomsheet_background">
+    android:background="@drawable/bottomsheet_background"
+    android:layout_marginBottom="10dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,14 +51,14 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/callPackageAgentID"
+                android:id="@+id/confirmPackageAgentID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
                 android:text="Confirm agent"
-                android:textAllCaps="false"
+                android:textAllCaps="true"
                 android:textColor="#fff"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:fontFamily="sans-serif"
                 android:padding="10dp"
                 android:layout_gravity="center"
@@ -71,9 +72,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/delete_button_design"
                 android:text="Decline"
-                android:textAllCaps="false"
+                android:textAllCaps="true"
                 android:textColor="#E30000"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:fontFamily="sans-serif"
                 android:padding="10dp"
                 android:layout_gravity="center"
