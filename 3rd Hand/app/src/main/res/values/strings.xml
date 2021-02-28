@@ -21,10 +21,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="paymentMethod">Cash</string>
-    <string name="helpString">Help</string>
-    <string name="feedback">Feedback</string>
-    <string name="about">About</string>
-
+    <string name="agentComplain">(If you have any complain against our agents please feel free to specify the agent ID and write down your complain. Your feedback submission will be kept secret.)</string>
     <string name="rem">Enter phone number from first 2 digits country code past.\nFormat: +88 01234567890</string>
 
     <string name="not_available">Must apply for at least one service, Go to > menuBar > Actions > choose any one action from 3</string>
@@ -32,6 +29,36 @@
     <string name="not_found_agent">One agent is offline</string>
     <string name="codemsg">Verification link will be sent to your email address in a few minutes</string>
     <string name="email_alert">Email is already used\nYou can use one email address only once for client app or agent app</string>
+
+    <string name="helpString"><b>How to sign in ?</b>\n\n
+        * First tap the "JOIN NOW" button. A new sign up tab will open.\n\n
+        * Now sign up with email, username, NID number, phone number and password.\n\n
+        * An OTP verification code will be sent to your email address. You have to enter that code to ensure account creation.\n\n
+        * After that a new account will be created headed by your phone number.\n\n
+        * If you already have an account you can login with your phone number and password.\n\n
+
+        <b>What to do if you forget your password ?</b>\n\n
+        * Tap "Forget Password" button in sign in tab.\n\n
+        * Enter email address and phone number that belongs to your account.\n\n
+        * A verification mail will be sent to your email if you enter valid email address.\n\n
+        * There will be a link given in verification mail that you have to click to change and set a new password.\n\n
+
+        <b>How to request for package delivery ?</b>\n\n
+        * Tap the "Navigation Bar" from top left corner.\n\n
+        * Tap "Package delivery" option.\n\n
+        * A new dialog tab will open where you can save your package details and location as well.\n\n
+        * After saving a new package delivery details, a button wil be visible at the bottom of the map named "Show my package location".\n\n
+        * When you tap the "Show my package location" button, you will see your package location on map.\n\n
+        * When you click the location marker your package delivery details will be shown.\n\n
+        * You can edit or delete your package delivery details.\n\n
+        
+        <b>How to request our agents to get service ?</b>\n\n
+        * As you tapped the "Show my package location" button, you will see your package location on map.\n\n
+        * Nearby your package location marker, you will see the available agents on map.\n\n
+        * When you click any of the agents location marker, a Bottom-Sheet-Dialog will open.\n\n
+        * You can confirm the request to agent or decline request.\n\n
+        * When you tap the "Confirm" button, a notification will be sent to that particular agent. If the agent accepts your request he/she will deliver your package to your current location.\n\n
+    </string>
 
     <string-array name="location_array">
         <item>Mugdapara</item>

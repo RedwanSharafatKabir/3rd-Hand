@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
+public class JavaMailApi extends AsyncTask<Void,Void,Void>  {
     private Session mSession;
 
     private String mEmail;
@@ -18,7 +18,7 @@ class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
     private String mMessage;
 
     //Constructor
-    public JavaMailAPI(String mEmail, String mSubject, String mMessage) {
+    public JavaMailApi(String mEmail, String mSubject, String mMessage) {
         this.mEmail = mEmail;
         this.mSubject = mSubject;
         this.mMessage = mMessage;

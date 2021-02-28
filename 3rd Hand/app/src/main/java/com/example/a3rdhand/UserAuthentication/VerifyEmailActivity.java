@@ -44,7 +44,7 @@ public class VerifyEmailActivity extends AppCompatActivity implements View.OnCli
     MaskEditText otpInputText;
     double randomNumber;
     String randomStringOtpCode, recievedMessage;
-    String email, phonenumber, nid, employeeid, username, country, password, phone;
+    String email, phonenumber, nid, username, country, password, phone;
     FirebaseAuth mAuth;
     ConnectivityManager cm;
     NetworkInfo netInfo;
@@ -93,7 +93,7 @@ public class VerifyEmailActivity extends AppCompatActivity implements View.OnCli
         netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             connected = true;
-            JavaMailAPI javaMailAPI = new JavaMailAPI(email, mailSubject, finalOtpMessage);
+            JavaMailApi javaMailAPI = new JavaMailApi(email, mailSubject, finalOtpMessage);
             javaMailAPI.execute();
 
         } else {

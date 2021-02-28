@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.a3rdhand.R;
 
-public class HelpActivity extends DialogFragment implements View.OnClickListener {
+public class HelpActivity extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class HelpActivity extends DialogFragment implements View.OnClickListener
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.activity_help, null);
 
-        builder.setView(view).setTitle("Help");
+        builder.setView(view).setTitle("How to use 3rd Hand");
         setCancelable(false);
 
         builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -29,7 +29,4 @@ public class HelpActivity extends DialogFragment implements View.OnClickListener
 
         return builder.create();
     }
-
-    @Override
-    public void onClick(View v) {}
 }

@@ -139,48 +139,10 @@
                     android:textStyle="italic"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:padding="10dp"
-                android:background="@drawable/gray_rectangle_shape">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Md. Himel Junaet"
-                    android:textSize="17sp"
-                    android:textColor="@color/colorPrimary"
-                    android:padding="5dp"
-                    android:fontFamily="sans-serif"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:padding="10dp"
-                android:background="@drawable/gray_rectangle_shape">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Md. Shihab Sharar Khan"
-                    android:textSize="17sp"
-                    android:textColor="@color/colorPrimary"
-                    android:padding="5dp"
-                    android:fontFamily="sans-serif" />
-            </LinearLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Last updated:FEB-6-2021"
+                android:text="Last updated:FEB-28-2021"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center"

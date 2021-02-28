@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter details of your left equipment"
+                android:text="Enter your package details"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center"
@@ -40,8 +40,8 @@
                 android:orientation="vertical"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp">
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -160,8 +160,8 @@
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp">
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp">
 
                 <Button
                     android:id="@+id/cancelID"

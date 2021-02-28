@@ -55,7 +55,6 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:textColor="#000000"
-                            android:textColorHint="#000000"
                             app:met_mask="###########"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -70,7 +69,6 @@
                         android:hint=" Password"
                         android:inputType="textPassword"
                         android:textColor="#000000"
-                        android:textColorHint="#000000"
                         android:drawableLeft="@drawable/ic_lock_black_24dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -5,11 +5,14 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -32,19 +35,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.a3rdhand.AppActions.AboutActivity;
 import com.example.a3rdhand.AppActions.HelpActivity;
 import com.example.a3rdhand.AppActions.ProfileActivity;
 import com.example.a3rdhand.CallBack.IFirebaseAgentInfoListener;
 import com.example.a3rdhand.CallBack.IFirebaseFailedListener;
-import com.example.a3rdhand.EquipmentOrderAndReceive.Requesting_agent_loading_tab;
+import com.example.a3rdhand.FCM.MySingleton;
+import com.example.a3rdhand.FCM.TokenResponse;
 import com.example.a3rdhand.ModelClass.AgentGeoModel;
 import com.example.a3rdhand.ModelClass.AgentInfoModel;
 import com.example.a3rdhand.ModelClass.AnimationModel;
 import com.example.a3rdhand.ModelClass.Common;
 import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.ModelClass.GeoQueryModel;
+import com.example.a3rdhand.FCM.TokenAPIClient;
 import com.example.a3rdhand.R;
 import com.example.a3rdhand.Remote.IGoogleApi;
 import com.example.a3rdhand.Remote.RetrofitClient;
@@ -88,6 +97,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -97,12 +107,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MapFragmentClass extends Fragment implements
         OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener,
@@ -112,7 +128,8 @@ public class MapFragmentClass extends Fragment implements
     Button findPackage;
     LatLng DevicelatLng;
     float zoomLevel = 16f;
-    String location_Thing, userPhoneNumber, tempPackage, agentLocationName, agentImageAvatarUrl;
+    TokenAPIClient tokenAPIClient;
+    String location_Thing, userPhoneNumber, tempPackage, agentLocationName, agentImageAvatarUrl, userName;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
     FusedLocationProviderClient mfusedLocationProviderClient;
@@ -130,6 +147,14 @@ public class MapFragmentClass extends Fragment implements
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private IGoogleApi iGoogleApi;
     private BottomSheetDialog bottomSheetDialog;
+
+    private String baseUrl = "https://fcm.googleapis.com/fcm/send";
+    final private String serverKey = "key=" + "AAAALNRxdp4:APA91bFuADHP9HsCUHabY3T4Bi5T9j3k3AgpVE-MEFg1lpdQTJJiKeU_55zRa-H2TqN6roythzKstAyIJ65bdrhM7H-jNqHINx7IJvccF5dH3pXunrQasU_pVreMIKC8JtKRyeUQqEV9";
+    final private String contentType = "application/json";
+    final String Tag = "NOTIFICATION TAG";
+    String NOTIFICATION_TITLE;
+    String NOTIFICATION_MESSAGE;
+    String TOPIC;
 
     @Override
     public void onStop() {
@@ -658,7 +683,7 @@ public class MapFragmentClass extends Fragment implements
                             agentLocation.removeEventListener(this); // Remove event listener
                         }
                     }
-                    /* Below code is for updating agent location in customer app (Needs Google Map Billing account)
+                    /* // Below code is for updating agent location in customer app (Needs Google Map Billing account)
                     else {
                         if(Common.markerList.get(agentGeoModel.getKey()) != null){
                             GeoQueryModel geoQueryModel = snapshot.getValue(GeoQueryModel.class);
@@ -807,28 +832,91 @@ public class MapFragmentClass extends Fragment implements
 
         ImageView imageView = bottomSheetView.findViewById(R.id.agentImageId);
         Glide.with(getActivity()).load(agentImageAvatarUrl).into(imageView);
-
+        
         bottomSheetView.findViewById(R.id.confirmPackageAgentID)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Send data to agent app and open bottomSheetDialog to accept customer request
-                        userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                        // এখানে user এর নাম, ফোন, ছবি SendDataToAgent() মেথড এ পাঠাতে হবে
-                        // এই ডাটাগুলো Firebase এ "Send Data To Agent" ফিল্ড create করে store করতে হবে
-                    }
+                .setOnClickListener(v -> {
+                    // এখানে user এর নাম, ফোন, ছবি SendNotificationToAgent() মেথড এ পাঠাতে হবে
+                    // এই ডাটাগুলো Agent আপ এ Firebase Push Notification হিসেবে পাঠাতে হবে
+                    SendNotificationToAgent();
                 });
 
         bottomSheetView.findViewById(R.id.rejectPackageAgentID)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        bottomSheetDialog.dismiss();
-                    }
-                });
+                .setOnClickListener(v -> bottomSheetDialog.dismiss());
 
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.setCancelable(false);
         bottomSheetDialog.show();
+    }
+
+    private void SendNotificationToAgent() {
+//        Retrofit retrofit = new Retrofit
+//                .Builder()
+//                .baseUrl(baseUrl)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        tokenAPIClient = retrofit.create(TokenAPIClient.class);
+//
+//        Call<TokenResponse> call =
+
+        userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User Information")
+                .child(userPhoneNumber).child("username");
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.agent_with_utility);
+        Uri notificationSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userName = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
+        TOPIC = "/topics/" + userName; //topic must match with what the receiver subscribed to
+        NOTIFICATION_TITLE = "Receive request from: " + userName;
+        NOTIFICATION_MESSAGE = "Phone: " + userPhoneNumber;
+
+        JSONObject notification = new JSONObject();
+        JSONObject notifcationBody = new JSONObject();
+        try {
+            notifcationBody.put("title", NOTIFICATION_TITLE);
+            notifcationBody.put("message", NOTIFICATION_MESSAGE);
+
+            notification.put("to", TOPIC);
+            notification.put("data", notifcationBody);
+        } catch (JSONException e) {
+            Log.e(Tag, "onCreate: " + e.getMessage());
+        }
+
+        sendNotification(notification);
+    }
+
+    private void sendNotification(JSONObject notification){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(baseUrl, notification,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG, "onResponse: " + response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "Request error", Toast.LENGTH_LONG).show();
+                        Log.i(TAG, "onErrorResponse: Didn't work");
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", serverKey);
+                params.put("Content-Type", contentType);
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 }
