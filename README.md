@@ -9,6 +9,6 @@
 
 •	Android version must be minimum Jelly Bean (API 16) and recommended Pie (API 28) and higher.<br><br>
 
-#### Coding and APIs -
+#### Technologies -
 
 •	Java<br>•	XML<br>•	Google Map API<br><br>
