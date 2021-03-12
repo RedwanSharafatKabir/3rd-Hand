@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/gray_rectangle_shape"
+    android:padding="20dp"
+    android:layout_marginBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="left">
+
+        <TextView
+            android:id="@+id/itemNumberId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Item: 1"
+            android:textSize="18sp"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/itemNameId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Item name"
+            android:textSize="18sp"
+            android:textColor="#333232"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:id="@+id/itemQuantityId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Item quantity"
+            android:textSize="18sp"
+            android:textColor="#333232"
+            android:layout_marginTop="15dp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/deleteItemButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_delete_24"
+        android:layout_gravity="right|center"
+        android:background="@drawable/delete_button_design"
+        android:padding="5dp"/>
+
+</FrameLayout>

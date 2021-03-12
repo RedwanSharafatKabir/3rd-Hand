@@ -4,9 +4,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9192260c4896a499a3dce6d5f4bc3c53/jetified-media2-1.0.0-alpha02/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/759c539b8b2a05eefbcb285884f9e08d/jetified-media2-1.0.0-alpha02/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9192260c4896a499a3dce6d5f4bc3c53/jetified-media2-1.0.0-alpha02/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9192260c4896a499a3dce6d5f4bc3c53/jetified-media2-1.0.0-alpha02/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9192260c4896a499a3dce6d5f4bc3c53/jetified-media2-1.0.0-alpha02/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9192260c4896a499a3dce6d5f4bc3c53/jetified-media2-1.0.0-alpha02/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />

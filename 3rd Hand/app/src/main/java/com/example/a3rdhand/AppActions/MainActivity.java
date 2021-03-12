@@ -22,10 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentActivity;
-import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
+import com.example.a3rdhand.PackageOrderAndReceive.LeftEquipmentActivity;
+import com.example.a3rdhand.PackageOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.PaymentSystem.PaymentMethodActivity;
 import com.example.a3rdhand.R;
+import com.example.a3rdhand.ShoppingOrderAndReceive.ShoppingDetailsInput;
+import com.example.a3rdhand.ShoppingOrderAndReceive.ShoppingSavedRecord;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -187,13 +189,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-
+        cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        netInfo = cm.getActiveNetworkInfo();
         switch (id){
             case R.id.leftEquipmentSearchID:
-                cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
+                    checkEuipmentRequest();
                 } else {
                     connected = false;
                     snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -202,16 +204,36 @@ public class MainActivity extends AppCompatActivity
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.setDuration(10000).show();
                 }
-
-                if(connected == true) {
-                    checkEuipmentRequest();
-                }
-
                 return true;
 
             case R.id.paymentMethodID:
-                PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
-                paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connected = true;
+                    PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
+                    paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
+                } else {
+                    connected = false;
+                    snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
+                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                    snackbar.setDuration(10000).show();
+                }
+                return true;
+
+            case R.id.requestShopID:
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connected = true;
+                    ShoppingSavedRecord shoppingSavedRecord = new ShoppingSavedRecord();
+                    shoppingSavedRecord.show(getSupportFragmentManager(), "Sample dialog");
+                } else {
+                    connected = false;
+                    snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
+                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                    snackbar.setDuration(10000).show();
+                }
                 return true;
 
             case R.id.feedbackID:
@@ -219,6 +241,8 @@ public class MainActivity extends AppCompatActivity
                 netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
+                    FeedbackActivity feedbackActivity = new FeedbackActivity();
+                    feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
                 } else {
                     connected = false;
                     snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -226,11 +250,6 @@ public class MainActivity extends AppCompatActivity
                     sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.setDuration(10000).show();
-                }
-
-                if(connected == true) {
-                    FeedbackActivity feedbackActivity = new FeedbackActivity();
-                    feedbackActivity.show(getSupportFragmentManager(), "Sample dialog");
                 }
                 return true;
 

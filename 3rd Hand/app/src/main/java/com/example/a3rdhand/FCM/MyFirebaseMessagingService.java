@@ -66,7 +66,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         });
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.package_location_one)
+                .setSmallIcon(R.drawable.package_icon_customer_and_agent_app)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(remoteMessage.getData().get(userName))
                 .setContentText(remoteMessage.getData().get(userPhoneNumber))

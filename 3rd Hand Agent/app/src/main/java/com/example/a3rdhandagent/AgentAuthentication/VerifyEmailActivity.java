@@ -85,8 +85,8 @@ public class VerifyEmailActivity extends AppCompatActivity implements View.OnCli
 
     public void sendOTP() {
         randomNumber = Math.random()*100000;
-        int randonIntegerNumber = (int)randomNumber;
-        randomStringOtpCode = Integer.toString(randonIntegerNumber);
+        int randomIntegerNumber = (int)randomNumber;
+        randomStringOtpCode = Integer.toString(randomIntegerNumber);
         String mailSubject = "3rd Hand Agent: Verification Code";
         String finalOtpMessage = randomStringOtpCode + " is your OTP verification code.";
 

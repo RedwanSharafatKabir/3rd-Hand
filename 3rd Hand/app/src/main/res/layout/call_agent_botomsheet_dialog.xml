@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".EquipmentOrderAndReceive.Call_Package_Agent_Dialog"
+    tools:context=".AppActions.Call_Agent_Dialog"
     android:orientation="vertical"
     android:gravity="center"
     android:layout_gravity="center"
@@ -51,20 +51,55 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/confirmMedicalAgentID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="    Confirm for medical service"
+                android:textAllCaps="false"
+                android:textColor="#CC0A74"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:layout_gravity="center"
+                android:gravity="left|center"
+                android:textStyle="bold"
+                android:layout_marginTop="40dp"
+                android:drawableLeft="@drawable/red_medical_sign"
+                android:paddingLeft="10dp"/>
+
+            <Button
                 android:id="@+id/confirmPackageAgentID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:text="Confirm agent"
-                android:textAllCaps="true"
-                android:textColor="#fff"
-                android:textSize="16sp"
+                android:background="@android:color/transparent"
+                android:text="    Confirm for package delivery"
+                android:textAllCaps="false"
+                android:textColor="#D36F05"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif"
-                android:padding="10dp"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:textStyle="bold"
-                android:layout_marginTop="40dp"/>
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/brown_widgets"
+                android:paddingLeft="10dp"/>
+
+            <Button
+                android:id="@+id/confirmShoppingAgentID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="    Confirm for shopping"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:layout_gravity="center"
+                android:gravity="left|center"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/blue_shopping_cart"
+                android:paddingLeft="10dp"/>
 
             <Button
                 android:id="@+id/rejectPackageAgentID"
@@ -76,11 +111,12 @@
                 android:textColor="#E30000"
                 android:textSize="16sp"
                 android:fontFamily="sans-serif"
-                android:padding="10dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_marginTop="30dp"/>
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
 
             </LinearLayout>
 

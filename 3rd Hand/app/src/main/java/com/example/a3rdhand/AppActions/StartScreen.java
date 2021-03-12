@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 public class StartScreen extends AppCompatActivity implements View.OnClickListener{
 
     Button signin, register;
-    FirebaseAuth mAuth;
     FirebaseUser firebaseUser = null;
     String passedString = "";
 
@@ -37,8 +36,6 @@ public class StartScreen extends AppCompatActivity implements View.OnClickListen
         register = findViewById(R.id.signupPageID);
         signin.setOnClickListener(this);
         register.setOnClickListener(this);
-
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -57,8 +54,8 @@ public class StartScreen extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.signinPageID){
-                SigninActivity signinActivity = new SigninActivity();
-                signinActivity.show(getSupportFragmentManager(), "Sample dialog");
+            SigninActivity signinActivity = new SigninActivity();
+            signinActivity.show(getSupportFragmentManager(), "Sample dialog");
         }
 
         if(v.getId()==R.id.signupPageID){

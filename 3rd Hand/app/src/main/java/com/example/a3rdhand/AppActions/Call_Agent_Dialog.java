@@ -1,4 +1,4 @@
-package com.example.a3rdhand.EquipmentOrderAndReceive;
+package com.example.a3rdhand.AppActions;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import com.example.a3rdhand.R;
 
-public class Call_Package_Agent_Dialog extends DialogFragment{
+public class Call_Agent_Dialog extends DialogFragment{
 
     @Nullable
     @Override

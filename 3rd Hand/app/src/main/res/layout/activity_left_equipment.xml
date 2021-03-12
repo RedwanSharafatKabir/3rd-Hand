@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context=".EquipmentOrderAndReceive.LeftEquipmentActivity"
+    tools:context=".PackageOrderAndReceive.LeftEquipmentActivity"
     android:background="#ffffff"
     android:orientation="vertical"
     android:gravity="center"
@@ -166,7 +166,7 @@
                 <Button
                     android:id="@+id/cancelID"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Cancel"
                     android:textSize="16sp"
                     android:textColor="@color/colorPrimary"
@@ -179,7 +179,7 @@
                 <Button
                     android:id="@+id/leftEquipmentSaveButtonID"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:background="@drawable/button_background"
                     android:text="Save"

@@ -46,12 +46,11 @@ import com.example.a3rdhand.AppActions.ProfileActivity;
 import com.example.a3rdhand.CallBack.IFirebaseAgentInfoListener;
 import com.example.a3rdhand.CallBack.IFirebaseFailedListener;
 import com.example.a3rdhand.FCM.MySingleton;
-import com.example.a3rdhand.FCM.TokenResponse;
 import com.example.a3rdhand.ModelClass.AgentGeoModel;
 import com.example.a3rdhand.ModelClass.AgentInfoModel;
 import com.example.a3rdhand.ModelClass.AnimationModel;
 import com.example.a3rdhand.ModelClass.Common;
-import com.example.a3rdhand.EquipmentOrderAndReceive.LeftEquipmentSavedRecord;
+import com.example.a3rdhand.PackageOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.ModelClass.GeoQueryModel;
 import com.example.a3rdhand.FCM.TokenAPIClient;
 import com.example.a3rdhand.R;
@@ -116,16 +115,13 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MapFragmentClass extends Fragment implements
         OnMapReadyCallback, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener,
         IFirebaseFailedListener, IFirebaseAgentInfoListener {
 
     View views;
-    Button findPackage;
+    Button findPackage, confrmDelivery, confrmMedical, confrmShopping;
     LatLng DevicelatLng;
     float zoomLevel = 16f;
     TokenAPIClient tokenAPIClient;
@@ -147,7 +143,6 @@ public class MapFragmentClass extends Fragment implements
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private IGoogleApi iGoogleApi;
     private BottomSheetDialog bottomSheetDialog;
-
     private String baseUrl = "https://fcm.googleapis.com/fcm/send";
     final private String serverKey = "key=" + "AAAALNRxdp4:APA91bFuADHP9HsCUHabY3T4Bi5T9j3k3AgpVE-MEFg1lpdQTJJiKeU_55zRa-H2TqN6roythzKstAyIJ65bdrhM7H-jNqHINx7IJvccF5dH3pXunrQasU_pVreMIKC8JtKRyeUQqEV9";
     final private String contentType = "application/json";
@@ -188,39 +183,24 @@ public class MapFragmentClass extends Fragment implements
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Left Equipment List Record of All Users");
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            if (user.getDisplayName() != null) {
-                DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("User Information")
-                        .child(user.getDisplayName()).child("phone");
-                ref1.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        userPhoneNumber = dataSnapshot.getValue(String.class);
-                        DatabaseReference ref2 = databaseReference.child(userPhoneNumber).child("locationThing");
-                        ref2.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                location_Thing = dataSnapshot.getValue(String.class);
-                                try {
-                                    if (!location_Thing.isEmpty()) {
-                                        findPackage.setVisibility(views.VISIBLE);
-                                    }
-                                } catch (Exception e) {
-                                    findPackage.setVisibility(views.GONE);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {}
-                        });
+        userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        DatabaseReference ref = databaseReference.child(userPhoneNumber).child("locationThing");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                location_Thing = dataSnapshot.getValue(String.class);
+                try {
+                    if (!location_Thing.isEmpty()) {
+                        findPackage.setVisibility(views.VISIBLE);
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                } catch (Exception e) {
+                    findPackage.setVisibility(views.GONE);
+                }
             }
-        }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
 
         bottomNavigation = views.findViewById(R.id.bottomNavigationID);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
@@ -560,7 +540,7 @@ public class MapFragmentClass extends Fragment implements
                                             tempPackage = "Locate customer's specified address around here.";
                                             mGoogleMap.addMarker(new MarkerOptions().position(SearchlatLng)
                                                     .title(tempPackage).icon(bitmapDescriptorFromVector(getActivity(),
-                                                            R.drawable.package_location_one)));
+                                                            R.drawable.package_icon_customer_and_agent_app)));
 
                                             getRemoveMarkerRequest(SearchlatLng);
                                         }
@@ -827,18 +807,18 @@ public class MapFragmentClass extends Fragment implements
                 .inflate(R.layout.call_agent_botomsheet_dialog,
                         views.findViewById(R.id.bottomSheetContainerId));
 
+        confrmDelivery = bottomSheetView.findViewById(R.id.confirmPackageAgentID);
+        confrmDelivery.setVisibility(View.INVISIBLE);
+        confrmMedical = bottomSheetView.findViewById(R.id.confirmMedicalAgentID);
+        confrmMedical.setVisibility(View.INVISIBLE);
+        confrmShopping = bottomSheetView.findViewById(R.id.confirmShoppingAgentID);
+        confrmShopping.setVisibility(View.INVISIBLE);
+
         TextView textView = bottomSheetView.findViewById(R.id.callingPackageAgentNameID);
         textView.setText(markertitle);
-
         ImageView imageView = bottomSheetView.findViewById(R.id.agentImageId);
         Glide.with(getActivity()).load(agentImageAvatarUrl).into(imageView);
-        
-        bottomSheetView.findViewById(R.id.confirmPackageAgentID)
-                .setOnClickListener(v -> {
-                    // এখানে user এর নাম, ফোন, ছবি SendNotificationToAgent() মেথড এ পাঠাতে হবে
-                    // এই ডাটাগুলো Agent আপ এ Firebase Push Notification হিসেবে পাঠাতে হবে
-                    SendNotificationToAgent();
-                });
+        checkOrderConfirmation();
 
         bottomSheetView.findViewById(R.id.rejectPackageAgentID)
                 .setOnClickListener(v -> bottomSheetDialog.dismiss());
@@ -846,6 +826,59 @@ public class MapFragmentClass extends Fragment implements
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.setCancelable(false);
         bottomSheetDialog.show();
+    }
+
+    private void checkOrderConfirmation (){
+        userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        DatabaseReference ref1 = databaseReference.child(userPhoneNumber).child("locationThing");
+        ref1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                location_Thing = dataSnapshot.getValue(String.class);
+                try {
+                    if (!location_Thing.isEmpty()) {
+                        confrmDelivery.setVisibility(views.VISIBLE);
+                        confrmDelivery.setOnClickListener(v -> {
+                            Toast.makeText(getActivity(), "Delivery order confirmed", Toast.LENGTH_SHORT).show();
+                            SendNotificationToAgent();
+                        });
+                    }
+                } catch (Exception e) {
+                    confrmDelivery.setVisibility(views.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                confrmDelivery.setVisibility(views.INVISIBLE);
+            }
+        });
+
+        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Shopping List Record of All Users").child(userPhoneNumber);
+        ref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    if(dataSnapshot.exists()){
+                        confrmShopping.setVisibility(views.VISIBLE);
+                        confrmShopping.setOnClickListener(v -> {
+                            Toast.makeText(getActivity(), "Shopping order confirmed", Toast.LENGTH_SHORT).show();
+                            SendNotificationToAgent();
+                        });
+                    } else {
+                        confrmShopping.setVisibility(views.INVISIBLE);
+                    }
+
+                } catch (Exception e) {
+                    confrmShopping.setVisibility(views.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                confrmShopping.setVisibility(views.INVISIBLE);
+            }
+        });
     }
 
     private void SendNotificationToAgent() {
