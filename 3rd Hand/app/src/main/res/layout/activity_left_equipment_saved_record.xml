@@ -29,10 +29,20 @@
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:textAlignment="center"
                 android:background="@drawable/non_corner_design"
                 android:padding="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_gravity="center|left"
+                android:layout_marginTop="5dp"
+                android:text="Address"
+                android:gravity="center" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,9 +50,10 @@
                 android:orientation="vertical"
                 android:layout_gravity="center"
                 android:gravity="center|left"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:padding="10dp">
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                android:background="@drawable/blue_stroke_design">
 
                 <TextView
                     android:id="@+id/equipmentNameAndTypeTextID"
@@ -50,9 +61,7 @@
                     android:textSize="20sp"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
-                    android:layout_gravity="center|left"
-                    android:layout_marginTop="20dp"
-                    android:text="Hardware and watch"/>
+                    android:layout_gravity="center|left"/>
 
                 <TextView
                     android:id="@+id/customerAddressTextID"
@@ -74,12 +83,23 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/deliveryCostId"
+                android:layout_width="match_parent"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_gravity="center|left"
+                android:layout_marginTop="5dp"
+                android:text="Delivery cost: 180 BDT"
+                android:gravity="center" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:padding="10dp">
@@ -87,7 +107,7 @@
                 <Button
                     android:id="@+id/editRecordID"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Edit record"
                     android:textSize="18sp"
                     android:textColor="#ffffff"
@@ -100,7 +120,7 @@
                 <Button
                     android:id="@+id/deleteRecordID"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Delete record"
                     android:textSize="18sp"
                     android:textColor="#FF0E0E"
@@ -108,14 +128,14 @@
                     android:background="@drawable/delete_button_design"
                     android:textAllCaps="true"
                     android:fontFamily="sans-serif"
-                    android:layout_marginTop="30dp"/>
+                    android:layout_marginTop="20dp"/>
 
             </LinearLayout>
 
             <Button
                 android:id="@+id/closeID"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="Not now"
                 android:textSize="16sp"
                 android:textColor="@color/colorPrimary"
@@ -124,7 +144,7 @@
                 android:background="@android:color/transparent"
                 android:textAllCaps="true"
                 android:fontFamily="sans-serif"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="20dp" />

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.a3rdhand.MedicalServiceOrderAndReceive.MedicalServiceActivity;
 import com.example.a3rdhand.PackageOrderAndReceive.LeftEquipmentActivity;
 import com.example.a3rdhand.PackageOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.PaymentSystem.PaymentMethodActivity;
@@ -236,9 +237,22 @@ public class MainActivity extends AppCompatActivity
                 }
                 return true;
 
+            case R.id.requestMedicalID:
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connected = true;
+                    MedicalServiceActivity medicalServiceActivity = new MedicalServiceActivity();
+                    medicalServiceActivity.show(getSupportFragmentManager(), "Sample dialog");
+                } else {
+                    connected = false;
+                    snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.Red));
+                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                    snackbar.setDuration(10000).show();
+                }
+                return true;
+
             case R.id.feedbackID:
-                cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                netInfo = cm.getActiveNetworkInfo();
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
                     FeedbackActivity feedbackActivity = new FeedbackActivity();

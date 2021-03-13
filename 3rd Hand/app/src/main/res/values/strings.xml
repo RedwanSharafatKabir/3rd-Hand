@@ -11,6 +11,9 @@
     <string name="agree_to_our_terms_and_condition">Agree to our terms and Condition</string>
     <string name="sgin_up">SGIN UP</string>
 
+    <string name="save_disease_text">Click "yes" button and tap on your nearest agent location-icon,
+        then click "Confirm for medical service" button to confirm emergency medical service.</string>
+    <string name="Select_disease">Select your disease and get emergency medical transportation.</string>
     <string name="alert_title">Exit ?</string>
     <string name="alert_message">Are you sure you want to turn off this application ?</string>
 
@@ -59,6 +62,24 @@
         * You can confirm the request to agent or decline request.\n\n
         * When you tap the "Confirm" button, a notification will be sent to that particular agent. If the agent accepts your request he/she will deliver your package to your current location.\n\n
     </string>
+
+    <string-array name="disease_array">
+        <item>Fracture</item>
+        <item>Bleeding</item>
+        <item>Breathing</item>
+        <item>Heart Attack</item>
+        <item>Severe Pain</item>
+        <item>Stroke</item>
+        <item>Pregnancy</item>
+        <item>Burn/Scalds</item>
+        <item>Electrocution</item>
+        <item>Choking</item>
+        <item>Epilepsy</item>
+        <item>Eye-Trauma</item>
+        <item>Poisoning</item>
+        <item>Pediatric</item>
+        <item>COVID-19</item>
+    </string-array>
 
     <string-array name="location_array">
         <item>Mugdapara</item>

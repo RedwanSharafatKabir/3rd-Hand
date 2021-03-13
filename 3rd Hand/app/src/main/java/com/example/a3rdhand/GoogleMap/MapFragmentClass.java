@@ -3,6 +3,7 @@ package com.example.a3rdhand.GoogleMap;
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,10 +43,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.a3rdhand.AppActions.AboutActivity;
 import com.example.a3rdhand.AppActions.HelpActivity;
+import com.example.a3rdhand.AppActions.MainActivity;
 import com.example.a3rdhand.AppActions.ProfileActivity;
 import com.example.a3rdhand.CallBack.IFirebaseAgentInfoListener;
 import com.example.a3rdhand.CallBack.IFirebaseFailedListener;
 import com.example.a3rdhand.FCM.MySingleton;
+import com.example.a3rdhand.MedicalServiceOrderAndReceive.MedicalServiceActivity;
 import com.example.a3rdhand.ModelClass.AgentGeoModel;
 import com.example.a3rdhand.ModelClass.AgentInfoModel;
 import com.example.a3rdhand.ModelClass.AnimationModel;
@@ -830,6 +833,7 @@ public class MapFragmentClass extends Fragment implements
 
     private void checkOrderConfirmation (){
         userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        // Confirm delivery request
         DatabaseReference ref1 = databaseReference.child(userPhoneNumber).child("locationThing");
         ref1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -854,6 +858,7 @@ public class MapFragmentClass extends Fragment implements
             }
         });
 
+        // Confirm shopping request
         DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Shopping List Record of All Users").child(userPhoneNumber);
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -877,6 +882,33 @@ public class MapFragmentClass extends Fragment implements
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 confrmShopping.setVisibility(views.INVISIBLE);
+            }
+        });
+
+        // Confirm medical request
+        DatabaseReference ref3 = FirebaseDatabase.getInstance().getReference("Medical Request Record of All Users").child(userPhoneNumber);
+        ref3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    if(dataSnapshot.exists()){
+                        confrmMedical.setVisibility(View.VISIBLE);
+                        confrmMedical.setOnClickListener(v -> {
+                            Toast.makeText(getActivity(), "Emergency medical transport order confirmed", Toast.LENGTH_SHORT).show();
+                            SendNotificationToAgent();
+                        });
+                    } else {
+                        confrmMedical.setVisibility(views.INVISIBLE);
+                    }
+
+                } catch (Exception e) {
+                    confrmMedical.setVisibility(views.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                confrmMedical.setVisibility(views.INVISIBLE);
             }
         });
     }

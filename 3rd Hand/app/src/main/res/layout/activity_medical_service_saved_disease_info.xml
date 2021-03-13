@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MedicalServiceOrderAndReceive.MedicalServiceSaveDiseaseInfo"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center|top">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#000"
+        android:gravity="center|start"
+        android:text="@string/save_disease_text"
+        android:padding="10dp"/>
+
+    <ImageView
+        android:id="@+id/imageViewId"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/textViewId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#000"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/saveDiseaseId"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:text="YES"
+        android:textAllCaps="false"
+        android:background="@drawable/button_background"
+        android:textColor="#fff"
+        android:fontFamily="sans-serif"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+</LinearLayout>
