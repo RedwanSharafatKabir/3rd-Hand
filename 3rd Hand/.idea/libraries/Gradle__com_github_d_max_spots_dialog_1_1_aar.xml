@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39aed2d3dafc2a6b7944e683a771cadd/jetified-spots-dialog-1.1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39aed2d3dafc2a6b7944e683a771cadd/jetified-spots-dialog-1.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39aed2d3dafc2a6b7944e683a771cadd/jetified-spots-dialog-1.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/acf6fff054814657c44fcea4c63bce44/jetified-spots-dialog-1.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/acf6fff054814657c44fcea4c63bce44/jetified-spots-dialog-1.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/acf6fff054814657c44fcea4c63bce44/jetified-spots-dialog-1.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

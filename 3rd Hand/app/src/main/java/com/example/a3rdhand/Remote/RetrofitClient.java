@@ -6,9 +6,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitClient {
     private static Retrofit instance;
+    private static final String BaseUrl = "https://maps.googleapis.com/";
 
     public static Retrofit getInstance() {
-        return instance==null ? new Retrofit.Builder().baseUrl("https://maps.googleapis.com/")
+        return instance==null ? new Retrofit.Builder().baseUrl(BaseUrl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build() : instance;

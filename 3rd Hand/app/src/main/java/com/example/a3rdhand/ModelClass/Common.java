@@ -6,12 +6,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Common {
-    public static Set<AgentGeoModel> agentsFound = new HashSet<AgentGeoModel>();
+    public static Set<AgentGeoModel> agentsFound = new HashSet<>();
     public static HashMap<String, Marker> markerList = new HashMap<>();
     public static HashMap<String, AnimationModel> agentLocationSubscribe = new HashMap<String, AnimationModel>();
+    private static final String BaseUrl = "https://maps.googleapis.com/";
+    
+//    public static IGoogleApi getGoogleAPI(){
+//        return RetrofitClient.getInstance(BaseUrl).create(IGoogleApi.class);
+//    }
 
     public static String buildName(String username, String employeeid) {
         return new StringBuilder(username).append(" \nID: ").append(employeeid).toString();

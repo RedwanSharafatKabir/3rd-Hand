@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.firebase:geofire-android:3.1.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5e6fe0e394e7893818ac0322d0d2bf9e/jetified-geofire-android-3.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5e6fe0e394e7893818ac0322d0d2bf9e/jetified-geofire-android-3.1.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5e6fe0e394e7893818ac0322d0d2bf9e/jetified-geofire-android-3.1.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebase/geofire-android/3.1.0/54110145f24ba35f83f84adb4ed11e29780aeab2/geofire-android-3.1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebase/geofire-android/3.1.0/b45560ad395b85a7e4b0d8de48568064f10521a9/geofire-android-3.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

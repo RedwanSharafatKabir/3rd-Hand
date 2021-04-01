@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.santalu:mask-edittext:1.0.2@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b98868444a37941728197b4dd06a551c/jetified-mask-edittext-1.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b98868444a37941728197b4dd06a551c/jetified-mask-edittext-1.0.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b98868444a37941728197b4dd06a551c/jetified-mask-edittext-1.0.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0e27e0ab1aae78acf8a000943fa1f4d0/jetified-mask-edittext-1.0.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0e27e0ab1aae78acf8a000943fa1f4d0/jetified-mask-edittext-1.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0e27e0ab1aae78acf8a000943fa1f4d0/jetified-mask-edittext-1.0.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8437d14a7b8187a244a9160b99cd2935/jetified-mask-edittext-1.0.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8437d14a7b8187a244a9160b99cd2935/jetified-mask-edittext-1.0.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8437d14a7b8187a244a9160b99cd2935/jetified-mask-edittext-1.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/36450968aa10d20098ce2ac45dae9ab7/jetified-mask-edittext-1.0.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/36450968aa10d20098ce2ac45dae9ab7/jetified-mask-edittext-1.0.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/36450968aa10d20098ce2ac45dae9ab7/jetified-mask-edittext-1.0.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.santalu/mask-edittext/1.0.2/612cfb5cba0d310766d632d3a538e6605a7eb9a5/mask-edittext-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

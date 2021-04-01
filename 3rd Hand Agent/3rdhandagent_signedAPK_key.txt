@@ -1,4 +1,0 @@
-
-3rdhandagent_signedAPK_key
-Alias - Sharafat_Agent
-password - 0191143255601997

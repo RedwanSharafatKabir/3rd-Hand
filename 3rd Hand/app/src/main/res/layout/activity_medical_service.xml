@@ -9,6 +9,33 @@
     android:orientation="vertical"
     android:padding="15dp">
 
+    <FrameLayout
+        android:id="@+id/frameLayoutId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gray_rectangle_shape"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/previousDiseaseId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"
+            android:textColor="#000"
+            android:layout_gravity="center|start"/>
+
+        <ImageView
+            android:id="@+id/deleteDiseaseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:layout_gravity="right|center"
+            android:background="@drawable/delete_button_design"
+            android:padding="5dp"/>
+
+    </FrameLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +44,9 @@
         android:textColor="#000"
         android:gravity="center|start"
         android:text="@string/Select_disease"
-        android:padding="10dp"/>
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="10dp"/>
 
     <GridView
         android:layout_width="match_parent"
@@ -26,7 +55,6 @@
         android:numColumns="2"
         android:listSelector="#ffffff"
         android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:layout_marginTop="20dp"/>
+        android:verticalSpacing="10dp"/>
 
 </LinearLayout>

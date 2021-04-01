@@ -1,5 +1,6 @@
 package com.example.a3rdhand.FCM;
 
+import android.content.Intent;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +21,7 @@ public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
         token = String.valueOf(FirebaseInstallations.getInstance().getToken(true));
 
         userPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
@@ -37,5 +39,7 @@ public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
 
         FirebaseMessaging.getInstance().subscribeToTopic(SUBSCRIBE_TO);
         Log.i(TAG, "onTokenRefresh completed with token: " + token);
+
+        startService(new Intent(this, MyFirebaseMessagingService.class));
     }
 }

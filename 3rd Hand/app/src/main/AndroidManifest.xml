@@ -35,14 +35,15 @@
             android:screenOrientation="portrait"
             tools:ignore="Instantiatable" />
 
-        <service android:name=".FCM.MyFirebaseInstanceIDService">
+        <service android:name=".FCM.MyFirebaseInstanceIDService"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+<!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".FCM.MyFirebaseMessagingService"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:name=".FCM.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />

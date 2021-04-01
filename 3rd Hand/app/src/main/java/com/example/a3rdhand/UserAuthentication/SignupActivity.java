@@ -1,10 +1,14 @@
 package com.example.a3rdhand.UserAuthentication;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.content.ContextCompat;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import com.example.a3rdhand.AppActions.MainActivity;
 import com.example.a3rdhand.R;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.santalu.maskedittext.MaskEditText;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,6 +38,9 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
     ImageButton signupButton;
     LinearLayout linearLayout;
     Button close;
+    ConnectivityManager cm;
+    NetworkInfo netInfo;
+    boolean connected = false;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -77,6 +88,8 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
         final String phone = signupPhoneText.getText().toString();
         final String password = signupPasswordText.getText().toString();
         final String nid = signupNIDnumberText.getText().toString();
+        cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        netInfo = cm.getActiveNetworkInfo();
 
         if(v.getId()==R.id.SignupID) {
             final AlertDialog waitingDialog = new SpotsDialog.Builder().setContext(getContext()).build();
@@ -124,18 +137,27 @@ public class SignupActivity extends AppCompatDialogFragment implements View.OnCl
             }
 
             else {
-                waitingDialog.dismiss();
-                sendInfoToFile(email, username, phone, country, nid, password);
+                if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                    connected = true;
+                    waitingDialog.dismiss();
+                    sendInfoToFile(email, username, phone, country, nid, password);
+                    Intent it = new Intent(getActivity(), VerifyEmailActivity.class);
+                    startActivity(it);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-                Intent it = new Intent(getActivity(), VerifyEmailActivity.class);
-                startActivity(it);
-                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-                signupEmailText.setText("");
-                signupUsernameText.setText("");
-                signupNIDnumberText.setText("");
-                signupPhoneText.setText("");
-                signupPasswordText.setText("");
+                    signupEmailText.setText("");
+                    signupUsernameText.setText("");
+                    signupNIDnumberText.setText("");
+                    signupPhoneText.setText("");
+                    signupPasswordText.setText("");
+                } else {
+                    connected = false;
+                    Snackbar snackbar = Snackbar.make(getView(), "Turn on internet connection", Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.Red));
+                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                    snackbar.setDuration(10000).show();
+                }
             }
         }
 

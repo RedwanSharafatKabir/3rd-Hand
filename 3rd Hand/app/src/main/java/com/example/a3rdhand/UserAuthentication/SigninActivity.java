@@ -133,9 +133,7 @@ public class SigninActivity extends AppCompatDialogFragment implements View.OnCl
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             waitingDialog.dismiss();
-
                                             getActivity().finish();
-
                                             Intent it = new Intent(getActivity(), MainActivity.class);
                                             startActivity(it);
                                             getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

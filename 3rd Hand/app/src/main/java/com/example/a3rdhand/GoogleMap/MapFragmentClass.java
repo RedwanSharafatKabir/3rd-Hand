@@ -2,8 +2,8 @@ package com.example.a3rdhand.GoogleMap;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,19 +43,17 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.a3rdhand.AppActions.AboutActivity;
 import com.example.a3rdhand.AppActions.HelpActivity;
-import com.example.a3rdhand.AppActions.MainActivity;
 import com.example.a3rdhand.AppActions.ProfileActivity;
 import com.example.a3rdhand.CallBack.IFirebaseAgentInfoListener;
 import com.example.a3rdhand.CallBack.IFirebaseFailedListener;
 import com.example.a3rdhand.FCM.MySingleton;
-import com.example.a3rdhand.MedicalServiceOrderAndReceive.MedicalServiceActivity;
 import com.example.a3rdhand.ModelClass.AgentGeoModel;
 import com.example.a3rdhand.ModelClass.AgentInfoModel;
 import com.example.a3rdhand.ModelClass.AnimationModel;
 import com.example.a3rdhand.ModelClass.Common;
 import com.example.a3rdhand.PackageOrderAndReceive.LeftEquipmentSavedRecord;
 import com.example.a3rdhand.ModelClass.GeoQueryModel;
-import com.example.a3rdhand.FCM.TokenAPIClient;
+import com.example.a3rdhand.Remote.TokenAPIClient;
 import com.example.a3rdhand.R;
 import com.example.a3rdhand.Remote.IGoogleApi;
 import com.example.a3rdhand.Remote.RetrofitClient;
@@ -292,6 +290,9 @@ public class MapFragmentClass extends Fragment implements
                         @Override
                         public void onKeyEntered(String key, GeoLocation location) {
                             Common.agentsFound.add(new AgentGeoModel(key, location));
+//                            if(!Common.agentsFound.containsKey(key)){
+//
+//                            }
                         }
 
                         @Override
@@ -666,6 +667,7 @@ public class MapFragmentClass extends Fragment implements
                             agentLocation.removeEventListener(this); // Remove event listener
                         }
                     }
+
                     /* // Below code is for updating agent location in customer app (Needs Google Map Billing account)
                     else {
                         if(Common.markerList.get(agentGeoModel.getKey()) != null){
