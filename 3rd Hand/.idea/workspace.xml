@@ -18,7 +18,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[96a068cf0007]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -98,7 +98,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Wheeler" />
+    <property name="last_opened_file_path" value="G:/Wifi-Janata" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -285,14 +285,14 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="181" y="54" width="966" height="646" key="#PSD" timestamp="1617100139497">
+    <state x="181" y="54" width="966" height="646" key="#PSD" timestamp="1618496322323">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="181" y="54" width="966" height="646" key="#PSD/0.0.1366.738@0.0.1366.738" timestamp="1617100139497" />
-    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1617211506456">
+    <state x="181" y="54" width="966" height="646" key="#PSD/0.0.1366.738@0.0.1366.738" timestamp="1618496322323" />
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser" timestamp="1618494979726">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1617211506456" />
+    <state x="488" y="77" key="#com.intellij.ide.util.MemberChooser/0.0.1366.738@0.0.1366.738" timestamp="1618494979726" />
     <state x="413" y="147" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1615650521044">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -313,10 +313,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="263" y="123" key="AndroidCreateResourceFileDialog/0.0.1366.738@0.0.1366.738" timestamp="1615624721519" />
-    <state x="417" y="113" width="616" height="581" key="FileChooserDialogImpl" timestamp="1617254830509">
+    <state x="417" y="113" width="616" height="581" key="FileChooserDialogImpl" timestamp="1618383514775">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="417" y="113" width="616" height="581" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1617254830509" />
+    <state x="417" y="113" width="616" height="581" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1618383514775" />
     <state width="1323" height="505" key="GridCell.Tab.0.bottom" timestamp="1617213274701">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -341,10 +341,10 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="700" y="159" key="chooseDestDirectoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1617008822125" />
-    <state x="89" y="62" width="1182" height="554" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1617007023648">
+    <state x="120" y="-12" width="1182" height="554" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1618162196868">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="89" y="62" width="1182" height="554" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1617007023648" />
+    <state x="120" y="-12" width="1182" height="554" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.738@0.0.1366.738" timestamp="1618162196868" />
     <state x="346" y="59" width="672" height="678" key="search.everywhere.popup" timestamp="1614417907936">
       <screen x="0" y="0" width="1366" height="738" />
     </state>

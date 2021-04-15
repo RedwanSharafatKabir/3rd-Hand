@@ -20,14 +20,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.a3rdhand.MedicalServiceOrderAndReceive.MedicalServiceActivity;
 import com.example.a3rdhand.PackageOrderAndReceive.LeftEquipmentActivity;
 import com.example.a3rdhand.PackageOrderAndReceive.LeftEquipmentSavedRecord;
-import com.example.a3rdhand.PaymentSystem.PaymentMethodActivity;
 import com.example.a3rdhand.R;
-import com.example.a3rdhand.ShoppingOrderAndReceive.ShoppingDetailsInput;
 import com.example.a3rdhand.ShoppingOrderAndReceive.ShoppingSavedRecord;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -39,9 +36,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sslwireless.sslcommerzlibrary.model.initializer.SSLCCustomerInfoInitializer;
+import com.sslwireless.sslcommerzlibrary.model.initializer.SSLCProductInitializer;
+import com.sslwireless.sslcommerzlibrary.model.initializer.SSLCShipmentInfoInitializer;
+import com.sslwireless.sslcommerzlibrary.model.initializer.SSLCommerzInitialization;
+import com.sslwireless.sslcommerzlibrary.model.response.SSLCTransactionInfoModel;
+import com.sslwireless.sslcommerzlibrary.model.util.SSLCCurrencyType;
+import com.sslwireless.sslcommerzlibrary.model.util.SSLCSdkType;
+import com.sslwireless.sslcommerzlibrary.view.singleton.IntegrateSSLCommerz;
+import com.sslwireless.sslcommerzlibrary.viewmodel.listener.SSLCTransactionResponseListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, SSLCTransactionResponseListener {
 
     ImageView imageView;
     TextView name, email, phone;
@@ -210,8 +216,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.paymentMethodID:
                 if (netInfo != null && netInfo.isConnectedOrConnecting()) {
                     connected = true;
-                    PaymentMethodActivity paymentMethodActivity = new PaymentMethodActivity();
-                    paymentMethodActivity.show(getSupportFragmentManager(), "Sample dialog");
+                    paymentMethod();
                 } else {
                     connected = false;
                     snackbar = Snackbar.make(parentLayout, "Turn on internet connection", Snackbar.LENGTH_LONG);
@@ -351,6 +356,39 @@ public class MainActivity extends AppCompatActivity
             ProfileActivity profileActivity = new ProfileActivity();
             profileActivity.show(getSupportFragmentManager(), "Sample dialog");
         }
+    }
+
+    public void paymentMethod(){
+        final SSLCommerzInitialization sslCommerzInitialization = new SSLCommerzInitialization ("3rdha6062afeb302fc", "3rdha6062afeb302fc@ssl",
+                10, SSLCCurrencyType.BDT,"123456789098765", "yourProductType", SSLCSdkType.TESTBOX);
+        final SSLCCustomerInfoInitializer customerInfoInitializer = new SSLCCustomerInfoInitializer("customer name", "customer email",
+                "address", "dhaka", "1214", "Bangladesh", "phoneNumber");
+        final SSLCProductInitializer productInitializer = new SSLCProductInitializer ("food", "food",
+                new SSLCProductInitializer.ProductProfile.TravelVertical("Travel", "10",
+                        "A", "12", "Dhk-Syl"));
+        final SSLCShipmentInfoInitializer shipmentInfoInitializer = new SSLCShipmentInfoInitializer ("Courier",
+                2, new SSLCShipmentInfoInitializer.ShipmentDetails("AA","Address 1",
+                "Dhaka","1000","BD"));
+        IntegrateSSLCommerz.getInstance(MainActivity.this)
+                .addSSLCommerzInitialization(sslCommerzInitialization)
+                .addCustomerInfoInitializer(customerInfoInitializer)
+                .addProductInitializer(productInitializer)
+                .buildApiCall(this);
+    }
+
+    @Override
+    public void transactionSuccess(SSLCTransactionInfoModel sslcTransactionInfoModel) {
+        Toast.makeText(MainActivity.this, sslcTransactionInfoModel.getAPIConnect() + "---" + sslcTransactionInfoModel.getStatus(), Toast.LENGTH_SHORT).show();;
+    }
+
+    @Override
+    public void transactionFail(String s) {
+        Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();;
+    }
+
+    @Override
+    public void merchantValidationError(String s) {
+        Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();;
     }
 
     @Override

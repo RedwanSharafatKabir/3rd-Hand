@@ -126,7 +126,7 @@ public class MapFragmentClass extends Fragment implements
     LatLng DevicelatLng;
     float zoomLevel = 16f;
     TokenAPIClient tokenAPIClient;
-    String location_Thing, userPhoneNumber, tempPackage, agentLocationName, agentImageAvatarUrl, userName;
+    String location_Thing, userPhoneNumber, tempPackage, agentLocationName, agentImageAvatarUrl, userName, agentPhoneNumber;
     private GoogleMap mGoogleMap;
     private static final String TAG = "FindLotFragment";
     FusedLocationProviderClient mfusedLocationProviderClient;
@@ -651,6 +651,7 @@ public class MapFragmentClass extends Fragment implements
                             .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.agent_with_utility))));
 
             agentImageAvatarUrl = agentGeoModel.getAgentInfoModel().getAvatar();
+            agentPhoneNumber = agentGeoModel.getAgentInfoModel().getPhone();
         }
 
         if(!TextUtils.isEmpty(agentLocationName)){
@@ -845,8 +846,8 @@ public class MapFragmentClass extends Fragment implements
                     if (!location_Thing.isEmpty()) {
                         confrmDelivery.setVisibility(views.VISIBLE);
                         confrmDelivery.setOnClickListener(v -> {
-                            Toast.makeText(getActivity(), "Delivery order confirmed", Toast.LENGTH_SHORT).show();
-                            SendNotificationToAgent();
+                            Toast.makeText(getActivity(), "Delivery order confirmed agent " + agentPhoneNumber, Toast.LENGTH_SHORT).show();
+//                            SendNotificationToAgent();
                         });
                     }
                 } catch (Exception e) {
@@ -870,7 +871,7 @@ public class MapFragmentClass extends Fragment implements
                         confrmShopping.setVisibility(views.VISIBLE);
                         confrmShopping.setOnClickListener(v -> {
                             Toast.makeText(getActivity(), "Shopping order confirmed", Toast.LENGTH_SHORT).show();
-                            SendNotificationToAgent();
+//                            SendNotificationToAgent();
                         });
                     } else {
                         confrmShopping.setVisibility(views.INVISIBLE);
@@ -897,7 +898,7 @@ public class MapFragmentClass extends Fragment implements
                         confrmMedical.setVisibility(View.VISIBLE);
                         confrmMedical.setOnClickListener(v -> {
                             Toast.makeText(getActivity(), "Emergency medical transport order confirmed", Toast.LENGTH_SHORT).show();
-                            SendNotificationToAgent();
+//                            SendNotificationToAgent();
                         });
                     } else {
                         confrmMedical.setVisibility(views.INVISIBLE);
@@ -984,6 +985,6 @@ public class MapFragmentClass extends Fragment implements
             }
         };
 
-        MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+//        MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 }
